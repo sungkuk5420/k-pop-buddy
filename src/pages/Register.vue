@@ -62,7 +62,6 @@ export default {
           const user = userCredential.user;
           console.log(user)
           const userUid = user.uid;
-          debugger
           set(ref(db, 'users/' + userUid), {
             email: thisObj.email,
             nickName: thisObj.nickName,
