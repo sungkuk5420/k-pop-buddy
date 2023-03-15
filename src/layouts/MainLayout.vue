@@ -1,21 +1,15 @@
 <template>
   <q-layout view="lHh Lpr lFf">
-    <q-header elevated>
-      <q-toolbar>
-        <q-btn
-          flat
-          dense
-          round
-          icon="menu"
-          aria-label="Menu"
-          @click="leftDrawerOpen = !leftDrawerOpen"
-        />
 
-        <q-toolbar-title> Quasar App </q-toolbar-title>
-
-        <div>Quasar v{{ $q.version }}</div>
-      </q-toolbar>
-    </q-header>
+      <q-header elevated class="bg-primary text-white" height-hint="98">
+        <q-toolbar>
+          <q-toolbar-title style="cursor: pointer;" @click="$router.push('/')">
+            K POP buddy
+          </q-toolbar-title>
+          <q-btn label="login" color="white" text-color="black" class="q-mr-lg" @click="$router.push('/login')"></q-btn>
+          <q-btn label="register" color="white" text-color="black" @click="$router.push('/register')"></q-btn>
+        </q-toolbar>
+      </q-header>
 
     <!-- <q-drawer
       v-model="leftDrawerOpen"
@@ -102,3 +96,28 @@ export default {
   },
 };
 </script>
+
+<style lang="scss">
+.top-header-tabs{
+  width: 100%;
+  background: white;
+  color: black;
+  .q-tabs__content{
+    margin-left: auto;
+    margin-right: auto;
+    max-width: 1080px;
+    display: flex;
+  }
+  .q-tab{
+    border: 1px solid #ddd;
+    border-right: 0;
+    flex: 1;
+    &:last-child{
+      border-right: 1px solid #ddd;
+    }
+  }
+}
+.q-layout__shadow {
+display: none;
+}
+</style>

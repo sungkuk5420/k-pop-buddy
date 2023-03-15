@@ -1,6 +1,6 @@
 <template>
-  <q-page class="flex flex-center">
-    <img alt="Quasar logo" src="~assets/quasar-logo-full.svg" />
+  <q-page class="flex items-center justify-center">
+    login
   </q-page>
 </template>
 
@@ -9,6 +9,12 @@ import ComputedMixin from "../ComputedMixin";
 import UtilMethodMixin from "../UtilMethodMixin";
 export default {
   mixins: [ComputedMixin, UtilMethodMixin],
+  data(){
+    return {
+      id:"",
+      password:"",
+    }
+  },
   mounted() {
     // this.showLoading();
   },

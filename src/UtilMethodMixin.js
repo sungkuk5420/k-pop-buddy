@@ -1,13 +1,13 @@
 import { mapGetters } from "vuex";
 let UtilMethodMixin = {
     methods: {
-        showLoading() {
+        showLoading () {
             this.$q.loading.show();
         },
-        hideLoading() {
+        hideLoading () {
             this.$q.loading.hide();
         },
-        successMessage(message) {
+        successMessage (message) {
             this.$q.notify({
                 position: "top",
                 timeout: 500,
@@ -15,14 +15,18 @@ let UtilMethodMixin = {
                 icon: "announcement"
             });
         },
-        errorMessage(message) {
+        errorMessage (message) {
             this.$q.notify({
                 position: "top",
                 timeout: 500,
                 message,
                 icon: "announcement"
             });
-        }
+        },
+        createNowTime () {
+            var today = new Date().valueOf(); // -> 정렬을 위해 타임스탬프로 저장.
+            return today
+        },
     }
 };
 export default UtilMethodMixin;
