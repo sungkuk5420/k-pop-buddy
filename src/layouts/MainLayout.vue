@@ -6,8 +6,10 @@
           <q-toolbar-title style="cursor: pointer;" @click="$router.push('/')">
             My gangnam insider
           </q-toolbar-title>
-          <q-btn label="login" color="white" text-color="black" class="q-mr-lg" @click="$router.push('/login')"></q-btn>
-          <q-btn label="register" color="white" text-color="black" @click="$router.push('/register')"></q-btn>
+          <div v-show="uid">{{ nickname }}</div>
+          <q-btn label="Log in" color="white" text-color="black" class="q-mr-lg" v-show="!uid" @click="$router.push('/login')"></q-btn>
+          <q-btn label="Log out" color="white" text-color="black" class="q-mr-lg" v-show="uid" @click="logout"></q-btn>
+          <q-btn label="Register" color="white" text-color="black" v-show="!uid" @click="$router.push('/register')"></q-btn>
         </q-toolbar>
       </q-header>
 
@@ -82,7 +84,8 @@
 //     link: "https://awesome.quasar.dev",
 //   },
 // ];
-
+import { mapGetters } from "vuex";
+import { getAuth, signOut } from 'firebase/auth';
 export default {
   name: "MainLayout",
   components: { 
@@ -91,9 +94,34 @@ export default {
   data() {
     return {
       leftDrawerOpen: false,
-      // essentialLinks: linksData,
     };
   },
+  computed: {
+    ...mapGetters({
+      email: "getEmail",
+      nickname: "getNickname",
+      uid: "getUid",
+    }),
+  },
+  methods:{
+    logout () {
+      const auth = getAuth();
+      const thisObj =this;
+      signOut(auth)
+        .then(() => {
+          thisObj.$q.notify({
+            position: 'top',
+            timeout: 500,
+            message: 'logout',
+            icon: 'announcement',
+          });
+        })
+        .catch((error) => {
+          // An error happened.
+        });
+    },
+  }
+  
 };
 </script>
 

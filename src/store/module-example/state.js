@@ -1,5 +1,7 @@
-export default function() {
+export default function () {
   return {
-    state: ""
+    email: "",
+    nickname: "",
+    uid: "",
   };
 }

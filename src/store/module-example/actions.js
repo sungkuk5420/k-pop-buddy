@@ -2,7 +2,7 @@ import { T } from "./types";
 import { ajaxActions } from "./ajaxActions";
 
 export const actions = {
-  [T.AJAX_ACTION]({ commit }, { data, cb }) {
+  [T.AJAX_ACTION] ({ commit }, { data, cb }) {
     console.log(`store action [T.AJAX_ACTION] joinUser = ${data}`);
     ajaxActions.joinUser(
       data,
@@ -19,9 +19,9 @@ export const actions = {
       }
     );
   },
-  [T.ACTION]({ commit }, { data }) {
-    console.log(`store action [T.ACTION] data`);
-    console.log(data);
-    commit(T.ACTION, data);
-  }
+  [T.SET_LOGIN_USER_INFO] ({ commit }, { email = "", nickname = "", uid = "", loginType = "" }) {
+    console.log(`store action [T.SET_LOGIN_USER_INFO] email, nickname uid`);
+    console.log(email, nickname, uid);
+    commit(T.SET_LOGIN_USER_INFO, { email, nickname, uid, loginType });
+  },
 };

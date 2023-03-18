@@ -6,14 +6,14 @@
           >
             <q-input
               filled
-              v-model="email"
+              v-model="localEmail"
               label="email"
               lazy-rules
             />
             <q-input
               filled
-              v-model="nickName"
-              label="nickName"
+              v-model="localNickname"
+              label="nickname"
               lazy-rules
             />
 
@@ -37,14 +37,14 @@
 import ComputedMixin from "../ComputedMixin";
 import UtilMethodMixin from "../UtilMethodMixin";
 import { getDatabase, ref, set, child, get } from 'firebase/database';
-import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
+import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword  } from "firebase/auth";
 import { uid } from 'quasar';
 export default {
   mixins: [ComputedMixin, UtilMethodMixin],
   data () {
     return {
-      email: "",
-      nickName: "",
+      localEmail: "",
+      localNickname: "",
       password: "",
     }
   },
@@ -56,25 +56,44 @@ export default {
       const db = getDatabase();
       const auth = getAuth();
       const thisObj= this;
-      createUserWithEmailAndPassword(auth, this.email, this.password)
+      if(this.localEmail == ""){
+        thisObj.errorMessage("Please enter your email address")
+        return false
+      }
+      if(this.localNickname == ""){
+        thisObj.errorMessage("Please enter your nickname")
+        return false
+      }
+      if(this.password == ""){
+        thisObj.errorMessage("Please enter your password")
+        return false
+      }
+      createUserWithEmailAndPassword(auth, this.localEmail, this.password)
         .then((userCredential) => {
           // Signed in
           const user = userCredential.user;
           console.log(user)
           const userUid = user.uid;
           set(ref(db, 'users/' + userUid), {
-            email: thisObj.email,
-            nickName: thisObj.nickName,
+            email: thisObj.localEmail,
+            nickname: thisObj.localNickname,
             createdAt: thisObj.createNowTime(),
-          });
+          })
+          thisObj.successMessage("Log in")
+          thisObj.$router.push("/")
         })
         .catch((error) => {
           const errorCode = error.code;
-          const errorMessage = error.message;
-          console.log(errorMessage)
+          let errorMessage = error.message;
+          if(error.message.indexOf('auth/email-already-in-use')!=-1){
+            errorMessage = "email already in use";
+          }
+          if(error.message.indexOf('(auth/weak-password)')!=-1){
+            errorMessage = "Password should be at least 6 characters ";
+          }
+          thisObj.errorMessage(errorMessage)
           // ..
         });
-
     }
   }
 };

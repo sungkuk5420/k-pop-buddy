@@ -2,7 +2,9 @@ import { mapGetters } from "vuex";
 let ComputedMixin = {
     computed: {
         ...mapGetters({
-            state: "getState",
+            email: "getEmail",
+            nickname: "getNickname",
+            uid: "getUid",
         }),
     },
     watch: {

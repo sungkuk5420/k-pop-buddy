@@ -10,7 +10,7 @@ let UtilMethodMixin = {
         successMessage (message) {
             this.$q.notify({
                 position: "top",
-                timeout: 500,
+                timeout: 1000,
                 message,
                 icon: "announcement"
             });
@@ -18,7 +18,7 @@ let UtilMethodMixin = {
         errorMessage (message) {
             this.$q.notify({
                 position: "top",
-                timeout: 500,
+                timeout: 1000,
                 message,
                 icon: "announcement"
             });
