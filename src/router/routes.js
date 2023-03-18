@@ -4,7 +4,7 @@ const routes = [
     path: '/',
     component: () => import('layouts/MainLayout.vue'),
     children: [
-      { path: '', component: () => import('pages/Index.vue') },
+      { path: '', component: () => import('pages/Forumns.vue') },
       { path: 'forumns', component: () => import('pages/Forumns.vue') },
       { path: 'hot-focus', component: () => import('pages/HotFocus.vue') },
       { path: 'buddies-deal', component: () => import('pages/BuddiesDeal.vue') },

@@ -4,7 +4,7 @@
       <q-header elevated class="bg-primary text-white" height-hint="98">
         <q-toolbar>
           <q-toolbar-title style="cursor: pointer;" @click="$router.push('/')">
-            K POP buddy
+            My gangnam insider
           </q-toolbar-title>
           <q-btn label="login" color="white" text-color="black" class="q-mr-lg" @click="$router.push('/login')"></q-btn>
           <q-btn label="register" color="white" text-color="black" @click="$router.push('/register')"></q-btn>
@@ -109,12 +109,24 @@ export default {
     display: flex;
   }
   .q-tab{
+    width:25%;
     border: 1px solid #ddd;
     border-right: 0;
     flex: 1;
     &:last-child{
       border-right: 1px solid #ddd;
     }
+  }
+  .q-tab__label{    
+    align-items: center;
+    flex: 1 1 0%;
+    min-width: 1px;
+    max-width: 100%;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
+    vertical-align: middle;
+    line-height: 38px;
   }
 }
 .q-layout__shadow {
