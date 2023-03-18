@@ -61,9 +61,23 @@ export default {
         })
         .catch((error) => {
           const errorCode = error.code;
-          const errorMessage = error.message;
+          let errorMessage = error.message;
           console.log(errorCode)
           console.log(errorMessage)
+          
+          if (error.message.indexOf('(auth/user-not-found)') != -1) {
+              errorMessage = "The requested user '"+ this.localEmail+ "' could not be found.";
+          }
+          if (error.message.indexOf('(auth/wrong-password)') != -1) {
+              errorMessage = "Incorrect password. Please try again.";
+          }
+          if (error.message.indexOf('(auth/weak-password)') != -1) {
+            errorMessage = "Password should be at least 6 characters.";
+          }
+          if (error.message.indexOf('(auth/invalid-email)') != -1) {
+            errorMessage = "Please enter a valid email address.";
+          }
+          thisObj.errorMessage(errorMessage)
         });
     }
   }

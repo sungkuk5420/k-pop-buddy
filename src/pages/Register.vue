@@ -3,27 +3,29 @@
     <div class="flex column">
             <q-input
             autoComplete="new-password"
-              filled
+              outlined
               v-model="localEmail"
               label="email"
               lazy-rules
             />
             <q-input
             autoComplete="new-password"
-              filled
+              outlined
               v-model="localNickname"
               label="nickname"
               lazy-rules
             />
 
-            <q-input
-            autoComplete="new-password"
-              filled
-              type="password"
-              v-model="password"
-              label="password"
-              lazy-rules
-            />
+            <q-input autoComplete="new-password" v-model="password" outlined :type="isPwd ? 'password' : 'text'" label="password">
+              <template v-slot:append>
+                <q-icon
+                  :name="isPwd ? 'visibility_off' : 'visibility'"
+                  class="cursor-pointer"
+                  @click="isPwd = !isPwd"
+                />
+              </template>
+            </q-input>
+
             
             <div class="wrapper">
               <div class="captcha-area">
@@ -31,10 +33,12 @@
                   <img src="~assets/captcha-bg.png" alt="Captch Background">
                   <span class="captcha"></span>
                 </div>
-                <button class="reload-btn" @click="reloadCaptcha">
-                <q-icon name="refresh"></q-icon></button>
+                <button class="reload-btn" v-show="!isCaptchaPass" @click="reloadCaptcha">
+                  <q-icon name="refresh"></q-icon></button>
+                  <button class="reload-btn" v-show = "isCaptchaPass">
+                    <q-icon name="done"></q-icon></button>
               </div>
-                <q-input autoComplete="new-password" label="captcha" filled type="text" placeholder="Enter captcha" maxlength="6" v-model="captchaText" ></q-input>
+                <q-input autoComplete="new-password" label="captcha" outlined type="text" placeholder="Enter captcha" maxlength="6" v-model="captchaText" ></q-input>
             </div>
 
 
@@ -58,6 +62,8 @@ export default {
       localEmail: "",
       localNickname: "",
       password: "",
+      isPwd: true,
+      isCaptchaPass: false,
       captchaText:""
     }
   },
@@ -77,8 +83,10 @@ export default {
       //adding space after each character of user entered values because I've added spaces while generating captcha
       let inputVal = this.captchaText.split('').join(' ');
       if (inputVal == captcha.innerText) { //if captcha matched
+        this.isCaptchaPass = true;
         return true
       } else {
+        this.isCaptchaPass = false;
         return false
       }
     },
@@ -105,20 +113,20 @@ export default {
       const db = getDatabase();
       const auth = getAuth();
       const thisObj= this;
+      if (!this.captchaCheck()) {
+        this.errorMessage("Captcha not matched. Please try again!");
+        return false
+      }
       if(this.localEmail == ""){
-        thisObj.errorMessage("Please enter your email address")
+        thisObj.errorMessage("Please enter your email address.")
         return false
       }
       if(this.localNickname == ""){
-        thisObj.errorMessage("Please enter your nickname")
+        thisObj.errorMessage("Please enter your nickname.")
         return false
       }
       if(this.password == ""){
-        thisObj.errorMessage("Please enter your password")
-        return false
-      }
-      if(!this.captchaCheck()){
-        this.errorMessage("Captcha not matched. Please try again!");
+        thisObj.errorMessage("Please enter your password.")
         return false
       }
       createUserWithEmailAndPassword(auth, this.localEmail, this.password)
@@ -139,10 +147,13 @@ export default {
           const errorCode = error.code;
           let errorMessage = error.message;
           if(error.message.indexOf('auth/email-already-in-use')!=-1){
-            errorMessage = "email already in use";
+            errorMessage = "Email already in use";
           }
           if(error.message.indexOf('(auth/weak-password)')!=-1){
             errorMessage = "Password should be at least 6 characters ";
+          }
+          if(error.message.indexOf('(auth/invalid-email)')!=-1){
+            errorMessage = "Please enter a valid email address";
           }
           thisObj.errorMessage(errorMessage)
           // ..
@@ -202,11 +213,16 @@ export default {
   top: 50%;
   width: 100%;
   color: #fff;
+  /* color: #000; */
+  opacity: 0.5;
+  text-decoration: line-through;
   font-size: 25px;
   text-align: center;
   letter-spacing: 10px;
   transform: translate(-50%, -50%);
+  text-shadow: 2px 2px 2px #ffffff;
   text-shadow: 0px 0px 2px #b1b1b1;
+  text-shadow: 2px 2px 2px #000;
   font-family: 'Noto Serif', serif;
 }
 .wrapper button{
