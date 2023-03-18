@@ -41,7 +41,7 @@ export default {
             .catch((error) => {
               console.error(error);
             });
-        }, 1000);
+        }, 200);
       } else {
 
         thisObj.$store.dispatch(T.SET_LOGIN_USER_INFO, {
