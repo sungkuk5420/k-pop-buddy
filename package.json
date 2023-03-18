@@ -1,8 +1,8 @@
 {
   "name": "quasar-boilerplate",
   "version": "0.0.1",
-  "description": "A Quasar Framework app",
-  "productName": "Quasar App",
+  "description": "My gangnam insider",
+  "productName": "My gangnam insider",
   "author": "sungkuk5420 <sungkuk5420@gamil.com>",
   "private": true,
   "scripts": {
