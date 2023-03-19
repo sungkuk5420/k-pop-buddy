@@ -7,7 +7,6 @@
             My gangnam insider
           </q-toolbar-title>
           <div v-show="uid">{{ nickname }}</div>
-
           <q-btn label="Log in" color="white" text-color="black" class="q-mr-lg" v-show="!uid" @click="$router.push('/login')"></q-btn>
           <q-btn label="Log out" color="white" text-color="black" class="q-mr-lg" v-show="uid" @click="logout"></q-btn>
           <q-btn label="Register" color="white" text-color="black" v-show="!uid" @click="$router.push('/register')"></q-btn>
