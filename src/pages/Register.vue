@@ -215,7 +215,7 @@ export default {
   color: #fff;
   /* color: #000; */
   opacity: 0.5;
-  text-decoration: line-through;
+  /* text-decoration: line-through; */
   font-size: 25px;
   text-align: center;
   letter-spacing: 10px;

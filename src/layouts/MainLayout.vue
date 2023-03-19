@@ -6,7 +6,9 @@
           <q-toolbar-title style="cursor: pointer;" @click="$router.push('/')">
             My gangnam insider
           </q-toolbar-title>
-          <div v-show="uid">{{ nickname }}</div>
+          <div v-show="uid" class="default-avatar">
+            {{ nickname?nickname.slice(0, 1).toUpperCase():''}}
+          </div>
           <q-btn label="Log in" color="white" text-color="black" class="q-mr-lg" v-show="!uid" @click="$router.push('/login')"></q-btn>
           <q-btn label="Log out" color="white" text-color="black" class="q-mr-lg" v-show="uid" @click="logout"></q-btn>
           <q-btn label="Register" color="white" text-color="black" v-show="!uid" @click="$router.push('/register')"></q-btn>
@@ -159,5 +161,18 @@ export default {
 }
 .q-layout__shadow {
 display: none;
+}
+
+.default-avatar{
+  display: flex;
+  font-size: 20px;
+  justify-content: center;
+  align-items: center;
+  padding: 5px;
+  width: 40px;
+  height: 40px;
+  margin-right: 20px;
+  background-color: #ef5350;
+  color: #ff8a80;
 }
 </style>

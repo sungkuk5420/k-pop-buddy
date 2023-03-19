@@ -7,7 +7,10 @@
       <q-route-tab to="/buddies-deal" label="Buddies Deal" />
       <q-route-tab to="/special-offer" label="Special Offer" />
     </q-tabs>
-    <span>Forumns</span>
+    <div class="flex column">
+      <span>Forumns</span>
+      
+    </div>
   </q-page>
 </template>
 

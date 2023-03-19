@@ -1,6 +1,10 @@
 import { mapGetters } from "vuex";
 let UtilMethodMixin = {
     methods: {
+        getAvatarIsDefault() {
+            console.log(this.nickname)
+            return this.nickname.slice(0, 1)
+        },
         showLoading() {
             this.$q.loading.show();
         },
