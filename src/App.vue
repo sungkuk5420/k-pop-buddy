@@ -30,12 +30,10 @@ export default {
               if (snapshot.exists()) {
                 // console.log(snapshot.val());
                 const data = snapshot.val();
-                nickname = data.nickname;
                 thisObj.$store.dispatch(T.SET_LOGIN_USER_INFO, {
+                  ...data,
                   email: user.email,
-                  nickname,
                   uid: user.uid,
-                  createdAt: data.createdAt,
                 });
               }
             })

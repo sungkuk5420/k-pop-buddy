@@ -1,26 +1,20 @@
 <template>
   <q-page class="flex items-center justify-center column">
-    <q-avatar v-show="loginUser"  @click="$router.push('/change-info')" square color="red" text-color="white" class="q-mr-md">{{ loginUser?loginUser.nickname.slice(0, 1).toUpperCase():''}}</q-avatar>
+    <q-avatar v-if="loginUser&&!loginUser.avatar"   square color="red" text-color="white" class="q-mr-md">{{ loginUser?loginUser.nickname.slice(0, 1).toUpperCase():''}}</q-avatar>
+    <q-avatar v-if="loginUser&&loginUser.avatar"   square color="red" text-color="white" class="q-mr-md">
+    <img :src="loginUser.avatar" alt="" srcset="">  
+    </q-avatar>
     
+    <q-form @submit="onSubmit" class="q-gutter-md">
+      <q-file outlined v-model="model">
+        <template v-slot:prepend>
+          <q-icon name="attach_file" />
+        </template>
+      </q-file>
+        <q-btn label="Submit" type="submit" color="primary"/>
+    </q-form>
 
-    <a-upload
-    name="avatar"
-    list-type="picture-card"
-    class="avatar-uploader"
-    :show-upload-list="false"
-    action="https://www.mocky.io/v2/5cc8019d300000980a055e76"
-    :before-upload="beforeUpload"
-    @change="handleChange"
-  >
-    <img v-if="imageUrl" :src="imageUrl" alt="avatar" />
-    <div v-else>
-      <a-icon :type="loading ? 'loading' : 'plus'" />
-      <div class="ant-upload-text">
-        Upload
-      </div>
-    </div>
-  </a-upload>
-
+    <div>{{ loginUser}}</div>
     <div>{{ loginUser.nickname }}</div>
     <div>{{ loginUser.email }}</div>
     <div v-if="loginUser">{{ convertedDateFormat(loginUser.createdAt) }}</div>
@@ -30,49 +24,54 @@
 <script>
 import ComputedMixin from "../ComputedMixin";
 import UtilMethodMixin from "../UtilMethodMixin";
+import { T } from '../store/module-example/types';
 
-function getBase64(img, callback) {
-  const reader = new FileReader();
-  reader.addEventListener('load', () => callback(reader.result));
-  reader.readAsDataURL(img);
-}
-
+import { getStorage, ref, uploadBytes ,getDownloadURL } from "firebase/storage";
+import { getDatabase, ref as databaseRef, set, child, get } from 'firebase/database';
 export default {
   mixins: [ComputedMixin, UtilMethodMixin],
   data () {
     return {
-      loading: false,
-      imageUrl: '',
+      model: null
     }
   },
   mounted() {
   },
   methods:{
-    handleChange(info) {
-      if (info.file.status === 'uploading') {
-        this.loading = true;
-        return;
-      }
-      if (info.file.status === 'done') {
-        // Get this url from response in real world.
-        console.log(info.file.originFileObj)
-        getBase64(info.file.originFileObj, imageUrl => {
-          this.imageUrl = imageUrl;
-          this.loading = false;
-        });
-      }
-    },
-    beforeUpload(file) {
-      const isJpgOrPng = file.type === 'image/jpeg' || file.type === 'image/png';
-      if (!isJpgOrPng) {
-        this.$message.error('You can only upload JPG file!');
-      }
-      const isLt2M = file.size / 1024 / 1024 < 2;
-      if (!isLt2M) {
-        this.$message.error('Image must smaller than 2MB!');
-      }
-      return isJpgOrPng && isLt2M;
-    },
+    onSubmit (evt) {
+      console.log(this.model)
+      const imageType = this.model.type.indexOf('png')!=-1? 'png':'jpg';
+      const storage = getStorage();
+      const storageRef = ref(storage, this.loginUser.uid+'/avatar.'+imageType );
+      const thisObj = this;
+      // 'file' comes from the Blob or File API
+      uploadBytes(storageRef, this.model).then((snapshot) => {
+        console.log('Uploaded a blob or file!');
+        const storage = getStorage();
+        getDownloadURL(ref(storage, this.loginUser.uid+'/avatar.'+imageType))
+          .then((url) => {
+            // `url` is the download URL for 'images/stars.jpg'
+            console.log(url)
+            const db = getDatabase();
+            set(databaseRef(db, 'users/' + thisObj.loginUser.uid), {
+              email: thisObj.loginUser.email,
+              nickname: thisObj.loginUser.nickname,
+              avatar:url,
+              createdAt: thisObj.loginUser.createdAt,
+            }).then(()=>{
+              thisObj.$store.dispatch(T.SET_LOGIN_USER_INFO, {
+                ...thisObj.loginUser,
+                avatar:url
+              });
+            })
+          })
+          .catch((error) => {
+            // Handle any errors
+          });
+      });
+
+      
+    }
   }
 };
 
