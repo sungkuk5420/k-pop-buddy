@@ -1,29 +1,30 @@
 <template>
   <q-page class="flex items-center justify-center">
-            <q-form
-              @submit="login"
-              class="q-gutter-md"
-            >
-              <q-input
-                filled
-                v-model="localEmail"
-                label="email"
-                lazy-rules
-              />
+    <q-form
+      @submit="login"
+      class="q-gutter-md"
+    >
+      <q-input
+        filled
+        v-model="localEmail"
+        label="email"
+        lazy-rules
+      />
 
-              <q-input
-                filled
-                type="password"
-                v-model="password"
-                label="password"
-                lazy-rules
-              />
+      <q-input
+        filled
+        type="password"
+        v-model="password"
+        label="password"
+        lazy-rules
+      />
 
 
-              <div>
-                <q-btn label="Submit" type="submit" color="primary"/>
-              </div>
-            </q-form>
+      <div>
+        <q-btn label="Submit" type="submit" color="primary"/>
+      </div>
+    </q-form>
+    <q-btn label="reset password" color="white" text-color="black" class="q-mr-lg"  @click="$router.push('/reset-password')"></q-btn>
   </q-page>
 </template>
 

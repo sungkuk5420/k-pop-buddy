@@ -10,7 +10,7 @@ const routes = [
       { path: 'buddies-deal', component: () => import('pages/BuddiesDeal.vue') },
       { path: 'special-offer', component: () => import('pages/SpecialOffer.vue') },
       { path: 'login', component: () => import('pages/Login.vue') },
-      { path: 'register', component: () => import('pages/Register.vue') },
+      { path: 'reset-password', component: () => import('pages/ResetPassword.vue') },
     ],
   },
   {
