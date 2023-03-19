@@ -35,6 +35,7 @@ export default {
                   email: user.email,
                   nickname,
                   uid: user.uid,
+                  createdAt: data.createdAt,
                 });
               }
             })
@@ -44,11 +45,7 @@ export default {
         }, 200);
       } else {
 
-        thisObj.$store.dispatch(T.SET_LOGIN_USER_INFO, {
-          nickname: null,
-          email: null,
-          uid: null,
-        });
+        thisObj.$store.dispatch(T.SET_LOGIN_USER_INFO, null);
       }
     });
   }

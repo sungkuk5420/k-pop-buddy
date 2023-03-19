@@ -6,12 +6,11 @@
           <q-toolbar-title style="cursor: pointer;" @click="$router.push('/')">
             My gangnam insider
           </q-toolbar-title>
-          <div v-show="uid" class="default-avatar">
-            {{ nickname?nickname.slice(0, 1).toUpperCase():''}}
-          </div>
-          <q-btn label="Log in" color="white" text-color="black" class="q-mr-lg" v-show="!uid" @click="$router.push('/login')"></q-btn>
-          <q-btn label="Log out" color="white" text-color="black" class="q-mr-lg" v-show="uid" @click="logout"></q-btn>
-          <q-btn label="Register" color="white" text-color="black" v-show="!uid" @click="$router.push('/register')"></q-btn>
+          
+          <q-avatar v-if="loginUser"  @click="$router.push('/change-info')" square color="red" text-color="white" class="q-mr-md">{{ loginUser?loginUser.nickname.slice(0, 1).toUpperCase():''}}</q-avatar>
+          <q-btn label="Log in" color="white" text-color="black" class="q-mr-lg" v-if="!loginUser" @click="$router.push('/login')"></q-btn>
+          <q-btn label="Log out" color="white" text-color="black" class="q-mr-lg" v-if="loginUser" @click="logout"></q-btn>
+          <q-btn label="Register" color="white" text-color="black" v-if="!loginUser" @click="$router.push('/register')"></q-btn>
         </q-toolbar>
       </q-header>
 
@@ -100,9 +99,7 @@ export default {
   },
   computed: {
     ...mapGetters({
-      email: "getEmail",
-      nickname: "getNickname",
-      uid: "getUid",
+      loginUser: "getLoginUser",
     }),
   },
   methods:{

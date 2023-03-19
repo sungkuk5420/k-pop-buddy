@@ -12,6 +12,7 @@ const routes = [
       { path: 'login', component: () => import('pages/Login.vue') },
       { path: 'register', component: () => import('pages/Register.vue') },
       { path: 'reset-password', component: () => import('pages/ResetPassword.vue') },
+      { path: 'change-info', component: () => import('pages/ChangeInfo.vue') },
     ],
   },
   {

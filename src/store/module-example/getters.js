@@ -1,14 +1,9 @@
 export const getters = {
-    getState (state) {
+    getState(state) {
         return state;
     },
-    getEmail (state) {
-        return state.email;
-    },
-    getNickname (state) {
-        return state.nickname;
-    },
-    getUid (state) {
-        return state.uid;
+
+    getLoginUser(state) {
+        return state.loginUser;
     },
 };
