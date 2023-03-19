@@ -13,6 +13,13 @@ const routes = [
       { path: 'register', component: () => import('pages/Register.vue') },
     ],
   },
+  {
+    path: '/admin',
+    component: () => import('layouts/adminLayout.vue'),
+    children: [
+      { path: '', component: () => import('pages/Users.vue') },
+    ],
+  },
 
   // Always leave this as last one,
   // but you can also remove it

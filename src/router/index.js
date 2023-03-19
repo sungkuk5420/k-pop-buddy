@@ -2,9 +2,13 @@ import Vue from 'vue'
 import VueRouter from 'vue-router'
 
 import routes from './routes'
+import Antd from 'ant-design-vue';
+import 'ant-design-vue/dist/antd.css';
+Vue.config.productionTip = false;
 
 
 Vue.use(VueRouter)
+Vue.use(Antd);
 
 /*
  * If not building with SSR mode, you can
