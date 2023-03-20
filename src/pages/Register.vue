@@ -87,6 +87,10 @@ export default {
       const db = getDatabase();
       const auth = getAuth();
       const thisObj= this;
+      if(document.getElementById("recaptcha-accessible-status").textContent.indexOf('reCAPTCHA') != -1){
+        thisObj.localErrorMessage = "Please check reCAPTCHA."
+        return false
+      }
       if(this.localNickname == ""){
         thisObj.localErrorMessage = "Please enter your nickname."
         return false
