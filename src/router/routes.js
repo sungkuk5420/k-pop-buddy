@@ -13,6 +13,7 @@ const routes = [
       { path: 'register', component: () => import('pages/Register.vue') },
       { path: 'reset-password', component: () => import('pages/ResetPassword.vue') },
       { path: 'change-info', component: () => import('pages/ChangeInfo.vue') },
+      { path: 'write-post', component: () => import('pages/WritePost.vue') },
     ],
   },
   {

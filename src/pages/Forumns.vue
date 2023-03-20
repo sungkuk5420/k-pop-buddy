@@ -9,7 +9,7 @@
     </q-tabs>
     <div class="flex column">
       <span>Forumns</span>
-      
+      <q-btn label="write post" @click="$router.push('/write-post')"></q-btn>
     </div>
   </q-page>
 </template>

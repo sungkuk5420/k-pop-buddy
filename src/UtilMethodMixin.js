@@ -5,8 +5,14 @@ let UtilMethodMixin = {
             console.log(this.nickname)
             return this.nickname.slice(0, 1)
         },
-        showLoading() {
-            this.$q.loading.show();
+        showLoading(message) {
+            if (message) {
+                this.$q.loading.show({
+                    message
+                });
+            } else {
+                this.$q.loading.show();
+            }
         },
         hideLoading() {
             this.$q.loading.hide();
