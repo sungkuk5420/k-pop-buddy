@@ -87,10 +87,12 @@ export default {
       const db = getDatabase();
       const auth = getAuth();
       const thisObj= this;
-      if(document.getElementById("recaptcha-accessible-status").textContent.indexOf('reCAPTCHA') != -1){
+      
+      var v = grecaptcha.getResponse();
+      if (v.length ==0) {
         thisObj.localErrorMessage = "Please check reCAPTCHA."
-        return false
-      }
+        return false;
+      } 
       if(this.localNickname == ""){
         thisObj.localErrorMessage = "Please enter your nickname."
         return false
