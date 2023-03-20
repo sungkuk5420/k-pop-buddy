@@ -1,30 +1,44 @@
 <template>
-  <q-page class="flex items-center justify-center">
-    <q-form
-      @submit="login"
-      class="q-gutter-md"
-    >
+  <q-page class="login-page">
+    <div class="container">
+      <div class="title-1">Kbeauty Buddie</div>
+      <div class="title-2">커뮤니티에 오신 것을 환영해요 👋🏻 </div>
+      <div class="sub-title">계정에 로그인하고 이야기를 시작해보세요!</div>
+      <div class="label">E-mail</div>
+        <q-input
+        style="width:100%;"
+          outlined 
+          v-model="localEmail"
+          placeholder="Please enter your e-mail."
+          lazy-rules
+        />
+      <div class="label" style="margin-top: 12px;">Password</div>
       <q-input
-        filled
-        v-model="localEmail"
-        label="email"
-        lazy-rules
-      />
-
-      <q-input
-        filled
-        type="password"
+      style="width:100%; margin-bottom:24px;"
+        outlined 
+        :type="isPwd ? 'password' : 'text'"
+        placeholder="Please enter your password."
         v-model="password"
-        label="password"
-        lazy-rules
-      />
-
-
-      <div>
-        <q-btn label="Submit" type="submit" color="primary"/>
+      >
+        <template v-slot:append>
+          <q-icon
+            :name="isPwd ? 'visibility_off' : 'visibility'"
+            class="cursor-pointer"
+            @click="isPwd = !isPwd"
+          />
+        </template>
+      </q-input>
+      <div class="flex items-center justify-between" style="width:100%; margin-bottom: 12px;">
+        <q-checkbox class="remember-id" right-label v-model="rememberId" label="Remember my ID" />
+        <span class="find-password" @click="$router.push('/reset-password')">Find password</span>
       </div>
-    </q-form>
-    <q-btn label="reset password" color="white" text-color="black" class="q-mr-lg"  @click="$router.push('/reset-password')"></q-btn>
+      <div  class="error-message" v-show="errorMessage">{{ errorMessage }}</div>
+      <q-btn label="Log in"  class="login-button" @click="login" />
+      <div class="flex items-center justify-center" style="width:100%; margin-top: 24px;">
+        <span class="sub-text">Don't have an account?</span>
+        <span class="register-text" @click="$router.push('/register')">Register now</span>
+      </div>
+    </div>
   </q-page>
 </template>
 
@@ -37,8 +51,11 @@ export default {
   mixins: [ComputedMixin, UtilMethodMixin],
   data(){
     return {
+      errorMessage:"",
       localEmail:"",
       password:"",
+      isPwd: true,
+      rememberId: true,
     }
   },
   mounted() {
@@ -78,15 +95,140 @@ export default {
           if (error.message.indexOf('(auth/invalid-email)') != -1) {
             errorMessage = "Please enter a valid email address.";
           }
-          thisObj.errorMessage(errorMessage)
+          thisObj.errorMessage = errorMessage
         });
     }
   }
 };
 </script>
 
-<style>
-.page-name{
+<style lang="scss">
+.login-page{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+
+  .container{
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    max-width: 440px;
+    width: 100%;
+  }
+  .title-1{
+    font-family: 'Abhaya Libre', serif;
+    font-size: 30px;
+    font-weight: 500;
+    line-height: 35px;
+    letter-spacing: 0em;
+    text-align: left;
+    margin-bottom: 24px;
+    color: #000;
+  }
+
+  .title-2{
+    font-family: Pretendard;
+    font-size: 24px;
+    font-weight: 700;
+    line-height: 32px;
+    letter-spacing: 0em;
+    text-align: left;
+    margin-bottom: 10px;
+    color: #333333;
+  }
+  .sub-title{
+    //styleName: Body1;
+    font-family: Pretendard;
+    font-size: 16px;
+    font-weight: 400;
+    line-height: 24px;
+    letter-spacing: 0em;
+    text-align: left;
+    color: #333333;
+    margin-bottom: 24px
+;
+  }
+
+  .label{
+    font-family: Pretendard;
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 20px;
+    letter-spacing: 0em;
+    text-align: left;
+    color: #000;
+  }
+
+  .remember-id{
+    font-family: Pretendard;
+    font-size: 16px;
+    font-weight: 400;
+    line-height: 24px;
+    letter-spacing: 0em;
+    text-align: left;
+    color: #333333;
+  }
+
+  .find-password{
+    //styleName: Body1;
+    font-family: Pretendard;
+    font-size: 16px;
+    font-weight: 400;
+    line-height: 24px;
+    letter-spacing: 0em;
+    text-align: center;
+    color: #2E5AFF;
+    cursor: pointer;
+  }
+
+  .error-message{
+    width: 100%;
+    display: flex;
+    justify-content: flex-end;
+    color: #EF5350;
+    //styleName: Body1;
+    font-family: Pretendard;
+    font-size: 16px;
+    font-weight: 400;
+    line-height: 24px;
+    letter-spacing: 0em;
+    text-align: right;
+    margin-bottom: 24px;;
+
+  }
+
+  .login-button{
+    background: #111;
+    color: white;
+    width: 100%;
+    height: 48px;
+    border-radius: 6px;
+    padding: 0px 16px 0px 16px;
+  }
+
+  .sub-text{
+    font-family: Pretendard;
+    font-size: 16px;
+    font-weight: 400;
+    line-height: 24px;
+    letter-spacing: 0em;
+    text-align: center;
+    margin-right: 5px;
+  }
+
   
+  .register-text{
+    //styleName: Body1;
+    font-family: Pretendard;
+    font-size: 16px;
+    font-weight: 400;
+    line-height: 24px;
+    letter-spacing: 0em;
+    text-align: center;
+    color: #2E5AFF;
+    cursor: pointer;
+  }
 }
 </style>
