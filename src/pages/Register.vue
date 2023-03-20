@@ -43,7 +43,7 @@
         </template>
       </q-input>
       
-      <div class="h-captcha" data-sitekey="1ab996e8-5650-4f0d-968c-5c4a24ab15be"></div>
+      <div class="h-captcha" data-sitekey="e6a6c115-edd5-4575-91d8-77b23e148624"></div>
 
       <div class="flex items-center justify-start items-center" style="width:100%; margin-bottom: 12px;">
         <q-checkbox class="remember-id" right-label v-model="agree"  />
@@ -80,6 +80,17 @@ export default {
     // this.showLoading();
   },
   methods:{
+    hCaptcha(){
+      const element = document.querySelector('#post-request .article-id');
+      const requestOptions = {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ d: 'response=CLIENT-RESPONSE&secret=0x3DFDc1C70D64EA043483e7b430B18D3b5f717ee2' })
+      };
+      fetch('https://hcaptcha.com/siteverify', requestOptions)
+          .then(response => response.json())
+          .then(data => element.innerHTML = data.id );
+    },
     register(){
       const db = getDatabase();
       const auth = getAuth();
