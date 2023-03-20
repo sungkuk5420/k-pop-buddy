@@ -7,7 +7,7 @@
             My gangnam insider
           </q-toolbar-title>
           
-          <q-avatar v-if="!loginUser&&loginUser.avatar"  @click="$router.push('/change-info')" square color="red" text-color="white" class="q-mr-md">{{ loginUser?loginUser.nickname.slice(0, 1).toUpperCase():''}}</q-avatar>
+          <q-avatar v-if="loginUser&&!loginUser.avatar"  @click="$router.push('/change-info')" square color="red" text-color="white" class="q-mr-md">{{ loginUser?loginUser.nickname.slice(0, 1).toUpperCase():''}}</q-avatar>
           <q-avatar v-if="loginUser&&loginUser.avatar" @click="$router.push('/change-info')"  square color="red" text-color="white" class="q-mr-md">
             <img :src="loginUser.avatar" alt="" srcset="">  
           </q-avatar>
