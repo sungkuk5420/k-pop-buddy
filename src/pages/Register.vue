@@ -43,7 +43,7 @@
         </template>
       </q-input>
       
-      <div class="g-recaptcha" data-sitekey="6LeM9hglAAAAAGYKeLHswHW_G9Redzn6l6BLD-nK"></div>
+      <div id="html_element"></div>
 
       <div class="flex items-center justify-start items-center" style="width:100%; margin-bottom: 12px;">
         <q-checkbox class="remember-id" right-label v-model="agree"  />
@@ -78,6 +78,9 @@ export default {
   },
   mounted() {
     // this.showLoading();
+      grecaptcha.render('html_element', {
+        'sitekey': '6LeM9hglAAAAAGYKeLHswHW_G9Redzn6l6BLD-nK'
+      });
   },
   methods:{
     register(){
