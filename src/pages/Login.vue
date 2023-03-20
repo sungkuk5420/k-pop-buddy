@@ -32,7 +32,7 @@
         <q-checkbox class="remember-id" right-label v-model="rememberId" label="Remember my ID" />
         <span class="find-password" @click="$router.push('/reset-password')">Find password</span>
       </div>
-      <div  class="error-message" v-show="errorMessage">{{ errorMessage }}</div>
+      <div  class="error-message" v-show="localErrorMessage">{{ localErrorMessage }}</div>
       <q-btn label="Log in"  class="login-button" @click="login" />
       <div class="flex items-center justify-center" style="width:100%; margin-top: 24px;">
         <span class="sub-text">Don't have an account?</span>
@@ -51,7 +51,7 @@ export default {
   mixins: [ComputedMixin, UtilMethodMixin],
   data(){
     return {
-      errorMessage:"",
+      localErrorMessage:"",
       localEmail:"",
       password:"",
       isPwd: true,
@@ -95,7 +95,7 @@ export default {
           if (error.message.indexOf('(auth/invalid-email)') != -1) {
             errorMessage = "Please enter a valid email address.";
           }
-          thisObj.errorMessage = errorMessage
+          thisObj.localErrorMessage = errorMessage
         });
     }
   }
@@ -159,6 +159,7 @@ export default {
     letter-spacing: 0em;
     text-align: left;
     color: #000;
+    margin-bottom: 4px;
   }
 
   .remember-id{
