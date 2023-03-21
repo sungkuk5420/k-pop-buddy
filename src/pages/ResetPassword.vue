@@ -16,7 +16,7 @@
           lazy-rules
         />
       <div  class="error-message" v-show="localErrorMessage">{{ localErrorMessage }}</div>
-      <q-btn label="Send Email"  class="login-button" @click="resetPassword" />
+      <q-btn label="Send new password"  class="login-button" @click="resetPassword" />
     </div>
   </q-page>
 </template>
