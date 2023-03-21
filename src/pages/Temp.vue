@@ -21,15 +21,43 @@
         />
       </div>
       <div class="table-wrapper2">
-        <q-table
-          class="my-sticky-header-table"
-          :data="data2"
-          :columns="columns2"
-          row-key="name"
-          flat
-          bordered
-          :pagination="initialPagination"
-        />
+        <q-list bordered separator>
+          <q-item clickable v-ripple>
+            <span style="font-weight: bold; margin-right: 5px;">Services list / Details of the service</span>
+          </q-item>
+          <q-item clickable v-ripple>
+            <span style="font-weight: bold; margin-right: 5px;">Private 1:1 online consultation</span>
+            <span>( per half hour / kakaoTalk or WhatsApp )</span>
+          </q-item>
+          <q-item clickable v-ripple>
+            <span style="font-weight: bold; margin-right: 5px;">In-depth clinic investigation</span>
+            <span>( per clinic / Provide the report )</span>
+          </q-item>
+          <q-item clickable v-ripple>
+            <span style="font-weight: bold; margin-right: 5px;">Interpretation and price negotiation(counseling day)</span>
+            <span>( per hour / incentive / Provide consultation report )</span>
+          </q-item>
+          <q-item clickable v-ripple>
+            <span style="font-weight: bold; margin-right: 5px;">Interpretation(surgery day) & CCTV check</span>
+            <span>( per hour )</span>
+          </q-item>
+          <q-item clickable v-ripple>
+            <span style="font-weight: bold; margin-right: 5px;">Support for returning home after surgery</span>
+            <span>( per hour / by car / Support for getting medication )</span>
+          </q-item>
+          <q-item clickable v-ripple>
+            <span style="font-weight: bold; margin-right: 5px;">Interpretation and support(last follow up day) </span>
+            <span>( per hour / last follow up day / issuance of medical records and check the records )</span>
+          </q-item>
+          <q-item clickable v-ripple>
+            <span style="font-weight: bold; margin-right: 5px;">Side effect counseling, dispute counseling (online) </span>
+            <span>( per half hour / kakaoTalk or WhatsApp )</span>
+          </q-item>
+          <q-item clickable v-ripple>
+            <span style="font-weight: bold; margin-right: 5px;">Implementation of Dispute Resolution </span>
+            <span>( Solution offer / Solution execution / Mediation with clinic )</span>
+          </q-item>
+        </q-list>
       </div>
       <div class="bottom-wrapper">
         <div class="bottom-text">Contact</div>
@@ -126,40 +154,6 @@ export default {
           column2: 'Solution offer / Solution execution / Mediation with clinic',
         },
       ],
-      data2: [
-        {
-          name: 'Services list',
-          column1: 'Private 1:1 online consultation ( per half hour / kakaoTalk or WhatsApp ) ',
-        },
-        {
-          name: 'Services list',
-          column1: 'In-depth clinic investigation ( per clinic / Provide the report )',
-        },
-        {
-          name: 'Services list',
-          column1: 'Interpretation and price negotiation(counseling day) ( per hour / incentive / Provide consultation report )',
-        },
-        {
-          name: 'Services list',
-          column1: 'Interpretation(surgery day) & CCTV check ( per hour )',
-        },
-        {
-          name: 'Services list',
-          column1: 'Support for returning home after surgery ( per hour / by car / Support for getting medication )',
-        },
-        {
-          name: 'Services list',
-          column1: 'Interpretation and support(last follow up day)  ( per hour / last follow up day / issuance of medical records and check the records )',
-        },
-        {
-          name: 'Services list',
-          column1: 'Side effect counseling, dispute counseling (online)  ( per half hour / kakaoTalk or WhatsApp )',
-        },
-        {
-          name: 'Services list',
-          column1: 'Implementation of Dispute Resolution  ( Solution offer / Solution execution / Mediation with clinic )',
-        },
-      ]
     }
   },
   mounted() {
@@ -221,6 +215,17 @@ export default {
     display: none;
     background: white;
     padding: 40px 40px 20px;
+  }
+  .table-wrapper2{
+    background: white;
+    padding: 10px;
+      overflow-x: auto;
+    span{
+      word-break: normal;
+    }
+    .q-list{
+      width: 870px;
+    }
   }
 
   .q-table__bottom{
