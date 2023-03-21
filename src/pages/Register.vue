@@ -5,7 +5,7 @@
       <!-- <div class="title-2">만나서 반가워요 👋🏻  </div> -->
       <div class="title-2">Nice to meet you 👋🏻  </div>
       <!-- <div class="sub-title">간단하게 계정을 생성하고, 이야기를 시작해보세요!</div> -->
-      <div class="sub-title">Please make your account to start communication</div>
+      <div class="sub-title">Please make your account to start communication.</div>
       <div class="label">Nickname</div>
         <q-input
           autoComplete="new-password"
@@ -16,7 +16,7 @@
           lazy-rules
         />
         <div class="nickname-sub-text">
-          This is the name that will be shown with your messages. You may use any name you wish
+          This is the name that will be shown with your messages. You may use any name you wish.
         </div>
       <div class="label">E-mail</div>
         <q-input
