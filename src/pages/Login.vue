@@ -32,7 +32,7 @@
       </q-input>
       <div class="flex items-center justify-between" style="width:100%; margin-bottom: 12px;">
         <q-checkbox class="remember-id" right-label v-model="rememberId" label="Remember my ID" />
-        <span class="find-password" @click="$router.push('/reset-password')">Find password</span>
+        <span class="find-password" @click="$router.push('/reset-password')">Forgot password?</span>
       </div>
       <div  class="error-message" v-show="localErrorMessage">{{ localErrorMessage }}</div>
       <q-btn label="Log in"  class="login-button" @click="login" />
