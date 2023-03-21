@@ -2,45 +2,47 @@
 const routes = [
   {
     path: '/',
-    component: () => import('layouts/MainLayout.vue'),
-    children: [
-      { path: '', component: () => import('pages/Forumns.vue') },
-      { path: 'forumns', component: () => import('pages/Forumns.vue') },
-      { path: 'hot-focus', component: () => import('pages/HotFocus.vue') },
-      { path: 'buddies-deal', component: () => import('pages/BuddiesDeal.vue') },
-      { path: 'special-offer', component: () => import('pages/SpecialOffer.vue') },
-      { path: 'change-info', component: () => import('pages/ChangeInfo.vue') },
-      { path: 'write-post', component: () => import('pages/WritePost.vue') },
-    ],
-  },
-  {
-    path: '/admin',
-    component: () => import('layouts/AdminLayout.vue'),
-    children: [
-      { path: '', component: () => import('pages/Users.vue') },
-    ],
-  },
-  {
-    path: '/login',
     component: () => import('layouts/PlainLayout.vue'),
+    // component: () => import('layouts/MainLayout.vue'),
     children: [
-      { path: '', component: () => import('pages/Login.vue') },
+      { path: '', component: () => import('src/pages/Temp.vue') },
+      // { path: '', component: () => import('pages/Forumns.vue') },
+      // { path: 'forumns', component: () => import('pages/Forumns.vue') },
+      // { path: 'hot-focus', component: () => import('pages/HotFocus.vue') },
+      // { path: 'buddies-deal', component: () => import('pages/BuddiesDeal.vue') },
+      // { path: 'special-offer', component: () => import('pages/SpecialOffer.vue') },
+      // { path: 'change-info', component: () => import('pages/ChangeInfo.vue') },
+      // { path: 'write-post', component: () => import('pages/WritePost.vue') },
     ],
   },
-  {
-    path: '/register',
-    component: () => import('layouts/PlainLayout.vue'),
-    children: [
-      { path: '', component: () => import('pages/Register.vue') },
-    ],
-  },
-  {
-    path: '/reset-password',
-    component: () => import('layouts/PlainLayout.vue'),
-    children: [
-      { path: '', component: () => import('pages/ResetPassword.vue') },
-    ],
-  },
+  // {
+  //   path: '/admin',
+  //   component: () => import('layouts/AdminLayout.vue'),
+  //   children: [
+  //     { path: '', component: () => import('pages/Users.vue') },
+  //   ],
+  // },
+  // {
+  //   path: '/login',
+  //   component: () => import('layouts/PlainLayout.vue'),
+  //   children: [
+  //     { path: '', component: () => import('pages/Login.vue') },
+  //   ],
+  // },
+  // {
+  //   path: '/register',
+  //   component: () => import('layouts/PlainLayout.vue'),
+  //   children: [
+  //     { path: '', component: () => import('pages/Register.vue') },
+  //   ],
+  // },
+  // {
+  //   path: '/reset-password',
+  //   component: () => import('layouts/PlainLayout.vue'),
+  //   children: [
+  //     { path: '', component: () => import('pages/ResetPassword.vue') },
+  //   ],
+  // },
 
   // Always leave this as last one,
   // but you can also remove it
