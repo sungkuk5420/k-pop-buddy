@@ -89,10 +89,6 @@ export default {
       const thisObj= this;
       
       var v = grecaptcha.getResponse();
-      if (v.length ==0) {
-        thisObj.localErrorMessage = "Please check reCAPTCHA."
-        return false;
-      } 
       if(this.localNickname == ""){
         thisObj.localErrorMessage = "Please enter your nickname."
         return false
@@ -103,6 +99,14 @@ export default {
       }
       if(this.password == ""){
         thisObj.localErrorMessage = "Please enter your password."
+        return false
+      }
+      if (v.length ==0) {
+        thisObj.localErrorMessage = "Please check reCAPTCHA."
+        return false;
+      } 
+      if(this.agree == false){
+        thisObj.localErrorMessage = "Please agree terms and privacy policy."
         return false
       }
       createUserWithEmailAndPassword(auth, this.localEmail, this.password)
