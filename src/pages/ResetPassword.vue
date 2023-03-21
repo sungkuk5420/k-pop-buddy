@@ -2,8 +2,10 @@
   <q-page class="reset-password-page">
     <div class="container">
       <div class="title-1">Kbeauty Buddie</div>
-      <div class="title-2">비밀번호 찾으실 이메일을 알려주세요.</div>
-      <div class="sub-title">임시 비밀번호가 가입한 이메일로 발급됩니다.</div>
+      <!-- <div class="title-2">비밀번호 찾으실 이메일을 알려주세요.</div> -->
+      <div class="title-2">Please enter your email address.</div>
+      <!-- <div class="sub-title">임시 비밀번호가 가입한 이메일로 발급됩니다.</div> -->
+      <div class="sub-title">New password will be sent to your email address.</div>
       <div class="label">E-mail</div>
         <q-input
           autoComplete="new-password"
@@ -14,7 +16,7 @@
           lazy-rules
         />
       <div  class="error-message" v-show="localErrorMessage">{{ localErrorMessage }}</div>
-      <q-btn label="send Reset Password E-mail"  class="login-button" @click="resetPassword" />
+      <q-btn label="Send Email"  class="login-button" @click="resetPassword" />
     </div>
   </q-page>
 </template>

@@ -2,8 +2,10 @@
   <q-page class="register-page">
     <div class="container">
       <div class="title-1">Kbeauty Buddie</div>
-      <div class="title-2">만나서 반가워요 👋🏻  </div>
-      <div class="sub-title">간단하게 계정을 생성하고, 이야기를 시작해보세요!</div>
+      <!-- <div class="title-2">만나서 반가워요 👋🏻  </div> -->
+      <div class="title-2">Nice to meet you 👋🏻  </div>
+      <!-- <div class="sub-title">간단하게 계정을 생성하고, 이야기를 시작해보세요!</div> -->
+      <div class="sub-title">Please make your account to start communication</div>
       <div class="label">Nickname</div>
         <q-input
           autoComplete="new-password"
@@ -102,11 +104,11 @@ export default {
         return false
       }
       if (v.length ==0) {
-        thisObj.localErrorMessage = "Please check reCAPTCHA."
+        thisObj.localErrorMessage = "Please check 'I am not a robot'."
         return false;
       } 
       if(this.agree == false){
-        thisObj.localErrorMessage = "Please agree terms and privacy policy."
+        thisObj.localErrorMessage = "Please check the the box above to proceed."
         return false
       }
       createUserWithEmailAndPassword(auth, this.localEmail, this.password)

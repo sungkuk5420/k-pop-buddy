@@ -2,8 +2,10 @@
   <q-page class="login-page">
     <div class="container">
       <div class="title-1">Kbeauty Buddie</div>
-      <div class="title-2">커뮤니티에 오신 것을 환영해요 👋🏻 </div>
-      <div class="sub-title">계정에 로그인하고 이야기를 시작해보세요!</div>
+      <!-- <div class="title-2">커뮤니티에 오신 것을 환영해요 👋🏻 </div> -->
+      <div class="title-2">Welcome to the community👋🏻 </div>
+      <!-- <div class="sub-title">계정에 로그인하고 이야기를 시작해보세요!</div> -->
+      <div class="sub-title">Please login to start communication!</div>
       <div class="label">E-mail</div>
         <q-input
         style="width:100%;"
