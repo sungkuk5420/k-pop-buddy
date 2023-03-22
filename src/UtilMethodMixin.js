@@ -1,4 +1,5 @@
 import { mapGetters } from "vuex";
+import { getDatabase, ref, set, child, get } from 'firebase/database';
 let UtilMethodMixin = {
     methods: {
         getAvatarIsDefault() {
@@ -41,6 +42,40 @@ let UtilMethodMixin = {
             var today = new Date(timestamp) // -> 타임스탬프를 넣어주면 날짜로 변환
             today.setHours(today.getHours() + 9);
             return today.toISOString().replace('T', ' ').substring(0, 19)
+        },
+
+        getUserProfile(uid) {
+            return new Promise(resolve => {
+                setTimeout(async () => {
+                    if (!window.users) {
+                        window.users = [];
+                    }
+                    const currentUser = window.users.filter(user => user.uid === uid)[0]
+                    if (!currentUser) {
+                        const dbRef = ref(getDatabase());
+                        await get(child(dbRef, `users/${uid}`))
+                            .then((snapshot) => {
+                                if (snapshot.exists()) {
+                                    // console.log(snapshot.val());
+                                    const data2 = snapshot.val();
+                                    window.users.push({
+                                        ...data2,
+                                        uid
+                                    })
+                                    resolve({
+                                        ...data2,
+                                        uid
+                                    })
+                                }
+                            })
+                            .catch((error) => {
+                                console.error(error);
+                            });
+                    } else {
+                        resolve(currentUser)
+                    }
+                }, 0);
+            })
         }
     }
 };

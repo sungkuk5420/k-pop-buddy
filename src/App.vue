@@ -33,7 +33,7 @@ export default {
                 thisObj.$store.dispatch(T.SET_LOGIN_USER_INFO, {
                   ...data,
                   email: user.email,
-                  uid: user.uid,
+                  uid: uid,
                 });
               }
             })

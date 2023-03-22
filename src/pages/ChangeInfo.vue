@@ -56,14 +56,14 @@ export default {
       console.log(this.model)
       const imageType = this.model.type.indexOf('png')!=-1? 'png':'jpg';
       const storage = getStorage();
-      const storageRef = ref(storage, this.loginUser.uid+'/avatar.'+imageType );
+      const storageRef = ref(storage, this.loginUser.uid+'/avatar' );
       const thisObj = this;
       thisObj.showLoading()
       // 'file' comes from the Blob or File API
       uploadBytes(storageRef, this.model).then((snapshot) => {
         console.log('Uploaded a blob or file!');
         const storage = getStorage();
-        getDownloadURL(ref(storage, this.loginUser.uid+'/avatar.'+imageType))
+        getDownloadURL(ref(storage, this.loginUser.uid+'/avatar'))
           .then((url) => {
             // `url` is the download URL for 'images/stars.jpg'
             console.log(url)

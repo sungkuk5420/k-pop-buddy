@@ -117,10 +117,10 @@ export default {
           });
       };
       const db = getDatabase();
-      set(ref(db, 'post/' + postUid), {
+      set(ref(db, 'posts/' + postUid), {
         postUid:postUid,
         content: thisObj.text,
-        writer: {...thisObj.loginUser},
+        writer: thisObj.loginUser.uid,
         createdAt: thisObj.createNowTime(),
         filePaths
       })
@@ -140,7 +140,6 @@ export default {
     },
     handleChange({ fileList }) {
       this.fileList = fileList.filter(i=>i.type === 'image/jpg'||i.type === 'image/jpeg'||i.type === 'image/png');
-      console.log(fileList)
     },
     beforeUpload(file) {
       const isJpgOrPng = file.type === 'image/jpg' || file.type === 'image/jpeg' || file.type === 'image/png';
