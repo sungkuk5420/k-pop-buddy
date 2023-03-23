@@ -26,16 +26,16 @@
             <span style="font-weight: bold; margin-right: 5px;">Services list / Details of the service</span>
           </q-item>
           <q-item clickable v-ripple>
-            <span style="font-weight: bold; margin-right: 5px;">Private 1:1 online consultation</span>
-            <span>( per half hour / kakaoTalk or WhatsApp )</span>
+            <span style="font-weight: bold; margin-right: 5px;">Online consultation & market research </span>
+            <span>( per half hour / KAKAO or WhatsApp )</span>
           </q-item>
           <q-item clickable v-ripple>
-            <span style="font-weight: bold; margin-right: 5px;">In-depth clinic investigation</span>
-            <span>( per clinic / Provide the report )</span>
+            <span style="font-weight: bold; margin-right: 5px;">Clinic investigating </span>
+            <span>( per clinic / Provide report on the clinic )</span>
           </q-item>
           <q-item clickable v-ripple>
             <span style="font-weight: bold; margin-right: 5px;">Interpretation and price negotiation(counseling day)</span>
-            <span>( per hour / incentive / Provide consultation report )</span>
+            <span>( per hour / XX% of the negotiated difference / provide report on the consultation )</span>
           </q-item>
           <q-item clickable v-ripple>
             <span style="font-weight: bold; margin-right: 5px;">Interpretation(surgery day) & CCTV check</span>
@@ -46,16 +46,16 @@
             <span>( per hour / by car / Support for getting medication )</span>
           </q-item>
           <q-item clickable v-ripple>
-            <span style="font-weight: bold; margin-right: 5px;">Interpretation and support(last follow up day) </span>
+            <span style="font-weight: bold; margin-right: 5px;">Interpretation and support(last follow up day)</span>
             <span>( per hour / last follow up day / issuance of medical records and check the records )</span>
           </q-item>
           <q-item clickable v-ripple>
-            <span style="font-weight: bold; margin-right: 5px;">Side effect counseling, dispute counseling (online) </span>
-            <span>( per half hour / kakaoTalk or WhatsApp )</span>
+            <span style="font-weight: bold; margin-right: 5px;">Postoperative counseling(botched), dispute counseling </span>
+            <span>( per half hour / KAKAO or WhatsApp )</span>
           </q-item>
           <q-item clickable v-ripple>
             <span style="font-weight: bold; margin-right: 5px;">Implementation of Dispute Resolution </span>
-            <span>( Solution offer / Solution execution / Mediation with clinic )</span>
+            <span>( Solution offer / Solution execution / Mediation with clinic / Mandatory issuance required )</span>
           </q-item>
         </q-list>
       </div>
@@ -115,18 +115,18 @@ export default {
       data: [
         {
           name: 'Services list',
-          column1: 'Private 1:1 online consultation',
-          column2: 'per half hour / kakaoTalk or WhatsApp',
+          column1: 'Online consultation & market research ',
+          column2: 'per half hour / KAKAO or WhatsApp',
         },
         {
           name: 'Services list',
-          column1: 'In-depth clinic investigation',
-          column2: 'per clinic / Provide the report',
+          column1: 'Clinic investigating',
+          column2: 'per clinic / Provide report on the clinic',
         },
         {
           name: 'Services list',
           column1: 'Interpretation and price negotiation(counseling day)',
-          column2: 'per hour / incentive / Provide consultation report',
+          column2: 'per hour / XX% of the negotiated difference / provide report on the consultation',
         },
         {
           name: 'Services list',
@@ -140,18 +140,18 @@ export default {
         },
         {
           name: 'Services list',
-          column1: 'Interpretation and support(last follow up day) ',
+          column1: 'Interpretation and support(last follow up day)',
           column2: 'per hour / last follow up day / issuance of medical records and check the records',
         },
         {
           name: 'Services list',
-          column1: 'Side effect counseling, dispute counseling (online) ',
-          column2: 'per half hour / kakaoTalk or WhatsApp',
+          column1: 'Postoperative counseling(botched), dispute counseling ',
+          column2: 'per half hour / KAKAO or WhatsApp',
         },
         {
           name: 'Services list',
           column1: 'Implementation of Dispute Resolution ',
-          column2: 'Solution offer / Solution execution / Mediation with clinic',
+          column2: 'Solution offer / Solution execution / Mediation with clinic / Mandatory issuance required',
         },
       ],
     }
@@ -224,7 +224,7 @@ export default {
       word-break: normal;
     }
     .q-list{
-      width: 870px;
+      width: 930px;
     }
   }
 
