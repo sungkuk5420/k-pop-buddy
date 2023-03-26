@@ -1,7 +1,9 @@
 <template>
   <q-page class="reset-password-page">
     <div class="container">
-      <div class="title-1">Kbeauty Buddie</div>
+      <div class="title-1">
+        <img src="~assets/logo.png" alt="">
+      </div>
       <!-- <div class="title-2">비밀번호 찾으실 이메일을 알려주세요.</div> -->
       <div class="title-2">Please enter your email address.</div>
       <!-- <div class="sub-title">임시 비밀번호가 가입한 이메일로 발급됩니다.</div> -->
