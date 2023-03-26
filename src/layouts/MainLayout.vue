@@ -12,7 +12,7 @@
               style="color: #ddd;"
               class="main-tabs is-desktop-show"
             >
-              <q-tab name="forums"  @click="$router.push('/forumns')" label="Forums" no-caps/>
+              <q-tab name="forums"  @click="$router.push('/forums')" label="Forums" no-caps/>
               <q-tab name="hotFocus"  @click="$router.push('/hot-focus')" label="HOT Focus" no-caps/>
               <q-tab name="buddiesDeal"  @click="$router.push('/buddies-deal')" label="Buddies Deal" no-caps/>
               <q-tab name="specialOffer"  @click="$router.push('/special-offer')" label="Special Offer" no-caps/>

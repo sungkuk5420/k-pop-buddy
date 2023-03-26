@@ -12,14 +12,14 @@ const routes = [
     path: '/app',
     component: () => import('layouts/MainLayout.vue'),
     children: [
-      { path: '', component: () => import('pages/Forumns.vue') },
+      { path: '', component: () => import('pages/Forums.vue') },
     ],
   },
   {
-    path: '/forumns',
+    path: '/forums',
     component: () => import('layouts/MainLayout.vue'),
     children: [
-      { path: '', component: () => import('pages/Forumns.vue') },
+      { path: '', component: () => import('pages/Forums.vue') },
     ],
   },
   {

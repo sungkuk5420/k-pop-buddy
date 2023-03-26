@@ -1,8 +1,32 @@
 <template>
-    <q-page class="flex items-start justify-center">
+    <q-page class="forums-page">
+      <div class="forums-page__left is-desktop-show">
+        <div class="forums-page__title">Forums</div>
+        <div class="forums-page__left__menu">
+          <div class="forums-page__left__menu__title">
+            ALL
+          </div>
+          <div class="forums-page__left__menu__button">
+            <span>IDOL Group(BOY) </span>
+            <span class="forums-page__left__menu__button__count"> (11)</span>
+          </div>
+          <div class="forums-page__left__menu__button">
+            <span>IDOL Group(Girl)</span>
+            <span class="forums-page__left__menu__button__count"> (4)</span>
+          </div>
+          <div class="forums-page__left__menu__button">
+            <span>IDOL Group(Solo)</span>
+            <span class="forums-page__left__menu__button__count"> (574)</span>
+          </div>
+        </div>
+        <div style="margin-top: 16px;">
+          <img src="~assets/banner-pc.png" alt="">
+        </div>
+      </div>
+      <div class="forums-page__right"></div>
     <div class="flex column">
     <q-list bordered class="rounded-borders" style="max-width: 350px">
-      <q-item-label header>Forumns</q-item-label>
+      <q-item-label header>Forums</q-item-label>
       <q-separator inset="item" />
       <q-item clickable v-ripple v-for="(item,index) in allPosts" :key="index">
         <q-item-section avatar>
@@ -90,8 +114,64 @@ export default {
 };
 </script>
 
-<style>
-.page-name{
+<style lang="scss">
+.forums-page{
+  display: flex; 
+  justify-content: center;
+  background: #F8F8F8;
   
+  &__left{
+    padding: 24px 0;
+    width: 240px;
+    margin-right: 36px;
+    &__menu{
+      margin-top: 12px;
+      background: white;
+      width: 200px;
+      height: 200px;
+      padding: 12px 0;
+      &>div{
+        padding: 0 22px;
+        height: 43px;
+        font-family: Spoqa Han Sans Neo;
+        font-size: 12px;
+        font-weight: 500;
+        line-height: 15px;
+        letter-spacing: 0em;
+        text-align: left;
+        display: flex;
+        justify-content: flex-start;
+        align-items: center;
+        &:not(.forums-page__left__menu__title):hover{
+          cursor: pointer;
+          background: #ddd;
+          opacity: 0.8;
+        }
+      }
+      &__button{
+        &__count{
+          font-family: Spoqa Han Sans Neo;
+          font-size: 12px;
+          font-weight: 400;
+          line-height: 15px;
+          letter-spacing: 0em;
+          text-align: left;
+          margin-left: 4px;
+          color: #999;
+        }
+      }
+    }
+  }
+  &__title{
+    font-family: Spoqa Han Sans Neo;
+    font-size: 16px;
+    font-weight: 700;
+    line-height: 24px;
+    letter-spacing: 0em;
+    text-align: left;
+  }
+  &__right{
+    padding: 24px 0;;
+  }
 }
 </style>

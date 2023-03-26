@@ -2,7 +2,7 @@
   <q-page class="flex flex-center">
     
       <q-tabs align="left" class="top-header-tabs">
-        <q-route-tab to="/forumns" label="Forumns" />
+        <q-route-tab to="/forums" label="Forums" />
         <q-route-tab to="/hot-focus" label="HOT focus" />
         <q-route-tab to="/buddies-deal" label="Buddies Deal" />
         <q-route-tab to="/special-offer" label="Special Offer" />
