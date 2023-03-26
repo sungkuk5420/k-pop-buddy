@@ -5,7 +5,7 @@
         <div class="main-header__left">
           <q-toolbar>
             <q-btn flat @click="leftDrawerOpen = !leftDrawerOpen" round dense icon="menu" class="hamburger-button is-mobile-show" />
-            <img src="~assets/logo.png" alt="" style="cursor: pointer;" @click="$router.push('/')">
+            <img src="~assets/logo.png" alt="" style="cursor: pointer;" @click="$router.push('/app')">
             <q-tabs
               v-model="tab"
               indicator-color="transparent"
@@ -41,14 +41,12 @@
       content-class="bg-grey-1"
     > 
       <q-list>
-        <q-item-label header class="text-grey-8">
-          Essential Links
+        <q-item-label header class="text-grey-8" @click="$router.push('/login')">
+          login
         </q-item-label>
-        <EssentialLink
-          v-for="link in essentialLinks"
-          :key="link.title"
-          v-bind="link"
-        />
+        <q-item-label header class="text-grey-8" @click="$router.push('/register')">
+          register
+        </q-item-label>
       </q-list>
     </q-drawer>
 
