@@ -65,6 +65,11 @@ export default {
       const storage = getStorage();
       // Upload file and metadata to the object 'images/mountains.jpg'
       let filePaths = [];
+      if(!this.loginUser){
+        this.errorMessage("로그인한 사용자만 작성할 수 있습니다.");
+        console.log("error")
+        return false;
+      }
       const postUid = uid().replace("-","").slice(0,12)
       for (const currentFile of this.fileList) {
           await new Promise(resolve2 => {

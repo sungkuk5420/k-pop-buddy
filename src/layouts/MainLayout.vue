@@ -1,29 +1,45 @@
 <template>
   <q-layout view="lHh Lpr lFf">
 
-      <q-header elevated class="bg-primary text-white" height-hint="98">
-        <q-toolbar>
-          <q-toolbar-title style="cursor: pointer;" @click="$router.push('/')">
-            My gangnam insider
-          </q-toolbar-title>
-          
-          <q-avatar v-if="loginUser&&!loginUser.avatar"  @click="$router.push('/change-info')" square color="red" text-color="white" class="q-mr-md">{{ loginUser?loginUser.nickname.slice(0, 1).toUpperCase():''}}</q-avatar>
+      <q-header elevated class="main-header" height-hint="98">
+        <div class="main-header__left">
+          <q-toolbar>
+            <q-btn flat @click="leftDrawerOpen = !leftDrawerOpen" round dense icon="menu" class="hamburger-button" />
+            <img src="~assets/logo.png" alt="" style="cursor: pointer;" @click="$router.push('/')">
+            <q-tabs
+              v-model="tab"
+              indicator-color="transparent"
+              style="color: #ddd;"
+              class="main-tabs"
+            >
+              <q-tab name="forums"  label="Forums" no-caps/>
+              <q-tab name="hotFocus"  label="HOT Focus" no-caps/>
+              <q-tab name="buddiesDeal"  label="Buddies Deal" no-caps/>
+              <q-tab name="specialOffer"  label="Special Offer" no-caps/>
+            </q-tabs>
+  
+  
+
+          </q-toolbar>
+        </div>
+        <div class="main-header__right">
+          <!-- <q-avatar v-if="loginUser&&!loginUser.avatar"  @click="$router.push('/change-info')" square color="red" text-color="white" class="q-mr-md">{{ loginUser?loginUser.nickname.slice(0, 1).toUpperCase():''}}</q-avatar>
           <q-avatar v-if="loginUser&&loginUser.avatar" @click="$router.push('/change-info')"  square color="red" text-color="white" class="q-mr-md">
             <img :src="loginUser.avatar" alt="" srcset="">  
-          </q-avatar>
+          </q-avatar> -->
 
-          <q-btn label="Log in" color="white" text-color="black" class="q-mr-lg" v-if="!loginUser" @click="$router.push('/login')"></q-btn>
-          <q-btn label="Log out" color="white" text-color="black" class="q-mr-lg" v-if="loginUser" @click="logout"></q-btn>
-          <q-btn label="Register" color="white" text-color="black" v-if="!loginUser" @click="$router.push('/register')"></q-btn>
-        </q-toolbar>
+          <q-btn class="login-button " label="Login" flat  no-caps v-if="!loginUser" @click="$router.push('/login')"></q-btn>
+          <q-btn class="logout-button " label="Logout" flat no-caps v-if="loginUser" @click="logout"></q-btn>
+          <q-btn class="register-button" label="Register" no-caps v-if="!loginUser" @click="$router.push('/register')"></q-btn>
+        </div>
+
       </q-header>
 
-    <!-- <q-drawer
+    <q-drawer
       v-model="leftDrawerOpen"
-      show-if-above
       bordered
       content-class="bg-grey-1"
-    >
+    > 
       <q-list>
         <q-item-label header class="text-grey-8">
           Essential Links
@@ -34,9 +50,22 @@
           v-bind="link"
         />
       </q-list>
-    </q-drawer> -->
+    </q-drawer>
 
     <q-page-container>
+      <!-- <q-list
+            v-if="hamburgerOpen"
+            dense
+            bordered
+            padding
+            class="rounded-borders h-nav"
+          >
+            <q-item clickable v-ripple>
+              <q-item-section>
+                Slotted
+              </q-item-section>
+            </q-item>
+          </q-list> -->
       <router-view />
     </q-page-container>
   </q-layout>
@@ -98,7 +127,9 @@ export default {
   },
   data() {
     return {
-      leftDrawerOpen: false,
+      tab: 'forums',
+      hamburgerOpen:false,
+      leftDrawerOpen:false
     };
   },
   computed: {
@@ -175,5 +206,89 @@ display: none;
   margin-right: 20px;
   background-color: #ef5350;
   color: #ff8a80;
+}
+
+.main-header{
+  background: white;
+  color: #333;
+  border-bottom: 1px solid #ddd;
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+
+  .q-tabs{
+    //styleName: Subtitle3;
+    margin-left: 28px;
+    
+    .q-tab--active{
+      color:#366EB5 !important;
+    }
+    .q-tab-label{
+      font-family: Spoqa Han Sans Neo;
+      font-size: 14px;
+      font-weight: 700;
+      line-height: 20px;
+      letter-spacing: 0em;
+      text-align: left;
+    }
+  }
+
+  .login-button{
+    //styleName: Caption1;
+    font-family: Spoqa Han Sans Neo;
+    font-size: 12px;
+    font-weight: 400;
+    line-height: 18px;
+    letter-spacing: 0em;
+    text-align: left;
+    box-shadow: none;
+    margin-right: 24px;
+
+  }
+  .register-button{
+    //styleName: Subtitle4;
+    font-family: Spoqa Han Sans Neo;
+    font-size: 12px;
+    line-height: 18px;
+    letter-spacing: 0em;
+    text-align: left;
+    color: white;
+    background: #366EB5;
+  }
+}
+@media only screen and (max-width: 1079px) {
+  /* For mobile: */
+  .main-tabs,
+  .logout-button,
+  .register-button,
+  .login-button{
+    display: none;
+  }
+  .main-header{
+    justify-content: flex-start;
+    &__left{
+      width: 100%;
+      .q-toolbar{
+        display: flex;
+        justify-content: center;
+        .hamburger-button{
+          position: absolute;
+          left: 12px;
+        }
+      }
+    }
+  }
+
+  .q-header{
+    img{
+    }
+  }
+}
+
+@media only screen and (min-width: 1080px) {
+  /* For desktop: */
+  .hamburger-button{
+    display: none;
+  }
 }
 </style>
