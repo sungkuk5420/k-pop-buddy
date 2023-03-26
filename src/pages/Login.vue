@@ -1,8 +1,10 @@
 <template>
   <q-page class="login-page">
     <div class="header is-mobile-show">
-      <div class="header__left">
-        <img src="~assets/back.png" alt="">
+      <div class="header__left" @click="$router.go(-1)">
+        <q-btn flat>
+          <img src="~assets/back.png" alt="" >
+        </q-btn>
       </div>
       <div class="header__center">
         <span class="header__center__text">

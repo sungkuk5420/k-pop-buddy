@@ -1,5 +1,18 @@
 <template>
   <q-page class="register-page">
+    <div class="header is-mobile-show">
+      <div class="header__left" @click="$router.go(-1)">
+        <q-btn flat>
+          <img src="~assets/back.png" alt="" >
+        </q-btn>
+      </div>
+      <div class="header__center">
+        <span class="header__center__text">
+          Join us
+        </span>
+      </div>
+      <div class="header__right"></div>
+    </div>
     <div class="container">
       <div class="title-1">
         <img src="~assets/logo.png" alt="">
@@ -312,5 +325,20 @@ export default {
     margin-bottom: 19px;
 
   }
+}
+
+@media only screen and (max-width: 1079px) {
+  /* For mobile: */
+  .register-page{
+    padding: 0;
+    justify-content: flex-start;
+    .container{
+      padding: 24px;
+    }
+  }
+}
+
+@media only screen and (min-width: 1080px) {
+  /* For desktop: */
 }
 </style>

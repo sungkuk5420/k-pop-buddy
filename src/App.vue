@@ -86,6 +86,20 @@ export default {
     align-items: center;
   }
 }
+@media only screen and (max-width: 1079px) {
+  /* For mobile: */
+  .is-desktop-show{
+    display: none;
+  }
+}
+
+@media only screen and (min-width: 1080px) {
+  /* For desktop: */
+  .is-mobile-show{
+    display: none;
+  }
+}
+
 </style>
 
 <style>
