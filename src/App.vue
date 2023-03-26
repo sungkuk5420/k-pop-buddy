@@ -49,9 +49,42 @@ export default {
   }
 };
 </script>
-<style>
+<style lang="scss">
 #q-app{
   height: 100%;
+}
+.header{
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  border-bottom: 1px solid #ddd;
+  &__left{
+    width: 56px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  &__center{
+    display: flex;
+    align-items: center;
+    height: 56px;
+    &__text{
+      font-family: Spoqa Han Sans Neo;
+      font-size: 16px;
+      font-weight: 700;
+      line-height: 24px;
+      letter-spacing: 0em;
+      text-align: center;
+    }
+
+  }
+  &__right{
+    width: 56px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
 }
 </style>
 

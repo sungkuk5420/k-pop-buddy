@@ -1,7 +1,18 @@
 <template>
   <q-page class="login-page">
+    <div class="header is-mobile-show">
+      <div class="header__left">
+        <img src="~assets/back.png" alt="">
+      </div>
+      <div class="header__center">
+        <span class="header__center__text">
+          Login
+        </span>
+      </div>
+      <div class="header__right"></div>
+    </div>
     <div class="container">
-      <div class="title-1">
+      <div class="title-1 is-desktop-show">
         <img src="~assets/logo.png" alt="">
       </div>
       <!-- <div class="title-2">커뮤니티에 오신 것을 환영해요 👋🏻 </div> -->
@@ -235,5 +246,20 @@ export default {
     color: #2E5AFF;
     cursor: pointer;
   }
+}
+
+@media only screen and (max-width: 1079px) {
+  /* For mobile: */
+  .login-page{
+    padding: 0;
+    justify-content: flex-start;
+    .container{
+      padding: 24px;
+    }
+  }
+}
+
+@media only screen and (min-width: 1080px) {
+  /* For desktop: */
 }
 </style>
