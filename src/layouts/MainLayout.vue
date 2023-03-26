@@ -4,13 +4,13 @@
       <q-header elevated class="main-header" height-hint="98">
         <div class="main-header__left">
           <q-toolbar>
-            <q-btn flat @click="leftDrawerOpen = !leftDrawerOpen" round dense icon="menu" class="hamburger-button" />
+            <q-btn flat @click="leftDrawerOpen = !leftDrawerOpen" round dense icon="menu" class="hamburger-button is-mobile-show" />
             <img src="~assets/logo.png" alt="" style="cursor: pointer;" @click="$router.push('/')">
             <q-tabs
               v-model="tab"
               indicator-color="transparent"
               style="color: #ddd;"
-              class="main-tabs"
+              class="main-tabs is-desktop-show"
             >
               <q-tab name="forums"  @click="$router.push('/forumns')" label="Forums" no-caps/>
               <q-tab name="hotFocus"  @click="$router.push('/hot-focus')" label="HOT Focus" no-caps/>
@@ -28,9 +28,9 @@
             <img :src="loginUser.avatar" alt="" srcset="">  
           </q-avatar> -->
 
-          <q-btn class="login-button " label="Login" flat  no-caps v-if="!loginUser" @click="$router.push('/login')"></q-btn>
-          <q-btn class="logout-button " label="Logout" flat no-caps v-if="loginUser" @click="logout"></q-btn>
-          <q-btn class="register-button" label="Register" no-caps v-if="!loginUser" @click="$router.push('/register')"></q-btn>
+          <q-btn class="login-button is-desktop-show" label="Login" flat  no-caps v-if="!loginUser" @click="$router.push('/login')"></q-btn>
+          <q-btn class="logout-button is-desktop-show" label="Logout" flat no-caps v-if="loginUser" @click="logout"></q-btn>
+          <q-btn class="register-button is-desktop-show" label="Register" no-caps v-if="!loginUser" @click="$router.push('/register')"></q-btn>
         </div>
 
       </q-header>
@@ -258,10 +258,7 @@ display: none;
 }
 @media only screen and (max-width: 1079px) {
   /* For mobile: */
-  .main-tabs,
-  .logout-button,
-  .register-button,
-  .login-button{
+  .is-desktop-show{
     display: none;
   }
   .main-header{
@@ -287,7 +284,7 @@ display: none;
 
 @media only screen and (min-width: 1080px) {
   /* For desktop: */
-  .hamburger-button{
+  .is-mobile-show{
     display: none;
   }
 }
