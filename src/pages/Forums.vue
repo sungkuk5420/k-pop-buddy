@@ -4,7 +4,7 @@
         <div class="forums-page__left is-desktop-show">
           <div class="forums-page__title">Forums</div>
           <div class="forums-page__left__menu">
-            <div class="forums-page__left__menu__title">
+            <div class="forums-page__left__menu__button">
               ALL
             </div>
             <div class="forums-page__left__menu__button">
@@ -26,10 +26,27 @@
           <q-btn label="write post" no-caps @click="$router.push('/write-post')"></q-btn>
         </div>
         <div class="forums-page__right">
+          <div class="tab-scroll is-mobile-show">
+            <q-tabs
+              v-model="tab"
+              active-class="is-active"
+              class=" mobile-tab"
+            >
+              <q-tab name="all" label="ALL" no-caps />
+              <q-tab name="boy" label="IDOL Group(BOY)" no-caps />
+              <q-tab name="girl"  label="IDOL Group(Girl)" no-caps />
+              <q-tab name="solo"  label="IDOL Group(Solo)" no-caps />
+            </q-tabs>
+          </div>
+          <img src="~assets/banner-mobile.png" alt="" class="is-mobile-show" style="width: 100%;">
           <div class="forums-page__right__title">
             <div class="forums-page__title">IDOL Group(Boy)</div>
             <div class="forums-page__see-all">See All</div>
           </div>
+
+          <div class="empty-list" v-show="boyPosts.length==0">
+              There are no articles written.
+            </div>
           <q-list class="list">
             <q-item clickable v-ripple v-for="(item,index) in boyPosts" :key="index">
               <q-item-section avatar class="list-avatar is-desktop-show">
@@ -135,6 +152,9 @@
             <div class="forums-page__see-all">See All</div>
           </div>
           <q-list class="list">
+            <div class="empty-list" v-show="girlPosts.length==0">
+              There are no articles written.
+            </div>
             <q-item clickable v-ripple v-for="(item,index) in girlPosts" :key="index">
               <q-item-section avatar class="list-avatar is-desktop-show">
                 <q-avatar v-if="item.writer&&!item.writer.avatar" color="red" text-color="white" class="q-mr-md">{{ item.writer?item.writer.nickname.slice(0, 1).toUpperCase():''}}</q-avatar>
@@ -239,6 +259,10 @@
             <div class="forums-page__see-all">See All</div>
           </div>
           <q-list class="list">
+
+            <div class="empty-list" v-show="soloPosts.length==0">
+              There are no articles written.
+            </div>
             <q-item clickable v-ripple v-for="(item,index) in soloPosts" :key="index">
               <q-item-section avatar class="list-avatar is-desktop-show">
                 <q-avatar v-if="item.writer&&!item.writer.avatar" color="red" text-color="white" class="q-mr-md">{{ item.writer?item.writer.nickname.slice(0, 1).toUpperCase():''}}</q-avatar>
@@ -349,20 +373,20 @@
 import ComputedMixin from "../ComputedMixin";
 import UtilMethodMixin from "../UtilMethodMixin";
 import { getDatabase, ref, set, child, get } from 'firebase/database';
-import { promised } from "q";
 export default {
   mixins: [ComputedMixin, UtilMethodMixin],
   data(){
     return{
+      tab:"all",
       allPosts:[],
       boyPosts:[],
       girlPosts:[],
-      solorPosts:[],
+      soloPosts:[],
     }
   },
   mounted() {
     // this.showLoading();
-    this.getPosts();
+      this.getPosts();
   },
   methods:{
     
@@ -509,6 +533,21 @@ export default {
     }
   }
 
+  .empty-list{
+    width: 100%;
+    height: 150px;
+    background: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: Spoqa Han Sans Neo;
+    font-size: 14px;
+    font-weight: 700;
+    line-height: 20px;
+    letter-spacing: 0em;
+    text-align: center;
+    color: #999;
+  }
   .q-list{
     width: 100%;
     background :white;
@@ -640,6 +679,9 @@ export default {
     .contianer{
       padding: 0;
     }
+    .forums-page__right{
+      width: 100%;
+    }
     .forums-page__title{
       margin-left: 24px;
     }
@@ -751,6 +793,27 @@ export default {
           color: #999;
 
         }
+      }
+    }
+    .tab-scroll{
+      width: 100%;
+      overflow: auto;
+      display: flex;
+      .q-tab{
+        color: #000;
+        font-family: Spoqa Han Sans Neo;
+        font-size: 12px;
+        font-weight: 500;
+        line-height: 15px;
+        letter-spacing: 0em;
+        text-align: left;
+
+        &.q-tab--active{
+          color: #1C579F;
+        }
+      }
+      .q-tab__indicator{
+        display: none;
       }
     }
   }
