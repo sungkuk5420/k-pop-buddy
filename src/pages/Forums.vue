@@ -26,17 +26,21 @@
           <q-btn label="write post" no-caps @click="$router.push('/write-post')"></q-btn>
         </div>
         <div class="forums-page__right">
-
-  
-          <div class="flex items-center" style="margin-bottom: 12px;">
+          <div class="forums-page__right__title">
             <div class="forums-page__title">IDOL Group(Boy)</div>
             <div class="forums-page__see-all">See All</div>
           </div>
           <q-list class="list">
             <q-item clickable v-ripple v-for="(item,index) in boyPosts" :key="index">
-              <q-item-section avatar class="list-avatar">
+              <q-item-section avatar class="list-avatar is-desktop-show">
                 <q-avatar v-if="item.writer&&!item.writer.avatar" color="red" text-color="white" class="q-mr-md">{{ item.writer?item.writer.nickname.slice(0, 1).toUpperCase():''}}</q-avatar>
                 <q-avatar v-if="item.writer&&item.writer.avatar" color="red" text-color="white" class="q-mr-md">
+                  <img :src="item.writer.avatar" alt="" srcset="">
+                </q-avatar>
+              </q-item-section>
+              <q-item-section avatar class="list-avatar is-mobile-show" style="width:45px; min-width:45px; margin-right: 16px;">
+                <q-avatar v-if="item.writer&&!item.writer.avatar" color="red" text-color="white" >{{ item.writer?item.writer.nickname.slice(0, 1).toUpperCase():''}}</q-avatar>
+                <q-avatar v-if="item.writer&&item.writer.avatar" color="red" text-color="white" >
                   <img :src="item.writer.avatar" alt="" srcset="">
                 </q-avatar>
               </q-item-section>
@@ -48,9 +52,44 @@
                   <span style="margin:0 6px;" > | </span>
                   <span class="text-weight-bold">{{ convertedDateFormatEnglish(item.createdAt) }}</span>
                 </q-item-label>
+                <q-item-label class="mobile-list-view-replies-commenter is-mobile-show">
+                  <div class="list-view">
+                    <div class="list-view__title">
+                      Views
+                    </div>
+                    <div class="list-view__value">
+                      {{item.views}}
+                    </div>
+
+                  </div>
+                  <div class="spliter"></div>
+                  <div class="list-replies">
+                    <div class="list-replies__title">
+                      Replies
+                    </div>
+                    <div class="list-replies__value">
+                      {{item.replies}}
+                    </div>
+                  </div>
+                  <div class="spliter"></div>
+                  <div class="list-commenter">
+                    <div class="list-commenter__avater">
+                      <q-avatar v-if="item.lastCommentWriter&&!item.lastCommentWriter.avatar" color="red" text-color="white" class="q-mr-md">{{ item.lastCommentWriter?item.lastCommentWriter.nickname.slice(0, 1).toUpperCase():''}}</q-avatar>
+                      <q-avatar v-if="item.lastCommentWriter&&item.lastCommentWriter.avatar" color="red" text-color="white" class="q-mr-md">
+                        <img :src="item.lastCommentWriter.avatar" alt="" srcset="">
+                      </q-avatar>
+                    </div>
+                    <div class="list-commenter__nickname ellipsis">
+                      {{item.lastCommentWriter.nickname}}
+                    </div>
+                    <div class="list-commenter__created-at">
+                      {{timeSince(item.updatedAt)}}
+                    </div>
+                  </div>
+                </q-item-label>
               </q-item-section>
 
-              <q-item-section avatar class="list-view-replies-commenter">
+              <q-item-section avatar class="list-view-replies-commenter is-desktop-show">
                 <div class="list-view">
                   <div class="list-view__title">
                     Views
@@ -91,15 +130,21 @@
               </q-item-section>
             </q-item>
           </q-list>
-          <div class="flex items-center" style="margin-bottom: 12px;">
+          <div class="forums-page__right__title">
             <div class="forums-page__title">IDOL Group(Girl)</div>
             <div class="forums-page__see-all">See All</div>
           </div>
           <q-list class="list">
             <q-item clickable v-ripple v-for="(item,index) in girlPosts" :key="index">
-              <q-item-section avatar class="list-avatar">
+              <q-item-section avatar class="list-avatar is-desktop-show">
                 <q-avatar v-if="item.writer&&!item.writer.avatar" color="red" text-color="white" class="q-mr-md">{{ item.writer?item.writer.nickname.slice(0, 1).toUpperCase():''}}</q-avatar>
                 <q-avatar v-if="item.writer&&item.writer.avatar" color="red" text-color="white" class="q-mr-md">
+                  <img :src="item.writer.avatar" alt="" srcset="">
+                </q-avatar>
+              </q-item-section>
+              <q-item-section avatar class="list-avatar is-mobile-show" style="width:45px; min-width:45px; margin-right: 16px;">
+                <q-avatar v-if="item.writer&&!item.writer.avatar" color="red" text-color="white" >{{ item.writer?item.writer.nickname.slice(0, 1).toUpperCase():''}}</q-avatar>
+                <q-avatar v-if="item.writer&&item.writer.avatar" color="red" text-color="white" >
                   <img :src="item.writer.avatar" alt="" srcset="">
                 </q-avatar>
               </q-item-section>
@@ -111,9 +156,44 @@
                   <span style="margin:0 6px;" > | </span>
                   <span class="text-weight-bold">{{ convertedDateFormatEnglish(item.createdAt) }}</span>
                 </q-item-label>
+                <q-item-label class="mobile-list-view-replies-commenter is-mobile-show">
+                  <div class="list-view">
+                    <div class="list-view__title">
+                      Views
+                    </div>
+                    <div class="list-view__value">
+                      {{item.views}}
+                    </div>
+
+                  </div>
+                  <div class="spliter"></div>
+                  <div class="list-replies">
+                    <div class="list-replies__title">
+                      Replies
+                    </div>
+                    <div class="list-replies__value">
+                      {{item.replies}}
+                    </div>
+                  </div>
+                  <div class="spliter"></div>
+                  <div class="list-commenter">
+                    <div class="list-commenter__avater">
+                      <q-avatar v-if="item.lastCommentWriter&&!item.lastCommentWriter.avatar" color="red" text-color="white" class="q-mr-md">{{ item.lastCommentWriter?item.lastCommentWriter.nickname.slice(0, 1).toUpperCase():''}}</q-avatar>
+                      <q-avatar v-if="item.lastCommentWriter&&item.lastCommentWriter.avatar" color="red" text-color="white" class="q-mr-md">
+                        <img :src="item.lastCommentWriter.avatar" alt="" srcset="">
+                      </q-avatar>
+                    </div>
+                    <div class="list-commenter__nickname ellipsis">
+                      {{item.lastCommentWriter.nickname}}
+                    </div>
+                    <div class="list-commenter__created-at">
+                      {{timeSince(item.updatedAt)}}
+                    </div>
+                  </div>
+                </q-item-label>
               </q-item-section>
 
-              <q-item-section avatar class="list-view-replies-commenter">
+              <q-item-section avatar class="list-view-replies-commenter is-desktop-show">
                 <div class="list-view">
                   <div class="list-view__title">
                     Views
@@ -154,15 +234,21 @@
               </q-item-section>
             </q-item>
           </q-list>
-          <div class="flex items-center" style="margin-bottom: 12px;">
+          <div class="forums-page__right__title">
             <div class="forums-page__title">IDOL Group(Solo)</div>
             <div class="forums-page__see-all">See All</div>
           </div>
           <q-list class="list">
             <q-item clickable v-ripple v-for="(item,index) in soloPosts" :key="index">
-              <q-item-section avatar class="list-avatar">
+              <q-item-section avatar class="list-avatar is-desktop-show">
                 <q-avatar v-if="item.writer&&!item.writer.avatar" color="red" text-color="white" class="q-mr-md">{{ item.writer?item.writer.nickname.slice(0, 1).toUpperCase():''}}</q-avatar>
                 <q-avatar v-if="item.writer&&item.writer.avatar" color="red" text-color="white" class="q-mr-md">
+                  <img :src="item.writer.avatar" alt="" srcset="">
+                </q-avatar>
+              </q-item-section>
+              <q-item-section avatar class="list-avatar is-mobile-show" style="width:45px; min-width:45px; margin-right: 16px;">
+                <q-avatar v-if="item.writer&&!item.writer.avatar" color="red" text-color="white" >{{ item.writer?item.writer.nickname.slice(0, 1).toUpperCase():''}}</q-avatar>
+                <q-avatar v-if="item.writer&&item.writer.avatar" color="red" text-color="white" >
                   <img :src="item.writer.avatar" alt="" srcset="">
                 </q-avatar>
               </q-item-section>
@@ -174,9 +260,44 @@
                   <span style="margin:0 6px;" > | </span>
                   <span class="text-weight-bold">{{ convertedDateFormatEnglish(item.createdAt) }}</span>
                 </q-item-label>
+                <q-item-label class="mobile-list-view-replies-commenter is-mobile-show">
+                  <div class="list-view">
+                    <div class="list-view__title">
+                      Views
+                    </div>
+                    <div class="list-view__value">
+                      {{item.views}}
+                    </div>
+
+                  </div>
+                  <div class="spliter"></div>
+                  <div class="list-replies">
+                    <div class="list-replies__title">
+                      Replies
+                    </div>
+                    <div class="list-replies__value">
+                      {{item.replies}}
+                    </div>
+                  </div>
+                  <div class="spliter"></div>
+                  <div class="list-commenter">
+                    <div class="list-commenter__avater">
+                      <q-avatar v-if="item.lastCommentWriter&&!item.lastCommentWriter.avatar" color="red" text-color="white" class="q-mr-md">{{ item.lastCommentWriter?item.lastCommentWriter.nickname.slice(0, 1).toUpperCase():''}}</q-avatar>
+                      <q-avatar v-if="item.lastCommentWriter&&item.lastCommentWriter.avatar" color="red" text-color="white" class="q-mr-md">
+                        <img :src="item.lastCommentWriter.avatar" alt="" srcset="">
+                      </q-avatar>
+                    </div>
+                    <div class="list-commenter__nickname ellipsis">
+                      {{item.lastCommentWriter.nickname}}
+                    </div>
+                    <div class="list-commenter__created-at">
+                      {{timeSince(item.updatedAt)}}
+                    </div>
+                  </div>
+                </q-item-label>
               </q-item-section>
 
-              <q-item-section avatar class="list-view-replies-commenter">
+              <q-item-section avatar class="list-view-replies-commenter is-desktop-show">
                 <div class="list-view">
                   <div class="list-view__title">
                     Views
@@ -288,7 +409,6 @@ export default {
             thisObj.boyPosts = allPosts.slice(0,3)
             thisObj.girlPosts = allPosts.slice(3,6)
             thisObj.soloPosts = allPosts.slice(6,9)
-            debugger
           }
         })
         .catch((error) => {
@@ -364,6 +484,12 @@ export default {
   }
   &__right{
     flex: 1;
+    &__title{
+      display: flex;
+      align-items: center;
+      height: 40px;
+      margin-bottom: 4px;
+    }
     .forums-page__title{
       margin-right: 5px;
     }
@@ -431,6 +557,7 @@ export default {
       display: flex;
       flex-direction: row;
       align-items: center;
+      padding-left: 0;
       .spliter{
         display: flex;
         align-items: center;
@@ -504,5 +631,132 @@ export default {
     
   }
 
+}
+
+
+@media only screen and (max-width: 1079px) {
+  /* For mobile: */
+  .forums-page {
+    .contianer{
+      padding: 0;
+    }
+    .forums-page__title{
+      margin-left: 24px;
+    }
+    .q-item{
+      height: auto;
+      padding: 16 px;
+      .list-view-replies-commenter{
+        display: flex;
+        justify-content: flex-start ;
+        .list-view{
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          flex-direction: row;
+          .list-view__title{
+            margin-right: 8px;
+          }
+        }
+      }
+
+      .mobile-list-view-replies-commenter{
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        .spliter{
+          margin:0 8px;
+          width: 1px;
+          background: #999;
+          height: 11px;
+        }
+        .list-view{
+          display: flex;
+          align-items: center;
+          &__title{
+            font-family: Spoqa Han Sans Neo;
+            font-size: 10px;
+            font-weight: 700;
+            line-height: 12px;
+            letter-spacing: 0em;
+            text-align: left;
+            margin-right: 8px;
+            color: #999;
+          }
+          &__value{
+            font-family: Spoqa Han Sans Neo;
+            font-size: 12px;
+            font-weight: 700;
+            line-height: 18px;
+            letter-spacing: 0em;
+            text-align: left;
+            color: #333;
+          }
+        }
+        .list-replies{
+          display: flex;
+          align-items: center;
+          &__title{
+            font-family: Spoqa Han Sans Neo;
+            font-size: 10px;
+            font-weight: 700;
+            line-height: 12px;
+            letter-spacing: 0em;
+            text-align: left;
+            margin-right: 8px;
+            color: #999;
+          }
+          
+          &__value{
+            font-family: Spoqa Han Sans Neo;
+            font-size: 12px;
+            font-weight: 700;
+            line-height: 18px;
+            letter-spacing: 0em;
+            text-align: left;
+            color: #333;
+          }
+        }
+        .list-commenter{
+          display: flex;
+          align-items: center;
+          .list-commenter__avater{
+              width: 18px;
+              height: 18px;
+              margin-right: 8px;
+            .q-avatar{
+              width: 18px;
+              height: 18px;
+
+            }
+          }
+          .list-commenter__nickname{
+            margin-right: 8px;
+            font-family: Spoqa Han Sans Neo;
+            font-size: 12px;
+            font-weight: 700;
+            line-height: 18px;
+            letter-spacing: 0em;
+            text-align: left;
+            color: #333;
+          }
+        }
+        .list-commenter__created-at{
+          font-family: Spoqa Han Sans Neo;
+          font-size: 10px;
+          font-weight: 700;
+          line-height: 12px;
+          letter-spacing: 0em;
+          text-align: left;
+          color: #999;
+
+        }
+      }
+    }
+  }
+}
+
+@media only screen and (min-width: 1080px) {
+  /* For desktop: */
 }
 </style>

@@ -89,14 +89,14 @@ export default {
 @media only screen and (max-width: 1079px) {
   /* For mobile: */
   .is-desktop-show{
-    display: none;
+    display: none !important;
   }
 }
 
 @media only screen and (min-width: 1080px) {
   /* For desktop: */
   .is-mobile-show{
-    display: none;
+    display: none !important;
   }
 }
 
