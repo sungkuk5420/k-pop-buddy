@@ -39,11 +39,72 @@ let UtilMethodMixin = {
             return today
         },
         convertedDateFormat(timestamp) {
+            const date = new Date();
+            const timezone = -date.getTimezoneOffset() / 60
+
             var today = new Date(timestamp) // -> 타임스탬프를 넣어주면 날짜로 변환
-            today.setHours(today.getHours() + 9);
+            today.setHours(today.getHours() + timezone);
             return today.toISOString().replace('T', ' ').substring(0, 19)
         },
+        convertedDateFormatEnglish(timestamp) {
+            const date = new Date();
+            const timezone = -date.getTimezoneOffset() / 60
 
+            var today = new Date(timestamp) // -> 타임스탬프를 넣어주면 날짜로 변환
+            today.setHours(today.getHours() + timezone);
+            let yyyy = today.toISOString().replace('T', ' ').substring(0, 4)
+            let mm = today.toISOString().replace('T', ' ').substring(5, 7)
+            let dd = today.toISOString().replace('T', ' ').substring(8, 10)
+            return dd + " " + this.convertedMonthsEnglish(mm) + " " + yyyy
+        },
+        convertedMonthsEnglish(month) {
+            const currentMonth = parseInt(month);
+
+            let returnValue = currentMonth;
+
+            switch (currentMonth) {
+                case 1:
+                    returnValue = "January"
+                    break;
+                case 2:
+                    returnValue = "February"
+                    break;
+                case 3:
+                    returnValue = "March"
+                    break;
+                case 4:
+                    returnValue = "April"
+                    break;
+                case 5:
+                    returnValue = "May"
+                    break;
+                case 6:
+                    returnValue = "June"
+                    break;
+                case 7:
+                    returnValue = "July"
+                    break;
+                case 8:
+                    returnValue = "August"
+                    break;
+                case 9:
+                    returnValue = "September"
+                    break;
+                case 10:
+                    returnValue = "October"
+                    break;
+                case 11:
+                    returnValue = "November"
+                    break;
+                case 12:
+                    returnValue = "December"
+                    break;
+
+                default:
+                    break;
+            }
+            return returnValue
+        },
         getUserProfile(uid) {
             return new Promise(resolve => {
                 setTimeout(async () => {

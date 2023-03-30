@@ -1,7 +1,14 @@
 <template>
   <q-page class="flex items-center justify-center write-post-page">
     <q-input
-      v-model="text"
+      v-model="title"
+      filled
+      placeholder="Write your title..."
+      type="text"
+      style="width:100%; margin-bottom: 10px;"
+    />
+    <q-input
+      v-model="content"
       filled
       placeholder="Write your post..."
       cols="30"
@@ -51,7 +58,8 @@ export default {
   data () {
     return {
       previewVisible: false,
-      text: '',
+      title: '',
+      content: '',
       previewImage: '',
       fileList: [
       ],
@@ -67,6 +75,16 @@ export default {
       let filePaths = [];
       if(!this.loginUser){
         this.errorMessage("로그인한 사용자만 작성할 수 있습니다.");
+        console.log("error")
+        return false;
+      }
+      if(this.title==""){
+        this.errorMessage("타이틀을 작성해주세요");
+        console.log("error")
+        return false;
+      }
+      if(this.content==""){
+        this.errorMessage("내용을 작성해주세요");
         console.log("error")
         return false;
       }
@@ -124,9 +142,14 @@ export default {
       const db = getDatabase();
       set(ref(db, 'posts/' + postUid), {
         postUid:postUid,
-        content: thisObj.text,
+        title: thisObj.title,
+        content: thisObj.content,
         writer: thisObj.loginUser.uid,
+        lastCommentWriter: thisObj.loginUser.uid,
+        views: 0,
+        replies: 0,
         createdAt: thisObj.createNowTime(),
+        updatedAt: thisObj.createNowTime(),
         filePaths
       })
       thisObj.hideLoading()
