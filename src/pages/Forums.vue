@@ -140,7 +140,7 @@
                       {{item.lastCommentWriter.nickname}}
                     </div>
                     <div class="list-commenter__created-at">
-                      {{item.updatedAt}}
+                      {{timeSince(item.updatedAt)}}
                     </div>
                   </div>
                 </div>
@@ -247,7 +247,7 @@
                       {{item.lastCommentWriter.nickname}}
                     </div>
                     <div class="list-commenter__created-at">
-                      {{item.updatedAt}}
+                      {{timeSince(item.updatedAt)}}
                     </div>
                   </div>
                 </div>
@@ -355,7 +355,7 @@
                       {{item.lastCommentWriter.nickname}}
                     </div>
                     <div class="list-commenter__created-at">
-                      {{item.updatedAt}}
+                      {{timeSince(item.updatedAt)}}
                     </div>
                   </div>
                 </div>
