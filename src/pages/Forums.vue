@@ -48,7 +48,7 @@
               There are no articles written.
             </div>
           <q-list class="list">
-            <q-item clickable v-ripple v-for="(item,index) in boyPosts" :key="index">
+            <q-item clickable v-ripple v-for="(item,index) in boyPosts" :key="index" @click="()=>goDetails(item)">
               <q-item-section avatar class="list-avatar is-desktop-show">
                 <q-avatar v-if="item.writer&&!item.writer.avatar" color="red" text-color="white" class="q-mr-md">{{ item.writer?item.writer.nickname.slice(0, 1).toUpperCase():''}}</q-avatar>
                 <q-avatar v-if="item.writer&&item.writer.avatar" color="red" text-color="white" class="q-mr-md">
@@ -88,7 +88,7 @@
                       {{item.replies}}
                     </div>
                   </div>
-                  <div class="spliter"></div>
+                  <div class="spliter" v-show="item.lastCommentWriter"></div>
                   <div class="list-commenter">
                     <div class="list-commenter__avater">
                       <q-avatar v-if="item.lastCommentWriter&&!item.lastCommentWriter.avatar" color="red" text-color="white" class="q-mr-md">{{ item.lastCommentWriter?item.lastCommentWriter.nickname.slice(0, 1).toUpperCase():''}}</q-avatar>
@@ -97,16 +97,36 @@
                       </q-avatar>
                     </div>
                     <div class="list-commenter__nickname ellipsis">
-                      {{item.lastCommentWriter.nickname}}
+                      {{item.lastCommentWriter?item.lastCommentWriter.nickname:""}}
                     </div>
                     <div class="list-commenter__created-at">
-                      {{timeSince(item.updatedAt)}}
+                      {{item.updatedAt?timeSince(item.updatedAt):""}}
                     </div>
                   </div>
                 </q-item-label>
               </q-item-section>
 
               <q-item-section avatar class="list-view-replies-commenter is-desktop-show">
+
+                <div class="list-commenter">
+                  <div class="list-commenter__left">
+                    <div class="list-commenter__avater">
+                      <q-avatar v-if="item.lastCommentWriter&&!item.lastCommentWriter.avatar" color="red" text-color="white" class="q-mr-md">{{ item.lastCommentWriter?item.lastCommentWriter.nickname.slice(0, 1).toUpperCase():''}}</q-avatar>
+                      <q-avatar v-if="item.lastCommentWriter&&item.lastCommentWriter.avatar" color="red" text-color="white" class="q-mr-md">
+                        <img :src="item.lastCommentWriter.avatar" alt="" srcset="">
+                      </q-avatar>
+                    </div>
+                  </div>
+                  <div class="list-commenter__right">
+                    <div class="list-commenter__nickname">
+                      {{item.lastCommentWriter?item.lastCommentWriter.nickname:""}}
+                    </div>
+                    <div class="list-commenter__created-at">
+                      {{item.updatedAt?timeSince(item.updatedAt):""}}
+                    </div>
+                  </div>
+                </div>
+                <div class="spliter" v-show="item.lastCommentWriter"></div>
                 <div class="list-view">
                   <div class="list-view__title">
                     Views
@@ -123,25 +143,6 @@
                   </div>
                   <div class="list-replies__value">
                     {{item.replies}}
-                  </div>
-                </div>
-                <div class="spliter"></div>
-                <div class="list-commenter">
-                  <div class="list-commenter__left">
-                    <div class="list-commenter__avater">
-                      <q-avatar v-if="item.lastCommentWriter&&!item.lastCommentWriter.avatar" color="red" text-color="white" class="q-mr-md">{{ item.lastCommentWriter?item.lastCommentWriter.nickname.slice(0, 1).toUpperCase():''}}</q-avatar>
-                      <q-avatar v-if="item.lastCommentWriter&&item.lastCommentWriter.avatar" color="red" text-color="white" class="q-mr-md">
-                        <img :src="item.lastCommentWriter.avatar" alt="" srcset="">
-                      </q-avatar>
-                    </div>
-                  </div>
-                  <div class="list-commenter__right">
-                    <div class="list-commenter__nickname">
-                      {{item.lastCommentWriter.nickname}}
-                    </div>
-                    <div class="list-commenter__created-at">
-                      {{timeSince(item.updatedAt)}}
-                    </div>
                   </div>
                 </div>
               </q-item-section>
@@ -155,7 +156,7 @@
             <div class="empty-list" v-show="girlPosts.length==0">
               There are no articles written.
             </div>
-            <q-item clickable v-ripple v-for="(item,index) in girlPosts" :key="index">
+            <q-item clickable v-ripple v-for="(item,index) in girlPosts" :key="index" @click="()=>goDetails(item)">
               <q-item-section avatar class="list-avatar is-desktop-show">
                 <q-avatar v-if="item.writer&&!item.writer.avatar" color="red" text-color="white" class="q-mr-md">{{ item.writer?item.writer.nickname.slice(0, 1).toUpperCase():''}}</q-avatar>
                 <q-avatar v-if="item.writer&&item.writer.avatar" color="red" text-color="white" class="q-mr-md">
@@ -195,7 +196,7 @@
                       {{item.replies}}
                     </div>
                   </div>
-                  <div class="spliter"></div>
+                  <div class="spliter" v-show="item.lastCommentWriter"></div>
                   <div class="list-commenter">
                     <div class="list-commenter__avater">
                       <q-avatar v-if="item.lastCommentWriter&&!item.lastCommentWriter.avatar" color="red" text-color="white" class="q-mr-md">{{ item.lastCommentWriter?item.lastCommentWriter.nickname.slice(0, 1).toUpperCase():''}}</q-avatar>
@@ -204,16 +205,36 @@
                       </q-avatar>
                     </div>
                     <div class="list-commenter__nickname ellipsis">
-                      {{item.lastCommentWriter.nickname}}
+                      {{item.lastCommentWriter?item.lastCommentWriter.nickname:""}}
                     </div>
                     <div class="list-commenter__created-at">
-                      {{timeSince(item.updatedAt)}}
+                      {{item.updatedAt?timeSince(item.updatedAt):""}}
                     </div>
                   </div>
                 </q-item-label>
               </q-item-section>
 
               <q-item-section avatar class="list-view-replies-commenter is-desktop-show">
+
+                <div class="list-commenter">
+                  <div class="list-commenter__left">
+                    <div class="list-commenter__avater">
+                      <q-avatar v-if="item.lastCommentWriter&&!item.lastCommentWriter.avatar" color="red" text-color="white" class="q-mr-md">{{ item.lastCommentWriter?item.lastCommentWriter.nickname.slice(0, 1).toUpperCase():''}}</q-avatar>
+                      <q-avatar v-if="item.lastCommentWriter&&item.lastCommentWriter.avatar" color="red" text-color="white" class="q-mr-md">
+                        <img :src="item.lastCommentWriter.avatar" alt="" srcset="">
+                      </q-avatar>
+                    </div>
+                  </div>
+                  <div class="list-commenter__right">
+                    <div class="list-commenter__nickname">
+                      {{item.lastCommentWriter?item.lastCommentWriter.nickname:""}}
+                    </div>
+                    <div class="list-commenter__created-at">
+                      {{item.updatedAt?timeSince(item.updatedAt):""}}
+                    </div>
+                  </div>
+                </div>
+                <div class="spliter" v-show="item.lastCommentWriter"></div>
                 <div class="list-view">
                   <div class="list-view__title">
                     Views
@@ -230,25 +251,6 @@
                   </div>
                   <div class="list-replies__value">
                     {{item.replies}}
-                  </div>
-                </div>
-                <div class="spliter"></div>
-                <div class="list-commenter">
-                  <div class="list-commenter__left">
-                    <div class="list-commenter__avater">
-                      <q-avatar v-if="item.lastCommentWriter&&!item.lastCommentWriter.avatar" color="red" text-color="white" class="q-mr-md">{{ item.lastCommentWriter?item.lastCommentWriter.nickname.slice(0, 1).toUpperCase():''}}</q-avatar>
-                      <q-avatar v-if="item.lastCommentWriter&&item.lastCommentWriter.avatar" color="red" text-color="white" class="q-mr-md">
-                        <img :src="item.lastCommentWriter.avatar" alt="" srcset="">
-                      </q-avatar>
-                    </div>
-                  </div>
-                  <div class="list-commenter__right">
-                    <div class="list-commenter__nickname">
-                      {{item.lastCommentWriter.nickname}}
-                    </div>
-                    <div class="list-commenter__created-at">
-                      {{timeSince(item.updatedAt)}}
-                    </div>
                   </div>
                 </div>
               </q-item-section>
@@ -263,7 +265,7 @@
             <div class="empty-list" v-show="soloPosts.length==0">
               There are no articles written.
             </div>
-            <q-item clickable v-ripple v-for="(item,index) in soloPosts" :key="index">
+            <q-item clickable v-ripple v-for="(item,index) in soloPosts" :key="index" @click="()=>goDetails(item)">
               <q-item-section avatar class="list-avatar is-desktop-show">
                 <q-avatar v-if="item.writer&&!item.writer.avatar" color="red" text-color="white" class="q-mr-md">{{ item.writer?item.writer.nickname.slice(0, 1).toUpperCase():''}}</q-avatar>
                 <q-avatar v-if="item.writer&&item.writer.avatar" color="red" text-color="white" class="q-mr-md">
@@ -303,7 +305,7 @@
                       {{item.replies}}
                     </div>
                   </div>
-                  <div class="spliter"></div>
+                  <div class="spliter" v-show="item.lastCommentWriter"></div>
                   <div class="list-commenter">
                     <div class="list-commenter__avater">
                       <q-avatar v-if="item.lastCommentWriter&&!item.lastCommentWriter.avatar" color="red" text-color="white" class="q-mr-md">{{ item.lastCommentWriter?item.lastCommentWriter.nickname.slice(0, 1).toUpperCase():''}}</q-avatar>
@@ -312,16 +314,36 @@
                       </q-avatar>
                     </div>
                     <div class="list-commenter__nickname ellipsis">
-                      {{item.lastCommentWriter.nickname}}
+                      {{item.lastCommentWriter?item.lastCommentWriter.nickname:""}}
                     </div>
                     <div class="list-commenter__created-at">
-                      {{timeSince(item.updatedAt)}}
+                      {{item.updatedAt?timeSince(item.updatedAt):""}}
                     </div>
                   </div>
                 </q-item-label>
               </q-item-section>
 
               <q-item-section avatar class="list-view-replies-commenter is-desktop-show">
+
+                <div class="list-commenter">
+                  <div class="list-commenter__left">
+                    <div class="list-commenter__avater">
+                      <q-avatar v-if="item.lastCommentWriter&&!item.lastCommentWriter.avatar" color="red" text-color="white" class="q-mr-md">{{ item.lastCommentWriter?item.lastCommentWriter.nickname.slice(0, 1).toUpperCase():''}}</q-avatar>
+                      <q-avatar v-if="item.lastCommentWriter&&item.lastCommentWriter.avatar" color="red" text-color="white" class="q-mr-md">
+                        <img :src="item.lastCommentWriter.avatar" alt="" srcset="">
+                      </q-avatar>
+                    </div>
+                  </div>
+                  <div class="list-commenter__right">
+                    <div class="list-commenter__nickname">
+                      {{item.lastCommentWriter?item.lastCommentWriter.nickname:""}}
+                    </div>
+                    <div class="list-commenter__created-at">
+                      {{item.updatedAt?timeSince(item.updatedAt):""}}
+                    </div>
+                  </div>
+                </div>
+                <div class="spliter" v-show="item.lastCommentWriter"></div>
                 <div class="list-view">
                   <div class="list-view__title">
                     Views
@@ -338,25 +360,6 @@
                   </div>
                   <div class="list-replies__value">
                     {{item.replies}}
-                  </div>
-                </div>
-                <div class="spliter"></div>
-                <div class="list-commenter">
-                  <div class="list-commenter__left">
-                    <div class="list-commenter__avater">
-                      <q-avatar v-if="item.lastCommentWriter&&!item.lastCommentWriter.avatar" color="red" text-color="white" class="q-mr-md">{{ item.lastCommentWriter?item.lastCommentWriter.nickname.slice(0, 1).toUpperCase():''}}</q-avatar>
-                      <q-avatar v-if="item.lastCommentWriter&&item.lastCommentWriter.avatar" color="red" text-color="white" class="q-mr-md">
-                        <img :src="item.lastCommentWriter.avatar" alt="" srcset="">
-                      </q-avatar>
-                    </div>
-                  </div>
-                  <div class="list-commenter__right">
-                    <div class="list-commenter__nickname">
-                      {{item.lastCommentWriter.nickname}}
-                    </div>
-                    <div class="list-commenter__created-at">
-                      {{timeSince(item.updatedAt)}}
-                    </div>
                   </div>
                 </div>
               </q-item-section>
@@ -389,6 +392,18 @@ export default {
       this.getPosts();
   },
   methods:{
+    goDetails(post){
+      console.log(post)
+      this.$router.push({
+          name: 'forumsDetails',
+          query:{
+            postUid:post.postUid
+          },
+          params: {
+            post,
+          },
+      });
+    },
     
     getPosts(){
       const thisObj = this;

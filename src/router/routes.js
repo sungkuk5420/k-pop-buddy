@@ -23,6 +23,13 @@ const routes = [
     ],
   },
   {
+    path: '/forums-details',
+    component: () => import('layouts/MainLayout.vue'),
+    children: [
+      { path: '', name: 'forumsDetails', component: () => import('pages/ForumsDetails.vue') },
+    ],
+  },
+  {
     path: '/hot-focus',
     component: () => import('layouts/MainLayout.vue'),
     children: [

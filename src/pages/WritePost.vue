@@ -145,11 +145,11 @@ export default {
         title: thisObj.title,
         content: thisObj.content,
         writer: thisObj.loginUser.uid,
-        lastCommentWriter: thisObj.loginUser.uid,
+        lastCommentWriter: null,
         views: 0,
         replies: 0,
         createdAt: thisObj.createNowTime(),
-        updatedAt: thisObj.createNowTime(),
+        updatedAt: null,
         filePaths
       })
       thisObj.hideLoading()
