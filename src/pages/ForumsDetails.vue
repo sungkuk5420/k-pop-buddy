@@ -57,6 +57,11 @@
               <img :src="currentFile" alt="" v-for="(currentFile, index) in currentPost.filePaths" :key="index" style="width:100%;">
             </div>
           </div>
+          <div class="comment-empty" v-show="comments.length == 0">
+            <div class="comment-empty__bg">
+              There are no comments.
+            </div>
+          </div>
           <div class="forums-details-page__right__content-wrapper comment" v-for="(currentComment,index) in comments" :key="index">
             <div class="forums-details-page__right__content-wrapper__bg">
               <div class="forums-details-page__right__content-wrapper__writer">
@@ -71,7 +76,7 @@
                     {{ currentComment.writer.nickname }}
                   </div>
                   <div class="view-replies-warpper">
-                    {{ convertedDateFormatEnglish(currentComment.createdAt) }}
+                    {{ convertedDateFormat(currentComment.createdAt) }}
                   </div>
                 </div>
               </div>
@@ -567,6 +572,26 @@ export default {
       }
       &__content{
         padding-left: 65px;
+      }
+    }
+
+    .comment-empty{
+      background: white;
+      padding: 20px;
+      &__bg{
+        background: #F8F8F8;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 100%;
+        height: 130px;
+        font-family: Spoqa Han Sans Neo;
+        font-size: 12px;
+        font-weight: 400;
+        line-height: 18px;
+        letter-spacing: 0em;
+        text-align: center;
+        color: #000;
       }
     }
 
