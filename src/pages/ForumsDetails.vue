@@ -139,17 +139,96 @@ export default {
           return this.$route.params.post;
       },
   },
-  mounted() {
+  async mounted() {
     // this.showLoading();
     
     if(!this.getPost){
-      this.getPostDetails()
+      await this.getPostDetails()
     }else{
       this.currentPost = this.getPost
-      this.getComments();
     }
+    this.getComments();
+    this.plusView()
   },
   methods:{
+    plusView(){
+      const postUid = this.currentPost.postUid;
+      const db = getDatabase();
+      const dbRef = ref(getDatabase());
+      get(child(dbRef, `posts/${postUid}`))
+      .then(async (snapshot) => {
+        if (snapshot.exists()) {
+          // console.log(snapshot.val());
+          const data = snapshot.val();
+          set(ref(db, 'posts/' + postUid), {
+            ...data,
+            views:data.views+1
+          })
+          this.currentPost = {
+            ...this.currentPost,
+            views:data.views+1
+          }
+        }
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+    },
+    plusReplies(count){
+      return new Promise(resolve=>{
+        setTimeout(async() => {
+          const postUid = this.currentPost.postUid;
+          const db = getDatabase();
+          const dbRef = ref(getDatabase());
+          get(child(dbRef, `posts/${postUid}`))
+          .then(async (snapshot) => {
+            if (snapshot.exists()) {
+              // console.log(snapshot.val());
+              const data = snapshot.val();
+              set(ref(db, 'posts/' + postUid), {
+                ...data,
+                replies:count
+              })
+              
+              this.currentPost = {
+                ...this.currentPost,
+                replies:count
+              }
+              resolve()
+            }
+          })
+          .catch((error) => {
+            console.error(error);
+          });
+        }, 0);
+      })
+    },
+    updasteLastComment(){
+      
+      return new Promise(resolve=>{
+        setTimeout(async() => {
+          const postUid = this.currentPost.postUid;
+          const db = getDatabase();
+          const dbRef = ref(getDatabase());
+          get(child(dbRef, `posts/${postUid}`))
+          .then(async (snapshot) => {
+            if (snapshot.exists()) {
+              // console.log(snapshot.val());
+              const data = snapshot.val();
+              set(ref(db, 'posts/' + postUid), {
+                ...data,
+                lastCommentWriter:this.loginUser.uid,
+                updatedAt:this.createNowTime(),
+              })
+              resolve()
+            }
+          })
+          .catch((error) => {
+            console.error(error);
+          });
+        }, 0);
+      })
+    },
     async getComments(){
       const thisObj = this;
       const dbRef = ref(getDatabase());
@@ -270,6 +349,8 @@ export default {
         postUid:postUid,
         comments:currentPostComments
       })
+      await this.plusReplies(currentPostComments.length);
+      await this.updasteLastComment();
       let comments = currentPostComments
 
       for(const currentComment of comments){
@@ -281,6 +362,7 @@ export default {
       }
       this.comments = comments
       this.commentText = ""
+      this.fileList = []
       thisObj.hideLoading()
 
     },
@@ -305,36 +387,41 @@ export default {
       return isJpgOrPng ;
     },
     getPostDetails(){
-      const postUid = this.$route.query.postUid
-      const dbRef = ref(getDatabase());
-      const thisObj = this;
-      console.log(postUid)
-      get(child(dbRef, `posts/${postUid}`))
-        .then(async (snapshot) => {
-          if (snapshot.exists()) {
-            // console.log(snapshot.val());
-            const data = snapshot.val();
-            console.log(data)
-            let currentPost = data;
-            await thisObj.getUserProfile(currentPost.writer).then( result=>{
-              currentPost.writer = {
-              ...result
-              }
-            });
-            if(currentPost.lastCommentWriter){
-              await thisObj.getUserProfile(currentPost.lastCommentWriter).then( result=>{
-                currentPost.lastCommentWriter = {
-                ...result
+      return new Promise(resolve=>{
+        setTimeout(async() => {
+          const postUid = this.$route.query.postUid
+          const dbRef = ref(getDatabase());
+          const thisObj = this;
+          console.log(postUid)
+          get(child(dbRef, `posts/${postUid}`))
+            .then(async (snapshot) => {
+              if (snapshot.exists()) {
+                // console.log(snapshot.val());
+                const data = snapshot.val();
+                console.log(data)
+                let currentPost = data;
+                await thisObj.getUserProfile(currentPost.writer).then( result=>{
+                  currentPost.writer = {
+                  ...result
+                  }
+                });
+                if(currentPost.lastCommentWriter){
+                  await thisObj.getUserProfile(currentPost.lastCommentWriter).then( result=>{
+                    currentPost.lastCommentWriter = {
+                    ...result
+                    }
+                  });
                 }
-              });
-            }
-            this.currentPost = currentPost
-            this.getComments();
-          }
-        })
-        .catch((error) => {
-          console.error(error);
-        });
+                this.currentPost = currentPost
+                resolve();
+                
+              }
+            })
+            .catch((error) => {
+              console.error(error);
+            });
+        }, 0);
+      })
     }
   },
 };

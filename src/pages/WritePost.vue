@@ -25,6 +25,7 @@
         @change="handleChange"
       >
         <div v-if="fileList.length < 8">
+          <a-icon type="plus" />
           <div class="ant-upload-text">
             Upload
           </div>
@@ -70,7 +71,6 @@ export default {
     async writePost(){// Create the file metadata
       const thisObj =this;
       const storage = getStorage();
-      // Upload file and metadata to the object 'images/mountains.jpg'
       let filePaths = [];
       if(!this.loginUser){
         this.errorMessage("로그인한 사용자만 작성할 수 있습니다.");
