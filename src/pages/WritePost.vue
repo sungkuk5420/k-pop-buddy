@@ -25,7 +25,6 @@
         @change="handleChange"
       >
         <div v-if="fileList.length < 8">
-          <a-icon type="plus" />
           <div class="ant-upload-text">
             Upload
           </div>
@@ -57,9 +56,9 @@ export default {
   mixins: [ComputedMixin, UtilMethodMixin],
   data () {
     return {
-      previewVisible: false,
       title: '',
       content: '',
+      previewVisible: false,
       previewImage: '',
       fileList: [
       ],
