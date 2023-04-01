@@ -178,6 +178,10 @@ export default {
 
       const updates = {};
       updates[`${category}/${postUid}/views`] = this.currentPost.views+1;
+          this.currentPost = {
+            ...this.currentPost,
+            views:this.currentPost.views+1
+          }
       update(ref(db), updates);
     },
     plusReplies(count){
