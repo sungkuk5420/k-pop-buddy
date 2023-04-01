@@ -135,6 +135,14 @@ export default {
       loginUser: "getLoginUser",
     }),
   },
+  updated(){
+    console.log(this.$route.path)
+    if(this.$route.path == '/forums' ){
+      this.tab = 'forums'
+    }else if(this.$route.path == '/hot-focus' ){
+      this.tab = 'hotFocus'
+    }
+  },
   methods:{
     logout () {
       const auth = getAuth();

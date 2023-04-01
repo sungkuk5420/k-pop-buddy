@@ -70,6 +70,7 @@ export default {
   methods:{
     async writePost(){// Create the file metadata
       const thisObj =this;
+      const category = this.$route.query.category
       const storage = getStorage();
       let filePaths = [];
       if(!this.loginUser){
@@ -139,7 +140,7 @@ export default {
           });
       };
       const db = getDatabase();
-      set(ref(db, 'posts/' + postUid), {
+      set(ref(db, category+'/' + postUid), {
         postUid:postUid,
         title: thisObj.title,
         content: thisObj.content,

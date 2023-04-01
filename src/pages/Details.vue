@@ -2,8 +2,8 @@
     <q-page class="forums-details-page">
       <div class="contianer">
         <div class="forums-details-page__left is-desktop-show">
-          <div class="forums-details-page__title">Forums</div>
-          <div class="forums-details-page__left__menu">
+          <div class="forums-details-page__title" v-show="category == 'forums' ">Forums</div>
+          <div class="forums-details-page__left__menu" v-show="category == 'forums' ">
             <div class="forums-details-page__left__menu__button">
               ALL
             </div>
@@ -22,6 +22,13 @@
           </div>
           <div style="margin-top: 16px;">
             <img src="~assets/banner-pc.png" alt="">
+          </div>
+        </div>
+        <div class="forums-details-page__right" v-if="!currentPost">
+          <div class="forums-details-page__right__title">
+            <div class="forums-details-page__title"></div>
+          </div>
+          <div class="forums-details-page__right__content-wrapper" style="height:300px">
           </div>
         </div>
         <div class="forums-details-page__right" v-if="currentPost">
@@ -128,6 +135,12 @@ import { uid } from 'quasar';
 export default {
   name:"forumsDetails",
   mixins: [ComputedMixin, UtilMethodMixin],
+  props:{
+    category:{
+      type:String,
+      require:true
+    }
+  },
   data(){
     return{
       tab:"all",
@@ -147,6 +160,7 @@ export default {
   async mounted() {
     // this.showLoading();
     
+    
     if(!this.getPost){
       await this.getPostDetails()
     }else{
@@ -160,12 +174,13 @@ export default {
       const postUid = this.currentPost.postUid;
       const db = getDatabase();
       const dbRef = ref(getDatabase());
-      get(child(dbRef, `posts/${postUid}`))
+      const category = this.category == 'forums'?'forumsPosts':'hotFocusPosts'
+      get(child(dbRef, `${category}/${postUid}`))
       .then(async (snapshot) => {
         if (snapshot.exists()) {
           // console.log(snapshot.val());
           const data = snapshot.val();
-          set(ref(db, 'posts/' + postUid), {
+          set(ref(db, `${category}/` + postUid), {
             ...data,
             views:data.views+1
           })
@@ -185,12 +200,13 @@ export default {
           const postUid = this.currentPost.postUid;
           const db = getDatabase();
           const dbRef = ref(getDatabase());
-          get(child(dbRef, `posts/${postUid}`))
+          const category = this.category == 'forums'?'forumsPosts':'hotFocusPosts'
+          get(child(dbRef, `${category}/${postUid}`))
           .then(async (snapshot) => {
             if (snapshot.exists()) {
               // console.log(snapshot.val());
               const data = snapshot.val();
-              set(ref(db, 'posts/' + postUid), {
+              set(ref(db, `${category}/${postUid}`), {
                 ...data,
                 replies:count
               })
@@ -215,12 +231,13 @@ export default {
           const postUid = this.currentPost.postUid;
           const db = getDatabase();
           const dbRef = ref(getDatabase());
-          get(child(dbRef, `posts/${postUid}`))
+          const category = this.category == 'forums'?'forumsPosts':'hotFocusPosts'
+          get(child(dbRef, `${category}/${postUid}`))
           .then(async (snapshot) => {
             if (snapshot.exists()) {
               // console.log(snapshot.val());
               const data = snapshot.val();
-              set(ref(db, 'posts/' + postUid), {
+              set(ref(db, `${category}/${postUid}`), {
                 ...data,
                 lastCommentWriter:this.loginUser.uid,
                 updatedAt:this.createNowTime(),
@@ -398,7 +415,8 @@ export default {
           const dbRef = ref(getDatabase());
           const thisObj = this;
           console.log(postUid)
-          get(child(dbRef, `posts/${postUid}`))
+          const category = this.category == 'forums'?'forumsPosts':'hotFocusPosts'
+          get(child(dbRef, `${category}/${postUid}`))
             .then(async (snapshot) => {
               if (snapshot.exists()) {
                 // console.log(snapshot.val());

@@ -23,7 +23,7 @@
           <div style="margin-top: 16px;">
             <img src="~assets/banner-pc.png" alt="">
           </div>
-          <q-btn label="write post" no-caps @click="$router.push('/write-post')"></q-btn>
+          <q-btn label="write post" no-caps @click="$router.push('/write-post?category=forumsPosts')"></q-btn>
         </div>
         <div class="forums-page__right">
           <div class="tab-scroll is-mobile-show">
@@ -408,7 +408,7 @@ export default {
     getPosts(){
       const thisObj = this;
       const dbRef = ref(getDatabase());
-      get(child(dbRef, `posts/`))
+      get(child(dbRef, `forumsPosts/`))
         .then(async (snapshot) => {
           if (snapshot.exists()) {
             // console.log(snapshot.val());

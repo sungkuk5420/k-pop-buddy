@@ -26,7 +26,14 @@ const routes = [
     path: '/forums-details',
     component: () => import('layouts/MainLayout.vue'),
     children: [
-      { path: '', name: 'forumsDetails', component: () => import('pages/ForumsDetails.vue') },
+      { path: '', name: 'forumsDetails', props: { category: 'forums' }, component: () => import('pages/Details.vue') },
+    ],
+  },
+  {
+    path: '/hot-focus-details',
+    component: () => import('layouts/MainLayout.vue'),
+    children: [
+      { path: '', name: 'hotFocusDetails', props: { category: 'hot-focus' }, component: () => import('pages/Details.vue') },
     ],
   },
   {
