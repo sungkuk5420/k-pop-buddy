@@ -1,122 +1,46 @@
 <template>
-  <q-page class="hot-focus-page">
+  <q-page class="deal-page">
     <div class="contianer">
-      <div class="hot-focus-page__left is-desktop-show">
-        <div >
+      <div class="deal-page__left is-desktop-show">
+        <div class="deal-page__title">Buddies Deal</div>
+        <div class="deal-page__left__menu">
+          <div class="deal-page__left__menu__button">
+            ALL Event
+          </div>
+          <div class="deal-page__left__menu__button">
+            <span>Ongoing Event</span>
+          </div>
+          <div class="deal-page__left__menu__button">
+            <span>Ended Event</span>
+          </div>
+        </div>
+        <div style="margin-top: 16px;">
           <img src="~assets/banner-pc.png" alt="">
         </div>
-        <q-btn label="write post" no-caps @click="$router.push('/write-post?category=hotFocus')"></q-btn>
+        <q-btn label="write post" no-caps @click="$router.push('/write-post?category=forums')"></q-btn>
       </div>
-      <div class="hot-focus-page__right">
+      <div class="deal-page__right">
+        <div class="tab-scroll is-mobile-show">
+          <q-tabs
+            v-model="tab"
+            active-class="is-active"
+            class=" mobile-tab"
+          >
+            <q-tab name="all" label="ALL" no-caps />
+            <q-tab name="boy" label="IDOL Group(BOY)" no-caps />
+            <q-tab name="girl"  label="IDOL Group(Girl)" no-caps />
+            <q-tab name="solo"  label="IDOL Group(Solo)" no-caps />
+          </q-tabs>
+        </div>
         <img src="~assets/banner-mobile.png" alt="" class="is-mobile-show" style="width: 100%;">
-        <div class="hot-focus-page__right__title">
-          <div class="hot-focus-page__title">HOT Focus</div>
+        <div class="deal-page__right__title">
+          <div class="deal-page__title">Buddies Deal (A special sale only buddies)</div>
         </div>
 
-        <div class="empty-list" v-show="allPosts.length==0">
-            There are no articles written.
-          </div>
-        <q-list class="list">
-          <q-item clickable v-ripple v-for="(item,index) in allPosts" :key="index" @click="()=>goDetails(item)">
-            <q-item-section avatar class="list-avatar is-desktop-show">
-              <q-avatar v-if="item.writer&&!item.writer.avatar" color="red" text-color="white" class="q-mr-md">{{ item.writer?item.writer.nickname.slice(0, 1).toUpperCase():''}}</q-avatar>
-              <q-avatar v-if="item.writer&&item.writer.avatar" color="red" text-color="white" class="q-mr-md">
-                <img :src="item.writer.avatar" alt="" srcset="">
-              </q-avatar>
-            </q-item-section>
-            <q-item-section avatar class="list-avatar is-mobile-show" style="width:45px; min-width:45px; margin-right: 16px;">
-              <q-avatar v-if="item.writer&&!item.writer.avatar" color="red" text-color="white" >{{ item.writer?item.writer.nickname.slice(0, 1).toUpperCase():''}}</q-avatar>
-              <q-avatar v-if="item.writer&&item.writer.avatar" color="red" text-color="white" >
-                <img :src="item.writer.avatar" alt="" srcset="">
-              </q-avatar>
-            </q-item-section>
+        <div class="empty-list" v-show="boyPosts.length==0">
+          There are no articles written.
+        </div>
 
-            <q-item-section class="list-content-and-wirter">
-              <q-item-label class="list-title" lines="1">{{ item.title }}</q-item-label>
-              <q-item-label caption lines="2" class="list-nickname-and-created-at">
-                <span >{{ item.writer.nickname }}</span>
-                <span style="margin:0 6px;" > | </span>
-                <span class="text-weight-bold">{{ convertedDateFormatEnglish(item.createdAt) }}</span>
-              </q-item-label>
-              <q-item-label class="mobile-list-view-replies-commenter is-mobile-show">
-                <div class="list-view">
-                  <div class="list-view__title">
-                    Views
-                  </div>
-                  <div class="list-view__value">
-                    {{item.views}}
-                  </div>
-
-                </div>
-                <div class="spliter"></div>
-                <div class="list-replies">
-                  <div class="list-replies__title">
-                    Replies
-                  </div>
-                  <div class="list-replies__value">
-                    {{item.replies}}
-                  </div>
-                </div>
-                <div class="spliter" v-show="item.lastCommentWriter"></div>
-                <div class="list-commenter">
-                  <div class="list-commenter__avater">
-                    <q-avatar v-if="item.lastCommentWriter&&!item.lastCommentWriter.avatar" color="red" text-color="white" class="q-mr-md">{{ item.lastCommentWriter?item.lastCommentWriter.nickname.slice(0, 1).toUpperCase():''}}</q-avatar>
-                    <q-avatar v-if="item.lastCommentWriter&&item.lastCommentWriter.avatar" color="red" text-color="white" class="q-mr-md">
-                      <img :src="item.lastCommentWriter.avatar" alt="" srcset="">
-                    </q-avatar>
-                  </div>
-                  <div class="list-commenter__nickname ellipsis">
-                    {{item.lastCommentWriter?item.lastCommentWriter.nickname:""}}
-                  </div>
-                  <div class="list-commenter__created-at">
-                    {{item.updatedAt?timeSince(item.updatedAt):""}}
-                  </div>
-                </div>
-              </q-item-label>
-            </q-item-section>
-
-            <q-item-section avatar class="list-view-replies-commenter is-desktop-show">
-
-              <div class="list-commenter">
-                <div class="list-commenter__left">
-                  <div class="list-commenter__avater">
-                    <q-avatar v-if="item.lastCommentWriter&&!item.lastCommentWriter.avatar" color="red" text-color="white" class="q-mr-md">{{ item.lastCommentWriter?item.lastCommentWriter.nickname.slice(0, 1).toUpperCase():''}}</q-avatar>
-                    <q-avatar v-if="item.lastCommentWriter&&item.lastCommentWriter.avatar" color="red" text-color="white" class="q-mr-md">
-                      <img :src="item.lastCommentWriter.avatar" alt="" srcset="">
-                    </q-avatar>
-                  </div>
-                </div>
-                <div class="list-commenter__right">
-                  <div class="list-commenter__nickname">
-                    {{item.lastCommentWriter?item.lastCommentWriter.nickname:""}}
-                  </div>
-                  <div class="list-commenter__created-at">
-                    {{item.updatedAt?timeSince(item.updatedAt):""}}
-                  </div>
-                </div>
-              </div>
-              <div class="spliter" v-show="item.lastCommentWriter"></div>
-              <div class="list-view">
-                <div class="list-view__title">
-                  Views
-                </div>
-                <div class="list-view__value">
-                  {{item.views}}
-                </div>
-
-              </div>
-              <div class="spliter"></div>
-              <div class="list-replies">
-                <div class="list-replies__title">
-                  Replies
-                </div>
-                <div class="list-replies__value">
-                  {{item.replies}}
-                </div>
-              </div>
-            </q-item-section>
-          </q-item>
-        </q-list>
       </div>
     </div>
   <div class="flex column">
@@ -147,7 +71,7 @@ methods:{
   goDetails(post){
     console.log(post)
     this.$router.push({
-        name: 'hotFocusDetails',
+        name: 'forumsDetails',
         query:{
           postUid:post.postUid
         },
@@ -160,7 +84,7 @@ methods:{
   getPosts(){
     const thisObj = this;
     const dbRef = ref(getDatabase());
-    get(child(dbRef, `hotFocusPosts/`))
+    get(child(dbRef, `forumsPosts/`))
       .then(async (snapshot) => {
         if (snapshot.exists()) {
           // console.log(snapshot.val());
@@ -196,6 +120,9 @@ methods:{
           thisObj.allPosts = allPosts.sort((a, b)=>{
             return a.createdAt - b.createdAt;
           })
+          thisObj.boyPosts = allPosts.slice(0,3)
+          thisObj.girlPosts = allPosts.slice(3,6)
+          thisObj.soloPosts = allPosts.slice(6,9)
         }
       })
       .catch((error) => {
@@ -207,7 +134,7 @@ methods:{
 </script>
 
 <style lang="scss">
-.hot-focus-page{
+.deal-page{
 display: flex; 
 justify-content: center;
 background: #F8F8F8;
@@ -227,7 +154,7 @@ background: #F8F8F8;
     margin-top: 12px;
     background: white;
     width: 200px;
-    height: 200px;
+    height: 150px;
     padding: 12px 0;
     &>div{
       padding: 0 22px;
@@ -241,7 +168,7 @@ background: #F8F8F8;
       display: flex;
       justify-content: flex-start;
       align-items: center;
-      &:not(.hot-focus-page__left__menu__title):hover{
+      &:not(.deal-page__left__menu__title):hover{
         cursor: pointer;
         background: #ddd;
         opacity: 0.8;
@@ -278,10 +205,10 @@ background: #F8F8F8;
     height: 40px;
     margin-bottom: 4px;
   }
-  .hot-focus-page__title{
+  .deal-page__title{
     margin-right: 5px;
   }
-  .hot-focus-page__see-all{
+  .deal-page__see-all{
     font-family: Spoqa Han Sans Neo;
     font-size: 12px;
     font-weight: 700;
@@ -439,14 +366,14 @@ background: #F8F8F8;
 
 @media only screen and (max-width: 1079px) {
 /* For mobile: */
-.hot-focus-page {
+.deal-page {
   .contianer{
     padding: 0;
   }
-  .hot-focus-page__right{
+  .deal-page__right{
     width: 100%;
   }
-  .hot-focus-page__title{
+  .deal-page__title{
     margin-left: 24px;
   }
   .q-item{

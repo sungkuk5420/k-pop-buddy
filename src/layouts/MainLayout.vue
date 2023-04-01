@@ -14,7 +14,7 @@
             >
               <q-tab name="forums"  @click="$router.push('/forums')" label="Forums" no-caps/>
               <q-tab name="hotFocus"  @click="$router.push('/hot-focus')" label="HOT Focus" no-caps/>
-              <q-tab name="buddiesDeal"  @click="$router.push('/buddies-deal')" label="Buddies Deal" no-caps/>
+              <q-tab name="deal"  @click="$router.push('/deal')" label="Buddies Deal" no-caps/>
               <q-tab name="specialOffer"  @click="$router.push('/special-offer')" label="Special Offer" no-caps/>
             </q-tabs>
   
@@ -70,52 +70,6 @@
 </template>
 
 <script>
-// import EssentialLink from "components/EssentialLink.vue";
-
-// const linksData = [
-//   {
-//     title: "Docs",
-//     caption: "quasar.dev",
-//     icon: "school",
-//     link: "https://quasar.dev",
-//   },
-//   {
-//     title: "Github",
-//     caption: "github.com/quasarframework",
-//     icon: "code",
-//     link: "https://github.com/quasarframework",
-//   },
-//   {
-//     title: "Discord Chat Channel",
-//     caption: "chat.quasar.dev",
-//     icon: "chat",
-//     link: "https://chat.quasar.dev",
-//   },
-//   {
-//     title: "Forum",
-//     caption: "forum.quasar.dev",
-//     icon: "record_voice_over",
-//     link: "https://forum.quasar.dev",
-//   },
-//   {
-//     title: "Twitter",
-//     caption: "@quasarframework",
-//     icon: "rss_feed",
-//     link: "https://twitter.quasar.dev",
-//   },
-//   {
-//     title: "Facebook",
-//     caption: "@QuasarFramework",
-//     icon: "public",
-//     link: "https://facebook.quasar.dev",
-//   },
-//   {
-//     title: "Quasar Awesome",
-//     caption: "Community Quasar projects",
-//     icon: "favorite",
-//     link: "https://awesome.quasar.dev",
-//   },
-// ];
 import { mapGetters } from "vuex";
 import { getAuth, signOut } from 'firebase/auth';
 export default {
@@ -141,6 +95,8 @@ export default {
       this.tab = 'forums'
     }else if(this.$route.path == '/hot-focus' ){
       this.tab = 'hotFocus'
+    }else if(this.$route.path == '/deal' ){
+      this.tab = 'deal'
     }
   },
   methods:{

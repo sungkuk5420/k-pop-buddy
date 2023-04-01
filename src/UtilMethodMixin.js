@@ -44,7 +44,7 @@ let UtilMethodMixin = {
 
             var today = new Date(timestamp) // -> 타임스탬프를 넣어주면 날짜로 변환
             today.setHours(today.getHours() + timezone);
-            return today.toISOString().replace('T', ' ').substring(0, 19)
+            return today.toISOString().replace('T', ' ').substring(0, 16)
         },
         convertedDateFormatEnglish(timestamp) {
             const date = new Date();

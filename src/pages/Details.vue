@@ -34,6 +34,7 @@
         <div class="forums-details-page__right" v-if="currentPost">
           <div class="forums-details-page__right__title">
             <div class="forums-details-page__title">{{ currentPost.title }}</div>
+            <q-btn label="edit" v-show="loginUser&&currentPost.writer.uid === loginUser.uid" @click="$router.push(`/edit-post?category=${category}&postUid=${currentPost.postUid}`)"></q-btn>
           </div>
           <div class="forums-details-page__right__content-wrapper">
             <div class="forums-details-page__right__content-wrapper__writer">
@@ -61,7 +62,7 @@
             <div class="forums-details-page__right__content-wrapper__content">
               <p style="white-space: pre-line;">{{ currentPost.content }}</p>
 
-              <img :src="currentFile" alt="" v-for="(currentFile, index) in currentPost.filePaths" :key="index" style="width:100%;">
+              <img :src="currentFile.url" alt="" v-for="(currentFile, index) in currentPost.filePaths" :key="index" style="width:100%;">
             </div>
           </div>
           <div class="comment-empty" v-show="comments.length == 0">
@@ -130,7 +131,7 @@
 import ComputedMixin from "../ComputedMixin";
 import UtilMethodMixin from "../UtilMethodMixin";
 import { getStorage, ref as fileRef, uploadBytesResumable, getDownloadURL } from "firebase/storage";
-import { getDatabase, ref, set, child, get } from 'firebase/database';
+import { getDatabase, ref, set, child, get,update  } from 'firebase/database';
 import { uid } from 'quasar';
 export default {
   name:"forumsDetails",
@@ -173,54 +174,26 @@ export default {
     plusView(){
       const postUid = this.currentPost.postUid;
       const db = getDatabase();
-      const dbRef = ref(getDatabase());
       const category = this.category == 'forums'?'forumsPosts':'hotFocusPosts'
-      get(child(dbRef, `${category}/${postUid}`))
-      .then(async (snapshot) => {
-        if (snapshot.exists()) {
-          // console.log(snapshot.val());
-          const data = snapshot.val();
-          set(ref(db, `${category}/` + postUid), {
-            ...data,
-            views:data.views+1
-          })
-          this.currentPost = {
-            ...this.currentPost,
-            views:data.views+1
-          }
-        }
-      })
-      .catch((error) => {
-        console.error(error);
-      });
+
+      const updates = {};
+      updates[`${category}/${postUid}/views`] = this.currentPost.views+1;
+      update(ref(db), updates);
     },
     plusReplies(count){
       return new Promise(resolve=>{
         setTimeout(async() => {
           const postUid = this.currentPost.postUid;
           const db = getDatabase();
-          const dbRef = ref(getDatabase());
           const category = this.category == 'forums'?'forumsPosts':'hotFocusPosts'
-          get(child(dbRef, `${category}/${postUid}`))
-          .then(async (snapshot) => {
-            if (snapshot.exists()) {
-              // console.log(snapshot.val());
-              const data = snapshot.val();
-              set(ref(db, `${category}/${postUid}`), {
-                ...data,
-                replies:count
-              })
-              
-              this.currentPost = {
-                ...this.currentPost,
-                replies:count
-              }
-              resolve()
-            }
-          })
-          .catch((error) => {
-            console.error(error);
-          });
+          const updates = {};
+          updates[`${category}/${postUid}/replies`] = count
+          update(ref(db), updates);
+          this.currentPost = {
+            ...this.currentPost,
+            replies:count
+          }
+          resolve()
         }, 0);
       })
     },
@@ -518,6 +491,7 @@ export default {
     &__title{
       display: flex;
       align-items: center;
+      justify-content: space-between;
       //styleName: Subtitle1;
       font-family: Spoqa Han Sans Neo;
       font-size: 18px;

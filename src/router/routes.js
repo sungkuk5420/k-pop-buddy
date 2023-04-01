@@ -44,10 +44,10 @@ const routes = [
     ],
   },
   {
-    path: '/buddies-deal',
+    path: '/deal',
     component: () => import('layouts/MainLayout.vue'),
     children: [
-      { path: '', component: () => import('pages/BuddiesDeal.vue') },
+      { path: '', component: () => import('pages/Deal.vue') },
     ],
   },
   {
@@ -66,6 +66,13 @@ const routes = [
   },
   {
     path: '/write-post',
+    component: () => import('layouts/MainLayout.vue'),
+    children: [
+      { path: '', component: () => import('pages/WritePost.vue') },
+    ],
+  },
+  {
+    path: '/edit-post',
     component: () => import('layouts/MainLayout.vue'),
     children: [
       { path: '', component: () => import('pages/WritePost.vue') },

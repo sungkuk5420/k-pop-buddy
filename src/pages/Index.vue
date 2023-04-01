@@ -4,7 +4,7 @@
       <q-tabs align="left" class="top-header-tabs">
         <q-route-tab to="/forums" label="Forums" />
         <q-route-tab to="/hot-focus" label="HOT focus" />
-        <q-route-tab to="/buddies-deal" label="Buddies Deal" />
+        <q-route-tab to="/deal" label="Buddies Deal" />
         <q-route-tab to="/special-offer" label="Special Offer" />
       </q-tabs>
       <span>HotFocus</span>

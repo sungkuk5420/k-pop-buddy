@@ -35,7 +35,9 @@
         <img alt="example" style="width: 100%" :src="previewImage" />
       </a-modal>
     </div>
-      <q-btn label="write post" @click="writePost"></q-btn>
+      <q-btn label="write post" v-show="mode=='add'" @click="writePost"></q-btn>
+      <q-btn label="edit post" v-show="mode=='edit'" @click="writePost"></q-btn>
+      <q-btn label="delete post" v-show="mode=='edit'" @click="deletePost"></q-btn>
   </q-page>
 </template>
 
@@ -59,18 +61,81 @@ export default {
     return {
       title: '',
       content: '',
+      currentPost: null,
+      mode:'add',
       previewVisible: false,
       previewImage: '',
       fileList: [
       ],
     }
   },
-  mounted() {
+  async mounted() {
+    const postUid = this.$route.query.postUid;
+    if(postUid){
+      this.mode = 'edit'
+      await this.getPostDetails()
+      console.log(this.currentPost.filePaths)
+      this.title = this.currentPost.title;
+      this.content = this.currentPost.content;
+      if(this.currentPost.filePaths){
+        this.fileList = this.currentPost.filePaths.map((i,index)=>{return {
+            uid: index,
+            fileName:i.fileName,
+            status: 'done',
+            url: i.url,
+        }})
+      }
+    }
   },
   methods:{
+    deletePost(){
+      const db = getDatabase();
+      const category = this.$route.query.category == 'forums'?'forumsPosts':'hotFocusPosts'
+      const postUid = this.$route.query.postUid
+      set(ref(db, category+'/' + postUid),null)
+    },
+    getPostDetails(){
+      return new Promise(resolve=>{
+        setTimeout(async() => {
+          const postUid = this.$route.query.postUid
+          const dbRef = ref(getDatabase());
+          const thisObj = this;
+          console.log(postUid)
+          const category = this.$route.query.category == 'forums'?'forumsPosts':'hotFocusPosts'
+          get(child(dbRef, `${category}/${postUid}`))
+            .then(async (snapshot) => {
+              if (snapshot.exists()) {
+                // console.log(snapshot.val());
+                const data = snapshot.val();
+                console.log(data)
+                let currentPost = data;
+                await thisObj.getUserProfile(currentPost.writer).then( result=>{
+                  currentPost.writer = {
+                  ...result
+                  }
+                });
+                if(currentPost.lastCommentWriter){
+                  await thisObj.getUserProfile(currentPost.lastCommentWriter).then( result=>{
+                    currentPost.lastCommentWriter = {
+                    ...result
+                    }
+                  });
+                }
+                this.currentPost = currentPost
+                resolve();
+                
+              }
+            })
+            .catch((error) => {
+              console.error(error);
+            });
+        }, 0);
+      })
+    },
     async writePost(){// Create the file metadata
       const thisObj =this;
-      const category = this.$route.query.category
+      const category = this.$route.query.category == 'forums'?'forumsPosts':'hotFocusPosts'
+      const queryPostUid = this.$route.query.postUid
       const storage = getStorage();
       let filePaths = [];
       if(!this.loginUser){
@@ -88,55 +153,67 @@ export default {
         console.log("error")
         return false;
       }
-      const postUid = uid().replace("-","").slice(0,12)
+      const postUid = queryPostUid?queryPostUid:uid().replace("-","").slice(0,12)
       for (const currentFile of this.fileList) {
           await new Promise(resolve2 => {
             const file = currentFile.originFileObj
-            const storageRef = fileRef(storage, 'images/'+postUid+'/' + file.name);
-            const uploadTask = uploadBytesResumable(storageRef, file, {contentType: file.type});
+            if(file){
+              const storageRef = fileRef(storage, 'images/'+postUid+'/' + file.name);
+              const uploadTask = uploadBytesResumable(storageRef, file, {contentType: file.type});
 
-            // Listen for state changes, errors, and completion of the upload.
-            uploadTask.on('state_changed',
-              (snapshot) => {
-                // Get task progress, including the number of bytes uploaded and the total number of bytes to be uploaded
-                const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
-                thisObj.showLoading('Upload is ' + progress + '% done ');
-                switch (snapshot.state) {
-                  case 'paused':
-                    console.log('Upload is paused');
-                    break;
-                  case 'running':
-                    console.log('Upload is running');
-                    break;
+              // Listen for state changes, errors, and completion of the upload.
+              uploadTask.on('state_changed',
+                (snapshot) => {
+                  // Get task progress, including the number of bytes uploaded and the total number of bytes to be uploaded
+                  const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+                  thisObj.showLoading('Upload is ' + progress + '% done ');
+                  switch (snapshot.state) {
+                    case 'paused':
+                      console.log('Upload is paused');
+                      break;
+                    case 'running':
+                      console.log('Upload is running');
+                      break;
+                  }
+                },
+                (error) => {
+                  // A full list of error codes is available at
+                  // https://firebase.google.com/docs/storage/web/handle-errors
+                  switch (error.code) {
+                    case 'storage/unauthorized':
+                      // User doesn't have permission to access the object
+                      break;
+                    case 'storage/canceled':
+                      // User canceled the upload
+                      break;
+
+                    // ...
+
+                    case 'storage/unknown':
+                      // Unknown error occurred, inspect error.serverResponse
+                      break;
+                  }
+                },
+                () => {
+                  // Upload completed successfully, now we can get the download URL
+                  getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
+                    console.log('File available at', downloadURL);
+                    filePaths.push({
+                      fileName:file.name,
+                      url:downloadURL
+                    })
+                    resolve2();
+                  });
                 }
-              },
-              (error) => {
-                // A full list of error codes is available at
-                // https://firebase.google.com/docs/storage/web/handle-errors
-                switch (error.code) {
-                  case 'storage/unauthorized':
-                    // User doesn't have permission to access the object
-                    break;
-                  case 'storage/canceled':
-                    // User canceled the upload
-                    break;
-
-                  // ...
-
-                  case 'storage/unknown':
-                    // Unknown error occurred, inspect error.serverResponse
-                    break;
-                }
-              },
-              () => {
-                // Upload completed successfully, now we can get the download URL
-                getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
-                  console.log('File available at', downloadURL);
-                  filePaths.push(downloadURL)
-                  resolve2();
-                });
-              }
-            );
+              );
+            }else{
+              //no file 
+              filePaths.push({
+                fileName:currentFile.fileName,
+                url:currentFile.url
+              })
+              resolve2();
+            }
           });
       };
       const db = getDatabase();
@@ -153,6 +230,9 @@ export default {
         filePaths
       })
       thisObj.hideLoading()
+      if(queryPostUid){
+        thisObj.$router.go(-1)
+      }
 
       
     },
@@ -167,7 +247,7 @@ export default {
       this.previewVisible = true;
     },
     handleChange({ fileList }) {
-      this.fileList = fileList.filter(i=>i.type === 'image/jpg'||i.type === 'image/jpeg'||i.type === 'image/png');
+      this.fileList = fileList.filter(i=>i.type === 'image/jpg'||i.type === 'image/jpeg'||i.type === 'image/png' ||i.url);
     },
     beforeUpload(file) {
       const isJpgOrPng = file.type === 'image/jpg' || file.type === 'image/jpeg' || file.type === 'image/png';

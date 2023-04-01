@@ -23,7 +23,7 @@
           <div style="margin-top: 16px;">
             <img src="~assets/banner-pc.png" alt="">
           </div>
-          <q-btn label="write post" no-caps @click="$router.push('/write-post?category=forumsPosts')"></q-btn>
+          <q-btn label="write post" no-caps @click="$router.push('/write-post?category=forums')"></q-btn>
         </div>
         <div class="forums-page__right">
           <div class="tab-scroll is-mobile-show">
@@ -519,6 +519,7 @@ export default {
     line-height: 24px;
     letter-spacing: 0em;
     text-align: left;
+    color: #000;
   }
   &__right{
     flex: 1;
