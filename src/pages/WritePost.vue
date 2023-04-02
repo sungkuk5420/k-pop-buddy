@@ -226,7 +226,7 @@ export default {
         views: 0,
         replies: 0,
         createdAt: thisObj.createNowTime(),
-        updatedAt: null,
+        updatedAt: thisObj.createNowTime(),
         filePaths
       })
       thisObj.hideLoading()

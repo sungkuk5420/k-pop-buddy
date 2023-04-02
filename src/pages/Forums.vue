@@ -442,7 +442,7 @@ export default {
             console.log(allPosts)
             
             thisObj.allPosts = allPosts.sort((a, b)=>{
-              return a.createdAt - b.createdAt;
+              return b.updatedAt - a.updatedAt;
             })
             thisObj.boyPosts = allPosts.slice(0,3)
             thisObj.girlPosts = allPosts.slice(3,6)
