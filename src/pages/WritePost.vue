@@ -1,43 +1,91 @@
 <template>
   <q-page class="flex items-center justify-center write-post-page">
-    <q-input
-      v-model="title"
-      filled
-      placeholder="Write your title..."
-      type="text"
-      style="width:100%; margin-bottom: 10px;"
-    />
-    <q-input
-      v-model="content"
-      filled
-      placeholder="Write your post..."
-      cols="30"
-      rows="14"
-      type="textarea"
-    />
-    <div class="clearfix">
-      <a-upload
-        action="https://www.mocky.io/v2/5cc8019d300000980a055e76"
-        list-type="picture-card"
-        :file-list="fileList"
-        :before-upload="beforeUpload"
-        @preview="handlePreview"
-        @change="handleChange"
-      >
-        <div v-if="fileList.length < 8">
-          <a-icon type="plus" />
-          <div class="ant-upload-text">
-            Upload
+    <div class="contianer">
+      <div class="write-post-page__left is-desktop-show">
+        <div class="write-post-page__title">Forums</div>
+        <div class="write-post-page__left__menu">
+          <div class="write-post-page__left__menu__button" :class="boyGirlSoloTab == 'boy'?'is-active':''" @click="boyGirlSoloTab = 'boy'">
+            <span>IDOL Group(BOY) </span>
+            <span class="write-post-page__left__menu__button__count"> (11)</span>
+          </div>
+          <div class="write-post-page__left__menu__button" :class="boyGirlSoloTab == 'girl'?'is-active':''" @click="boyGirlSoloTab ='girl'">
+            <span>IDOL Group(Girl)</span>
+            <span class="write-post-page__left__menu__button__count"> (4)</span>
+          </div>
+          <div class="write-post-page__left__menu__button" :class="boyGirlSoloTab == 'solo'?'is-active':''" @click="boyGirlSoloTab ='solo'">
+            <span>IDOL Group(Solo)</span>
+            <span class="write-post-page__left__menu__button__count"> (574)</span>
           </div>
         </div>
-      </a-upload>
-      <a-modal :visible="previewVisible" :footer="null" @cancel="handleCancel">
-        <img alt="example" style="width: 100%" :src="previewImage" />
-      </a-modal>
+        <div style="margin-top: 16px;">
+          <img src="~assets/banner-pc.png" alt="">
+        </div>
+      </div>
+      <div class="write-post-page__right">
+        <div class="tab-scroll is-mobile-show">
+          <q-tabs
+            v-model="boyGirlSoloTab"
+            active-class="is-active"
+            class=" mobile-tab"
+          >
+            <q-tab name="boy" label="IDOL Group(BOY)" no-caps />
+            <q-tab name="girl"  label="IDOL Group(Girl)" no-caps />
+            <q-tab name="solo"  label="IDOL Group(Solo)" no-caps />
+          </q-tabs>
+        </div>
+        <img src="~assets/banner-mobile.png" alt="" class="is-mobile-show" style="width: 100%;">
+        <div class="write-post-page__right__title flex justify-between items-center" style="width: 100%;" v-show="boyGirlSoloTab == 'all' || boyGirlSoloTab == 'boy'">
+            <div class="flex items-center">
+              <div class="write-post-page__title">IDOL Group(Boy)</div>
+            </div>
+        </div>
+        <div class="write-post-page__right__title flex justify-between items-center" style="width: 100%;" v-show="boyGirlSoloTab == 'all' || boyGirlSoloTab == 'girl'">
+          <div class="flex items-center">
+            <div class="write-post-page__title">IDOL Group(Girl)</div>
+          </div>
+        </div>
+        <div class="write-post-page__right__title flex justify-between items-center" style="width: 100%;" v-show="boyGirlSoloTab == 'all' || boyGirlSoloTab == 'solo'">
+          <div class="flex items-center">
+            <div class="write-post-page__title">IDOL Group(Solo)</div>
+          </div>
+        </div>
+        <div class="write-post-page__bg">
+          <q-input
+            v-model="title"
+            outlined
+            placeholder="Please enter the subject"
+            type="text"
+            style="width:100%; margin-bottom: 10px; background: white;" 
+          />
+          <textarea placeholder="Please enter the content of the article" name="" id="" cols="30" rows="30" v-model="content"></textarea>
+          <div class="clearfix">
+            <div class="flex justify-between" style="margin-top: 12px;">
+              <a-upload
+                action="https://www.mocky.io/v2/5cc8019d300000980a055e76"
+                list-type="picture-card"
+                :file-list="fileList"
+                :before-upload="beforeUpload"
+                @preview="handlePreview"
+                @change="handleChange"
+                    class="custom-upload"
+              >
+                <div v-if="fileList.length < 8">
+                  <div class="ant-upload-text">
+                      Photo Upload
+                  </div>
+                </div>
+              </a-upload>
+              <a-modal :visible="previewVisible" :footer="null" @cancel="handleCancel">
+                <img alt="example" style="width: 100%" :src="previewImage" />
+              </a-modal>
+              <q-btn class="write-button" label="Write" no-caps v-show="mode=='add'" @click="writePost"></q-btn>
+            </div>
+            <!-- <q-btn label="edit post" v-show="mode=='edit'" @click="writePost"></q-btn>
+            <q-btn label="delete post" v-show="mode=='edit'" @click="deletePost"></q-btn> -->
+          </div>
+        </div>
+      </div>
     </div>
-      <q-btn label="write post" v-show="mode=='add'" @click="writePost"></q-btn>
-      <q-btn label="edit post" v-show="mode=='edit'" @click="writePost"></q-btn>
-      <q-btn label="delete post" v-show="mode=='edit'" @click="deletePost"></q-btn>
   </q-page>
 </template>
 
@@ -59,6 +107,7 @@ export default {
   mixins: [ComputedMixin, UtilMethodMixin],
   data () {
     return {
+      boyGirlSoloTab:"boy",
       title: '',
       content: '',
       currentPost: null,
@@ -69,8 +118,14 @@ export default {
       ],
     }
   },
+  watch:{
+    boyGirlSoloTab(value){
+      this.$router.push(`/write-post?category=${this.$route.query.category}&boyGirlSoloTab=${value}`)
+    }
+  },
   async mounted() {
     const postUid = this.$route.query.postUid;
+    this.boyGirlSoloTab = this.$route.query.boyGirlSoloTab;
     if(postUid){
       this.mode = 'edit'
       await this.getPostDetails()
@@ -137,6 +192,7 @@ export default {
       const category = this.$route.query.category == 'forums'?'forumsPosts':'hotFocusPosts'
       const queryPostUid = this.$route.query.postUid
       const storage = getStorage();
+      this.showLoading()
       let filePaths = [];
       if(!this.loginUser){
         this.errorMessage("로그인한 사용자만 작성할 수 있습니다.");
@@ -227,7 +283,8 @@ export default {
         replies: 0,
         createdAt: thisObj.createNowTime(),
         updatedAt: thisObj.createNowTime(),
-        filePaths
+        filePaths,
+        boyGirlSoloTab:thisObj.boyGirlSoloTab
       })
       thisObj.hideLoading()
       if(queryPostUid){
@@ -266,15 +323,194 @@ export default {
 <style lang="scss">
 .write-post-page{
   padding: 20px;
-  display: flex;
-  flex-direction: column;
-  .q-textarea{
+  display: flex; 
+  justify-content: center;
+  align-items: flex-start;
+  background: #F8F8F8;
+  .contianer{
+    display: flex; 
+    justify-content: center;
     width: 100%;
-    height: 300px;
-    textarea{
-      height: 100%;
-                resize: none;
+    max-width: 1080px;
+    padding: 24px;
+
+  }
+  
+  &__left{
+    width: 240px;
+    margin-right: 36px;
+    &__menu{
+      margin-top: 12px;
+      background: white;
+      width: 200px;
+      height: 150px;
+      padding: 12px 0;
+      &>div{
+        padding: 0 22px;
+        height: 43px;
+        font-family: Spoqa Han Sans Neo;
+        font-size: 12px;
+        font-weight: 500;
+        line-height: 15px;
+        letter-spacing: 0em;
+        text-align: left;
+        display: flex;
+        justify-content: flex-start;
+        align-items: center;
+        &:not(.write-post-page__left__menu__title):hover{
+          cursor: pointer;
+          background: #ddd;
+          opacity: 0.8;
+        }
+      }
+      &__button{
+        &.is-active{
+          color: #366EB5;
+        }
+        &__count{
+          font-family: Spoqa Han Sans Neo;
+          font-size: 12px;
+          font-weight: 400;
+          line-height: 15px;
+          letter-spacing: 0em;
+          text-align: left;
+          margin-left: 4px;
+          color: #999;
+        }
+      }
     }
   }
+  &__title{
+    font-family: Spoqa Han Sans Neo;
+    font-size: 16px;
+    font-weight: 700;
+    line-height: 24px;
+    letter-spacing: 0em;
+    text-align: left;
+    color: #000;
+  }
+  &__right{
+    flex: 1;
+    &__title{
+      display: flex;
+      align-items: center;
+      height: 40px;
+      margin-bottom: 4px;
+    }
+    .write-post-page__title{
+      margin-right: 5px;
+    }
+    .write-post-page__see-all{
+      font-family: Spoqa Han Sans Neo;
+      font-size: 12px;
+      font-weight: 700;
+      line-height: 18px;
+      letter-spacing: 0em;
+      text-align: left;
+
+      color: #1C579F;
+      &:hover{
+        cursor: pointer;
+        text-decoration: underline;
+      }
+    }
+  }
+
+  .write-post-page__bg{
+    background: white;
+    padding: 28px;
+  }
+  
+  textarea{
+    padding: 12px;
+    border: 1px solid #999;
+    border-radius: 6px;
+    width: 100%;
+    height: 100%;
+    resize: none;
+    height: 300px;
+    background: white;
+    &:focus,
+    &:active{
+      border:1px solid #366EB5;
+      outline: auto;  
+      outline-color: #366EB5 !important;
+    }
+  }
+  .ant-upload{
+    height: 32px !important;
+    width: 113px;
+    border-radius: 6px;
+    background: white;
+    color: #366EB5;
+    border: 1px solid #366EB5;
+    font-family: Spoqa Han Sans Neo;
+    font-size: 12px;
+    font-weight: 700;
+    line-height: 18px;
+    letter-spacing: 0em;
+    text-align: left;
+    padding: 0 !important;
+
+  }
+
+  .write-button{
+    background: #366EB5;
+    color: white;
+    height: 32px;
+    border: 1px solid #366EB5;
+    font-family: Spoqa Han Sans Neo;
+    font-size: 12px;
+    font-weight: 700;
+    line-height: 18px;
+    letter-spacing: 0em;
+    text-align: left;
+
+  }
+}
+
+@media only screen and (max-width: 1079px) {
+  /* For mobile: */
+  .write-post-page {
+    padding: 0;
+    .contianer{
+      padding: 0;
+    }
+    .write-post-page__right__title{
+      margin-left: 20px;
+      margin-top: 10px;
+    }
+    .forums-page__right{
+      width: 100%;
+    }
+    .write-post-page__right__content-wrapper__content{
+      padding: 0;
+    }
+    .write-post-page__right__content-wrapper.comment{
+      padding: 0 0 12px 0;
+    }
+    .write-post-page__right__conmment-wrapper{
+      padding: 10px;
+    }
+    .ant-upload{
+      direction: rtl;
+    }
+    .custom-upload{
+      display: flex;
+      flex-wrap: wrap;
+      width: 100%;
+      max-width: 230px;
+    }
+    
+    .write-post-page__bg{
+      background: white;
+      padding: 16px;
+    }
+  
+  }
+}
+
+@media only screen and (min-width: 1080px) {
+  /* For desktop: */
 }
 </style>
