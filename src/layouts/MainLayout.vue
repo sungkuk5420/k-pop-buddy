@@ -15,7 +15,7 @@
               <q-tab name="forums"  @click="$router.push('/forums')" label="Forums" no-caps/>
               <q-tab name="hotFocus"  @click="$router.push('/hot-focus')" label="HOT Focus" no-caps/>
               <q-tab name="deal"  @click="$router.push('/deal')" label="Buddies Deal" no-caps/>
-              <q-tab name="specialOffer"  @click="$router.push('/special-offer')" label="Special Offer" no-caps/>
+              <q-tab name="Premium Service"  @click="$router.push('/premium-service')" label="Special Offer" no-caps/>
             </q-tabs>
   
   
@@ -41,12 +41,34 @@
       content-class="bg-grey-1"
     > 
       <q-list>
-        <q-item-label header class="text-grey-8" @click="$router.push('/login')">
+        <q-item v-ripple clickable class="text-grey-8" @click="$router.push('/forums')">
+          Forums
+        </q-item>
+        <q-item v-ripple clickable class="text-grey-8" @click="$router.push('/hot-focus')">
+          HOT Focus
+        </q-item>
+        <q-item v-ripple clickable class="text-grey-8" @click="$router.push('/deal')">
+          Buddies Deal
+        </q-item>
+        <q-item v-ripple clickable class="text-grey-8" @click="$router.push('/premium-service')">
+          Premium Service
+        </q-item>
+      </q-list>
+      <q-list v-show="!loginUser">
+        <q-item v-ripple clickable class="text-grey-8" @click="$router.push('/login')">
           login
-        </q-item-label>
-        <q-item-label header class="text-grey-8" @click="$router.push('/register')">
+        </q-item>
+        <q-item v-ripple clickable class="text-grey-8" @click="$router.push('/register')">
           register
-        </q-item-label>
+        </q-item>
+      </q-list>
+      <q-list v-show="loginUser">
+        <q-item v-ripple clickable class="text-grey-8" @click="$router.push('/my-page')">
+          My page
+        </q-item>
+        <q-item v-ripple clickable class="text-grey-8" @click="logout">
+          Logout
+        </q-item>
       </q-list>
     </q-drawer>
 
@@ -79,7 +101,7 @@ export default {
   },
   data() {
     return {
-      tab: 'forums',
+      tab: '',
       hamburgerOpen:false,
       leftDrawerOpen:false
     };
@@ -97,6 +119,8 @@ export default {
       this.tab = 'hotFocus'
     }else if(this.$route.path == '/deal' ){
       this.tab = 'deal'
+    }else{
+      this.tab = ''
     }
   },
   methods:{
@@ -122,6 +146,17 @@ export default {
 </script>
 
 <style lang="scss">
+.q-drawer__content{
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding-bottom: 20px;
+  .q-list{
+    .q-item{
+      border-top: 1px solid #ddd;
+    }
+  }
+}
 .top-header-tabs{
   width: 100%;
   background: white;

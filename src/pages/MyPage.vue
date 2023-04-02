@@ -1,0 +1,376 @@
+<template>
+  <q-page class="my-page">
+    <div class="contianer">
+      <div class="my-page__left is-desktop-show">
+        <div class="my-page__title">Forums</div>
+        <div class="my-page__left__menu">
+          <div class="my-page__left__menu__button" clickable :class="tab == 'myInfomation'?'is-active':''" @click="tab = 'myInfomation'">
+            <span>My information</span>
+          </div>
+          <div class="my-page__left__menu__button" clickable :class="tab == 'noteManagement'?'is-active':''" @click="tab ='noteManagement'">
+            <span>Note management</span>
+          </div>
+          <div class="my-page__left__menu__button" clickable :class="tab == 'logout'?'is-active':''" @click="tab ='logout'">
+            <span>Logout</span>
+          </div>
+        </div>
+        <div style="margin-top: 16px;">
+          <img src="~assets/banner-pc.png" alt="">
+        </div>
+      </div>
+      <div class="my-page__right">
+        <div class="tab-scroll is-mobile-show">
+          <q-tabs
+            v-model="tab"
+            active-class="is-active"
+            class=" mobile-tab"
+          >
+            <q-tab name="myInfomation" label="My information" no-caps />
+            <q-tab name="noteManagement" label="Note management" no-caps />
+            <q-tab name="logout"  label="Logout" no-caps />
+          </q-tabs>
+        </div>
+        <img src="~assets/banner-mobile.png" alt="" class="is-mobile-show" style="width: 100%;">
+        <div class="my-infomation-wrapper">
+          <div class="flex column" style="width: 100%;">
+            <div class="flex" style="width: 100%;">
+              <div class="my-infomation-wrapper__avatar">
+                <q-avatar v-if="loginUser&&!loginUser.avatar"  @click="$router.push('/change-info')"  color="red" text-color="white" >{{ loginUser?loginUser.nickname.slice(0, 1).toUpperCase():''}}</q-avatar>
+              <q-avatar v-if="loginUser&&loginUser.avatar" @click="$router.push('/change-info')"   color="red" text-color="white" >
+                <img :src="loginUser.avatar" alt="" srcset="">  
+              </q-avatar>
+
+              </div>
+              <div class="my-infomation-wrapper__nickname-wrapper">
+                <div class="my-infomation-wrapper__nickname">
+                  {{ loginUser.nickname}}
+                </div>
+                <div class="my-infomation-wrapper__post-and-comment">
+                  <div class="my-infomation-wrapper__created-at">{{ convertedDateFormatEnglish(loginUser.createdAt) }}</div>
+                  <div class="my-infomation-wrapper__spliter"></div>
+                  <div class="my-infomation-wrapper__post">
+                    <div class="my-infomation-wrapper__label">Post</div>
+                    <div class="my-infomation-wrapper__value">{{ postCount }}</div>
+                  </div>
+                  <div class="my-infomation-wrapper__spliter"></div>
+                  <div class="my-infomation-wrapper__comment">
+                    <div class="my-infomation-wrapper__label">Comment</div>
+                    <div class="my-infomation-wrapper__value">{{ commentCount }}</div>
+                  </div>
+                </div>
+                <div class="my-infomation-wrapper__reset-password">
+                  Reset Password
+                </div>
+
+              </div>
+              <div class="my-infomation-wrapper__edit is-desktop-show" style="margin-left:auto;">
+                <q-btn outline label="Edit" no-caps/>
+              </div>
+            </div>
+            <div class="my-infomation-wrapper__edit is-mobile-show" style="width: 100%;padding:20px 0px 0 0px">
+              <q-btn outline label="Edit" no-caps style="width: 100%;" />
+            </div>
+          </div>
+        </div><!--  my-infomation-wrapper -->
+
+
+      </div>
+    </div>
+  </q-page>
+</template>
+
+<script>
+import ComputedMixin from "../ComputedMixin";
+import UtilMethodMixin from "../UtilMethodMixin";
+import { getDatabase, ref, set, child, get,query, orderByChild,equalTo  } from 'firebase/database';
+export default {
+  mixins: [ComputedMixin, UtilMethodMixin],
+  data(){
+    return{
+      tab:"myInfomation",
+      postCount:0,
+      commentCount:0,
+    }
+  },
+  mounted() {
+    // this.showLoading();
+      // this.getPosts();
+  },
+  methods:{
+    
+    // getPosts(){
+    //   const thisObj = this;
+    //   // get(child(dbRef, `forumsPosts/`))
+    //   const db = getDatabase();
+    //   console.log(this.loginUser.uid)
+    //   const mostViewedPosts = query(ref(db, 'forumsPosts'), orderByChild('writer'));
+      
+    //   get(mostViewedPosts).then((snapshot) => {
+    //     if (snapshot.exists()) {
+    //       console.log(snapshot.val());
+    //     } else {
+    //       console.log("No data available");
+    //     }
+    //   }).catch((error) => {
+    //     console.error(error);
+    //   });
+    //   console.log(mostViewedPosts)
+    // },
+  },
+};
+</script>
+
+<style lang="scss">
+.my-page{
+  display: flex; 
+  justify-content: center;
+  background: #F8F8F8;
+  .contianer{
+    display: flex; 
+    justify-content: center;
+    width: 100%;
+    max-width: 1080px;
+    padding: 24px;
+
+  }
+  
+  &__left{
+    width: 240px;
+    margin-right: 36px;
+    &__menu{
+      margin-top: 12px;
+      background: white;
+      width: 200px;
+      height: 200px;
+      padding: 12px 0;
+      &>div{
+        padding: 0 22px;
+        height: 43px;
+        font-family: Spoqa Han Sans Neo;
+        font-size: 12px;
+        font-weight: 500;
+        line-height: 15px;
+        letter-spacing: 0em;
+        text-align: left;
+        display: flex;
+        justify-content: flex-start;
+        align-items: center;
+        &:not(.my-page__left__menu__title):hover{
+          cursor: pointer;
+          background: #ddd;
+          opacity: 0.8;
+        }
+      }
+      &__button{
+        &.is-active{
+          color: #366EB5;
+        }
+        &__count{
+          font-family: Spoqa Han Sans Neo;
+          font-size: 12px;
+          font-weight: 400;
+          line-height: 15px;
+          letter-spacing: 0em;
+          text-align: left;
+          margin-left: 4px;
+          color: #999;
+        }
+      }
+    }
+  }
+  &__title{
+    font-family: Spoqa Han Sans Neo;
+    font-size: 16px;
+    font-weight: 700;
+    line-height: 24px;
+    letter-spacing: 0em;
+    text-align: left;
+    color: #000;
+  }
+  &__right{
+    flex: 1;
+    &__title{
+      display: flex;
+      align-items: center;
+      height: 40px;
+      margin-bottom: 4px;
+    }
+    .my-page__title{
+      margin-right: 5px;
+    }
+    .my-page__see-all{
+      font-family: Spoqa Han Sans Neo;
+      font-size: 12px;
+      font-weight: 700;
+      line-height: 18px;
+      letter-spacing: 0em;
+      text-align: left;
+
+      color: #1C579F;
+      &:hover{
+        cursor: pointer;
+        text-decoration: underline;
+      }
+    }
+  }
+  .my-infomation-wrapper{
+    display: flex;
+    justify-content: space-between;
+    background: white;
+    padding: 32px 24px ;
+    &__avatar{
+      width: 80px;
+      height: 100%;
+      display: flex;
+      align-items: center;
+      .q-avatar,
+      img{
+        width: 80px;
+        height: 80px;
+      }
+    }
+    &__nickname-wrapper{
+      padding-left: 16px;
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      justify-content: center;
+    }
+    &__nickname{
+      font-family: Spoqa Han Sans Neo;
+      font-size: 14px;
+      font-weight: 700;
+      line-height: 20px;
+      letter-spacing: 0em;
+      text-align: left;
+      color: #333;
+      margin-bottom: 8px;
+    }
+    &__post-and-comment{
+      display: flex;
+      align-items: center;
+      margin-bottom: 8px;
+    }
+    &__spliter{
+      width: 1px;
+      height: 12px;
+      background: #999;
+      margin: 0 12px;
+    }
+    &__post{
+      display: flex;
+      align-items: center;
+    }
+    &__comment{
+      display: flex;
+      align-items: center;
+    }
+    &__created-at{
+      font-family: Spoqa Han Sans Neo;
+      font-size: 10px;
+      font-weight: 700;
+      line-height: 12px;
+      letter-spacing: 0em;
+      text-align: left;
+      color: #999;
+    }
+    &__label{
+      font-family: Spoqa Han Sans Neo;
+      font-size: 10px;
+      font-weight: 700;
+      line-height: 12px;
+      letter-spacing: 0em;
+      text-align: left;
+      color: #999;
+      margin-right: 8px;
+    }
+    &__value{
+      font-family: Spoqa Han Sans Neo;
+      font-size: 12px;
+      font-weight: 700;
+      line-height: 18px;
+      letter-spacing: 0em;
+      text-align: left;
+      color: #333;
+    }
+    &__reset-password{
+      font-family: Spoqa Han Sans Neo;
+      font-size: 10px;
+      font-weight: 700;
+      line-height: 12px;
+      letter-spacing: 0em;
+      text-align: left;
+      color: #366EB5;
+      cursor: pointer;
+    }
+    &__edit{
+      display: flex;
+      align-items: center;
+      .q-btn{
+        border-radius: 6px;
+        font-family: Spoqa Han Sans Neo;
+        font-size: 12px;
+        font-weight: 700;
+        line-height: 18px;
+        letter-spacing: 0em;
+        text-align: left;
+        color: #366EB5;
+
+      }
+    }
+  }
+
+
+}
+
+
+@media only screen and (max-width: 1079px) {
+  /* For mobile: */
+  .my-page {
+    .contianer{
+      padding: 0;
+    }
+    .my-page__right{
+      width: 100%;
+    }
+    .my-page__title{
+      margin-left: 24px;
+    }
+
+    .tab-scroll{
+      width: 100%;
+      overflow: auto;
+      display: flex;
+      .q-tab{
+        color: #000;
+        font-family: Spoqa Han Sans Neo;
+        font-size: 12px;
+        font-weight: 500;
+        line-height: 15px;
+        letter-spacing: 0em;
+        text-align: left;
+
+        &.q-tab--active{
+          color: #1C579F;
+        }
+      }
+      .q-tab__indicator{
+        display: none;
+      }
+    }
+
+    .my-infomation-wrapper__avatar{
+      width: 60px;
+      height: 60px;
+      .q-avatar{
+        width: 60px;
+        height: 60px;
+      }
+    }
+  }
+}
+
+@media only screen and (min-width: 1080px) {
+  /* For desktop: */
+}
+</style>

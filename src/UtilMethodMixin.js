@@ -164,7 +164,23 @@ let UtilMethodMixin = {
                     }
                 }, 0);
             })
-        }
+        },
+        logout() {
+            const auth = getAuth();
+            const thisObj = this;
+            signOut(auth)
+                .then(() => {
+                    thisObj.$q.notify({
+                        position: 'top',
+                        timeout: 500,
+                        message: 'logout',
+                        icon: 'announcement',
+                    });
+                })
+                .catch((error) => {
+                    // An error happened.
+                });
+        },
     }
 };
 export default UtilMethodMixin;

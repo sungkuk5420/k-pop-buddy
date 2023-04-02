@@ -23,6 +23,13 @@ const routes = [
     ],
   },
   {
+    path: '/my-page',
+    component: () => import('layouts/MainLayout.vue'),
+    children: [
+      { path: '', component: () => import('pages/MyPage.vue') },
+    ],
+  },
+  {
     path: '/forums-details',
     component: () => import('layouts/MainLayout.vue'),
     children: [
@@ -51,10 +58,10 @@ const routes = [
     ],
   },
   {
-    path: '/special-offer',
+    path: '/premium-service',
     component: () => import('layouts/MainLayout.vue'),
     children: [
-      { path: '', component: () => import('pages/SpecialOffer.vue') },
+      { path: '', component: () => import('pages/PremiumService.vue') },
     ],
   },
   {

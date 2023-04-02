@@ -1,6 +1,6 @@
 <template>
   <q-page class="flex items-start justify-center">
-    <span>SpecialOffer</span>
+    <span>Premium Service</span>
   </q-page>
 </template>
 

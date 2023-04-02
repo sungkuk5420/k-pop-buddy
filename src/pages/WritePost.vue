@@ -120,7 +120,9 @@ export default {
   },
   watch:{
     boyGirlSoloTab(value){
-      this.$router.push(`/write-post?category=${this.$route.query.category}&boyGirlSoloTab=${value}`)
+      if(this.$route.query.boyGirlSoloTab!= value){
+        this.$router.push(`/write-post?category=${this.$route.query.category}&boyGirlSoloTab=${value}`)
+      }
     }
   },
   async mounted() {

@@ -4,18 +4,18 @@
       <div class="forums-page__left is-desktop-show">
         <div class="forums-page__title">Forums</div>
         <div class="forums-page__left__menu">
-          <div class="forums-page__left__menu__button" :class="boyGirlSoloTab == 'all'?'is-active':''" @click="boyGirlSoloTab = 'all'">
+          <div class="forums-page__left__menu__button" clickable :class="boyGirlSoloTab == 'all'?'is-active':''" @click="boyGirlSoloTab = 'all'">
             ALL
           </div>
-          <div class="forums-page__left__menu__button" :class="boyGirlSoloTab == 'boy'?'is-active':''" @click="boyGirlSoloTab = 'boy'">
+          <div class="forums-page__left__menu__button" clickable :class="boyGirlSoloTab == 'boy'?'is-active':''" @click="boyGirlSoloTab = 'boy'">
             <span>IDOL Group(BOY) </span>
             <span class="forums-page__left__menu__button__count"> (11)</span>
           </div>
-          <div class="forums-page__left__menu__button" :class="boyGirlSoloTab == 'girl'?'is-active':''" @click="boyGirlSoloTab ='girl'">
+          <div class="forums-page__left__menu__button" clickable :class="boyGirlSoloTab == 'girl'?'is-active':''" @click="boyGirlSoloTab ='girl'">
             <span>IDOL Group(Girl)</span>
             <span class="forums-page__left__menu__button__count"> (4)</span>
           </div>
-          <div class="forums-page__left__menu__button" :class="boyGirlSoloTab == 'solo'?'is-active':''" @click="boyGirlSoloTab ='solo'">
+          <div class="forums-page__left__menu__button" clickable :class="boyGirlSoloTab == 'solo'?'is-active':''" @click="boyGirlSoloTab ='solo'">
             <span>IDOL Group(Solo)</span>
             <span class="forums-page__left__menu__button__count"> (574)</span>
           </div>
@@ -38,7 +38,7 @@
           </q-tabs>
         </div>
         <img src="~assets/banner-mobile.png" alt="" class="is-mobile-show" style="width: 100%;">
-        <div class="forums-page__right__title flex justify-between items-center" style="width: 100%;" v-show="boyGirlSoloTab == 'all' || boyGirlSoloTab == 'boy'">
+        <div class="forums-page__right__title flex justify-between items-center" style="padding-right:20px;width: 100%;" v-show="boyGirlSoloTab == 'all' || boyGirlSoloTab == 'boy'">
             <div class="flex items-center">
               <div class="forums-page__title">IDOL Group(Boy)</div>
               <div class="forums-page__see-all" v-show="boyGirlSoloTab=='all'">See All</div>
@@ -150,7 +150,7 @@
             </q-item-section>
           </q-item>
         </q-list>
-        <div class="forums-page__right__title flex justify-between items-center" style="width: 100%;" v-show="boyGirlSoloTab == 'all' || boyGirlSoloTab == 'girl'">
+        <div class="forums-page__right__title flex justify-between items-center" style="padding-right:20px;width: 100%;" v-show="boyGirlSoloTab == 'all' || boyGirlSoloTab == 'girl'">
           <div class="flex items-center">
             <div class="forums-page__title">IDOL Group(Girl)</div>
             <div class="forums-page__see-all" v-show="boyGirlSoloTab=='all'">See All</div>
@@ -261,7 +261,7 @@
             </q-item-section>
           </q-item>
         </q-list>
-        <div class="forums-page__right__title flex justify-between items-center" style="width: 100%;" v-show="boyGirlSoloTab == 'all' || boyGirlSoloTab == 'solo'">
+        <div class="forums-page__right__title flex justify-between items-center" style="padding-right:20px;width: 100%;" v-show="boyGirlSoloTab == 'all' || boyGirlSoloTab == 'solo'">
           <div class="flex items-center">
             <div class="forums-page__title">IDOL Group(Solo)</div>
             <div class="forums-page__see-all" v-show="boyGirlSoloTab=='all'">See All</div>
