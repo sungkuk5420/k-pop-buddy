@@ -29,7 +29,7 @@
           </q-avatar> -->
 
           <q-btn class="login-button is-desktop-show" label="Login" flat  no-caps v-if="!loginUser" @click="$router.push('/login')"></q-btn>
-          <q-btn class="logout-button is-desktop-show" label="Logout" flat no-caps v-if="loginUser" @click="logout"></q-btn>
+          <q-btn class="logout-button is-desktop-show" label="MyPage" flat no-caps v-if="loginUser" @click="$router.push('/my-page')"></q-btn>
           <q-btn class="register-button is-desktop-show" label="Register" no-caps v-if="!loginUser" @click="$router.push('/register')"></q-btn>
         </div>
 

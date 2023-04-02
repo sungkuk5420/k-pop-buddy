@@ -1,5 +1,6 @@
 import { mapGetters } from "vuex";
-import { getDatabase, ref, set, child, get } from 'firebase/database';
+import { getDatabase, ref, set, child, get, } from 'firebase/database';
+import { getAuth, signOut, } from "firebase/auth";
 let UtilMethodMixin = {
     methods: {
         getAvatarIsDefault() {

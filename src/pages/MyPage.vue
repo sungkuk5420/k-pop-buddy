@@ -2,15 +2,15 @@
   <q-page class="my-page">
     <div class="contianer">
       <div class="my-page__left is-desktop-show">
-        <div class="my-page__title">Forums</div>
-        <div class="my-page__left__menu">
+        <div class="my-page__title">Mypage</div>
+        <div class="my-page__left__menu" v-if="loginUser">
           <div class="my-page__left__menu__button" clickable :class="tab == 'myInfomation'?'is-active':''" @click="tab = 'myInfomation'">
             <span>My information</span>
           </div>
           <div class="my-page__left__menu__button" clickable :class="tab == 'noteManagement'?'is-active':''" @click="tab ='noteManagement'">
             <span>Note management</span>
           </div>
-          <div class="my-page__left__menu__button" clickable :class="tab == 'logout'?'is-active':''" @click="tab ='logout'">
+          <div class="my-page__left__menu__button" clickable :class="tab == 'logout'?'is-active':''" @click="tab ='logout';">
             <span>Logout</span>
           </div>
         </div>
@@ -18,7 +18,7 @@
           <img src="~assets/banner-pc.png" alt="">
         </div>
       </div>
-      <div class="my-page__right">
+      <div class="my-page__right" v-if="loginUser">
         <div class="tab-scroll is-mobile-show">
           <q-tabs
             v-model="tab"
@@ -47,7 +47,7 @@
                 </div>
                 <div class="my-infomation-wrapper__post-and-comment">
                   <div class="my-infomation-wrapper__created-at">{{ convertedDateFormatEnglish(loginUser.createdAt) }}</div>
-                  <div class="my-infomation-wrapper__spliter"></div>
+                  <!-- <div class="my-infomation-wrapper__spliter"></div>
                   <div class="my-infomation-wrapper__post">
                     <div class="my-infomation-wrapper__label">Post</div>
                     <div class="my-infomation-wrapper__value">{{ postCount }}</div>
@@ -56,7 +56,7 @@
                   <div class="my-infomation-wrapper__comment">
                     <div class="my-infomation-wrapper__label">Comment</div>
                     <div class="my-infomation-wrapper__value">{{ commentCount }}</div>
-                  </div>
+                  </div> -->
                 </div>
                 <div class="my-infomation-wrapper__reset-password">
                   Reset Password
@@ -95,6 +95,13 @@ export default {
   mounted() {
     // this.showLoading();
       // this.getPosts();
+  },
+  watch:{
+    tab(value){
+      if(value == 'logout'){
+        this.logout()
+      }
+    }
   },
   methods:{
     
