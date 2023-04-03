@@ -44,6 +44,8 @@
           There are no articles written.
         </div>
 
+        {{ dealPosts }}
+
       </div>
     </div>
   <div class="flex column">
@@ -84,7 +86,7 @@ methods:{
   getPosts(){
     const thisObj = this;
     const dbRef = ref(getDatabase());
-    get(child(dbRef, `forumsPosts/`))
+    get(child(dbRef, `dealPosts/`))
       .then(async (snapshot) => {
         if (snapshot.exists()) {
           // console.log(snapshot.val());
@@ -117,12 +119,9 @@ methods:{
 
           console.log(allPosts)
           
-          thisObj.allPosts = allPosts.sort((a, b)=>{
+          thisObj.dealPosts = allPosts.sort((a, b)=>{
             return a.createdAt - b.createdAt;
           })
-          thisObj.boyPosts = allPosts.slice(0,3)
-          thisObj.girlPosts = allPosts.slice(3,6)
-          thisObj.soloPosts = allPosts.slice(6,9)
         }
       })
       .catch((error) => {

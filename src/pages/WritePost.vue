@@ -95,7 +95,7 @@
             type="text"
             style="width:100%; margin-bottom: 10px; background: white;" 
           />
-          <div class="flex" style="gap:10px">
+          <div class="flex" style="gap:10px" v-show="category=='deal'">
             <div style="flex:1">
               <q-input outlined v-model="fromDate" placeholder="start date">
                 <template v-slot:append>
@@ -378,19 +378,18 @@ this.toDate = value.to
           });
       };
       const db = getDatabase();
-      if(category == 'deal'){
+      if(this.category == 'deal'){
         set(ref(db, 'dealPosts/' + postUid), {
           postUid:postUid,
           title: thisObj.title,
           content: thisObj.content,
           writer: thisObj.loginUser.uid,
-          lastCommentWriter: null,
-          views: 0,
-          replies: 0,
           createdAt: thisObj.createNowTime(),
-          updatedAt: thisObj.createNowTime(),
+          fromDate: thisObj.fromDate,
+          toDate: thisObj.toDate,
+          regularPrice: thisObj.regularPrice,
+          discountedPrice: thisObj.discountedPrice,
           filePaths,
-          boyGirlSoloTab:thisObj.boyGirlSoloTab?thisObj.boyGirlSoloTab:''
         })
       }else{
         set(ref(db, category+'/' + postUid), {
