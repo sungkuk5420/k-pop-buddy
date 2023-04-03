@@ -58,7 +58,7 @@
                     <div class="my-infomation-wrapper__value">{{ commentCount }}</div>
                   </div> -->
                 </div>
-                <div class="my-infomation-wrapper__reset-password">
+                <div class="my-infomation-wrapper__reset-password" @click="prompt">
                   Reset Password
                 </div>
 
@@ -82,6 +82,7 @@
 <script>
 import ComputedMixin from "../ComputedMixin";
 import UtilMethodMixin from "../UtilMethodMixin";
+import { getAuth, updatePassword } from "firebase/auth";
 import { getDatabase, ref, set, child, get,query, orderByChild,equalTo  } from 'firebase/database';
 export default {
   mixins: [ComputedMixin, UtilMethodMixin],
@@ -104,7 +105,49 @@ export default {
     }
   },
   methods:{
-    
+    prompt () {
+      this.$q.dialog({
+        title: 'Reset Password',
+        message: 'input new password',
+        prompt: {
+          model: '',
+
+          type: 'password' // optional
+        },
+        cancel: true,
+        persistent: true
+      }).onOk(data => {
+        console.log(data)
+        debugger
+        this.resetPassword(data)
+        // console.log('>>>> OK, received', data)
+      }).onCancel(() => {
+        // console.log('>>>> Cancel')
+      }).onDismiss(() => {
+        // console.log('I am triggered on both OK and Cancel')
+      })
+    },
+    resetPassword(newPassword){
+      const auth = getAuth();
+
+      const user = auth.currentUser;
+
+      updatePassword(user, newPassword).then(() => {
+        this.successMessage("Update successful")
+      }).catch((error) => {
+          let errorMessage = error.message
+          if(error.message.indexOf('auth/email-already-in-use')!=-1){
+            errorMessage = "Email already in use";
+          }
+          if(error.message.indexOf('(auth/weak-password)')!=-1){
+            errorMessage = "Password should be at least 6 characters ";
+          }
+          if(error.message.indexOf('(auth/invalid-email)')!=-1){
+            errorMessage = "Please enter a valid email address";
+          }
+          this.errorMessage(errorMessage)
+      });
+    }
     // getPosts(){
     //   const thisObj = this;
     //   // get(child(dbRef, `forumsPosts/`))
