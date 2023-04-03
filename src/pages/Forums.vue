@@ -409,7 +409,9 @@ export default {
   mounted() {
     // this.showLoading();
       this.getPosts();
-    this.boyGirlSoloTab = this.$route.query.boyGirlSoloTab;
+      if(this.$route.query.boyGirlSoloTab){
+        this.boyGirlSoloTab = this.$route.query.boyGirlSoloTab;
+      }
   },
   methods:{
     goDetails(post){

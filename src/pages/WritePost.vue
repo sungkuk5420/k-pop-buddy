@@ -2,8 +2,8 @@
   <q-page class="flex items-center justify-center write-post-page">
     <div class="contianer">
       <div class="write-post-page__left is-desktop-show">
-        <div class="write-post-page__title">Forums</div>
-        <div class="write-post-page__left__menu">
+        <div class="write-post-page__title" v-show="category=='forums'">Forums</div>
+        <div class="write-post-page__left__menu" v-show="category=='forums'">
           <div class="write-post-page__left__menu__button" :class="boyGirlSoloTab == 'all'?'is-active':''" @click="boyGirlSoloTab = 'all'">
             <span>ALL </span>
             <span class="write-post-page__left__menu__button__count"> (11)</span>
@@ -52,6 +52,11 @@
         <div class="write-post-page__right__title flex justify-between items-center" style="width: 100%;" v-show="boyGirlSoloTab == 'all' || boyGirlSoloTab == 'solo'">
           <div class="flex items-center">
             <div class="write-post-page__title">IDOL Group(Solo)</div>
+          </div>
+        </div>
+        <div class="write-post-page__right__title flex justify-between items-center" style="width: 100%;" v-show="category == 'hotFocus'">
+          <div class="flex items-center">
+            <div class="write-post-page__title">HOT Focus</div>
           </div>
         </div>
         <div class="write-post-page__bg">
@@ -119,6 +124,7 @@ export default {
       mode:'add',
       previewVisible: false,
       previewImage: '',
+      category:"",
       fileList: [
       ],
     }
@@ -136,6 +142,7 @@ export default {
     const postUid = this.$route.query.postUid;
     window.isFirstChangeBoyGirlSoloTab = true
     this.boyGirlSoloTab = this.$route.query.boyGirlSoloTab;
+    this.category = this.$route.query.category;
     if(postUid){
       this.mode = 'edit'
       await this.getPostDetails()
@@ -155,7 +162,7 @@ export default {
   methods:{
     deletePost(){
       const db = getDatabase();
-      const category = this.$route.query.category == 'forums'?'forumsPosts':'hotFocusPosts'
+      const category = this.category == 'forums'?'forumsPosts':'hotFocusPosts'
       const postUid = this.$route.query.postUid
       set(ref(db, category+'/' + postUid),null)
     },
@@ -166,7 +173,7 @@ export default {
           const dbRef = ref(getDatabase());
           const thisObj = this;
           console.log(postUid)
-          const category = this.$route.query.category == 'forums'?'forumsPosts':'hotFocusPosts'
+          const category = this.category == 'forums'?'forumsPosts':'hotFocusPosts'
           get(child(dbRef, `${category}/${postUid}`))
             .then(async (snapshot) => {
               if (snapshot.exists()) {
@@ -199,7 +206,7 @@ export default {
     },
     async writePost(){// Create the file metadata
       const thisObj =this;
-      const category = this.$route.query.category == 'forums'?'forumsPosts':'hotFocusPosts'
+      const category = this.category == 'forums'?'forumsPosts':'hotFocusPosts'
       const queryPostUid = this.$route.query.postUid
       const storage = getStorage();
       this.showLoading()
@@ -294,12 +301,10 @@ export default {
         createdAt: thisObj.createNowTime(),
         updatedAt: thisObj.createNowTime(),
         filePaths,
-        boyGirlSoloTab:thisObj.boyGirlSoloTab
+        boyGirlSoloTab:thisObj.boyGirlSoloTab?thisObj.boyGirlSoloTab:''
       })
       thisObj.hideLoading()
-      if(queryPostUid){
-        thisObj.$router.go(-1)
-      }
+      thisObj.$router.go(-1)
 
       
     },

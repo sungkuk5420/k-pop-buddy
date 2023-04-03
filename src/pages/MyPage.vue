@@ -4,9 +4,6 @@
       <div class="my-page__left is-desktop-show">
         <div class="my-page__title">Mypage</div>
         <div class="my-page__left__menu" v-if="loginUser">
-          <div class="my-page__left__menu__button" clickable :class="tab == 'myInfomation'?'is-active':''" @click="tab = 'myInfomation'">
-            <span>My information</span>
-          </div>
           <div class="my-page__left__menu__button" clickable :class="tab == 'noteManagement'?'is-active':''" @click="tab ='noteManagement'">
             <span>Note management</span>
           </div>
@@ -25,7 +22,6 @@
             active-class="is-active"
             class=" mobile-tab"
           >
-            <q-tab name="myInfomation" label="My information" no-caps />
             <q-tab name="noteManagement" label="Note management" no-caps />
             <q-tab name="logout"  label="Logout" no-caps />
           </q-tabs>
@@ -88,7 +84,7 @@ export default {
   mixins: [ComputedMixin, UtilMethodMixin],
   data(){
     return{
-      tab:"myInfomation",
+      tab:"noteManagement",
       postCount:0,
       commentCount:0,
     }

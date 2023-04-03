@@ -5,12 +5,14 @@
         <div >
           <img src="~assets/banner-pc.png" alt="">
         </div>
-        <q-btn label="write post" no-caps @click="$router.push('/write-post?category=hotFocus')"></q-btn>
       </div>
       <div class="hot-focus-page__right">
         <img src="~assets/banner-mobile.png" alt="" class="is-mobile-show" style="width: 100%;">
-        <div class="hot-focus-page__right__title">
-          <div class="hot-focus-page__title">HOT Focus</div>
+        <div class="hot-focus-page__right__title flex justify-between items-center" style="padding-right:20px;width: 100%;" >
+          <div class="flex items-center">
+            <div class="hot-focus-page__title">HOT Focus</div>
+          </div>
+          <q-btn class="write-button" flat label="Write"  no-caps @click="$router.push('/write-post?category=hotFocus')"></q-btn>
         </div>
 
         <div class="empty-list" v-show="allPosts.length==0">
@@ -68,7 +70,7 @@
                   <div class="list-commenter__nickname ellipsis">
                     {{item.lastCommentWriter?item.lastCommentWriter.nickname:""}}
                   </div>
-                  <div class="list-commenter__created-at">
+                  <div class="list-commenter__created-at" v-show="item.lastCommentWriter">
                     {{item.updatedAt?timeSince(item.updatedAt):""}}
                   </div>
                 </div>
@@ -90,7 +92,7 @@
                   <div class="list-commenter__nickname">
                     {{item.lastCommentWriter?item.lastCommentWriter.nickname:""}}
                   </div>
-                  <div class="list-commenter__created-at">
+                  <div class="list-commenter__created-at" v-show="item.lastCommentWriter">
                     {{item.updatedAt?timeSince(item.updatedAt):""}}
                   </div>
                 </div>
@@ -433,6 +435,18 @@ background: #F8F8F8;
 
   
 }
+
+.write-button{
+    color: white;
+    background: #366EB5;
+    font-family: Spoqa Han Sans Neo;
+    font-size: 12px;
+    font-weight: 700;
+    line-height: 18px;
+    letter-spacing: 0em;
+    text-align: left;
+
+  }
 
 }
 
