@@ -23,13 +23,14 @@
           </q-toolbar>
         </div>
         <div class="main-header__right">
-          <!-- <q-avatar v-if="loginUser&&!loginUser.avatar"  @click="$router.push('/change-info')" square color="red" text-color="white" class="q-mr-md">{{ loginUser?loginUser.nickname.slice(0, 1).toUpperCase():''}}</q-avatar>
-          <q-avatar v-if="loginUser&&loginUser.avatar" @click="$router.push('/change-info')"  square color="red" text-color="white" class="q-mr-md">
+          <q-avatar v-if="loginUser&&!loginUser.avatar"  @click="$router.push('/my-page')" color="red" text-color="white" class="q-mr-md">{{ loginUser?loginUser.nickname.slice(0, 1).toUpperCase():''}}</q-avatar>
+          <q-avatar v-if="loginUser&&loginUser.avatar" @click="$router.push('/my-page')"  color="red" text-color="white" class="q-mr-md">
             <img :src="loginUser.avatar" alt="" srcset="">  
-          </q-avatar> -->
+          </q-avatar>
+          <div class="main-header__right__nickname is-desktop-show" v-if="loginUser" @click="$router.push('/my-page')" >{{ loginUser.nickname }}</div>
 
           <q-btn class="login-button is-desktop-show" label="Login" flat  no-caps v-if="!loginUser" @click="$router.push('/login')"></q-btn>
-          <q-btn class="logout-button is-desktop-show" label="MyPage" flat no-caps v-if="loginUser" @click="$router.push('/my-page')"></q-btn>
+          <!-- <q-btn class="logout-button is-desktop-show" label="MyPage" flat no-caps v-if="loginUser" @click="$router.push('/my-page')"></q-btn> -->
           <q-btn class="register-button is-desktop-show" label="Register" no-caps v-if="!loginUser" @click="$router.push('/register')"></q-btn>
         </div>
 
@@ -213,6 +214,31 @@ display: none;
   align-items: center;
   justify-content: space-around;
 
+  &__right{
+    display: flex;
+    align-items: center;
+    padding-right: 20px;
+    .q-avatar{
+      width: 28px;
+      height: 28px;
+      &:hover{
+        cursor: pointer;
+      }
+    }
+    &__nickname{
+      font-family: Spoqa Han Sans Neo;
+      font-size: 10px;
+      font-weight: 700;
+      line-height: 12px;
+      letter-spacing: 0em;
+      text-align: left;
+      color: #333;
+      &:hover{
+        cursor: pointer;
+      }
+    }
+  }
+
   .q-tabs{
     //styleName: Subtitle3;
     margin-left: 28px;
@@ -267,6 +293,14 @@ display: none;
           left: 12px;
         }
       }
+    }
+    .q-toolbar,
+    .main-header__right{
+      padding-right: 0;
+    }
+    .q-avatar{
+      position: absolute;
+      right: 0;
     }
   }
 

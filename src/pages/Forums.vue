@@ -396,6 +396,7 @@ export default {
   mounted() {
     // this.showLoading();
       this.getPosts();
+    this.boyGirlSoloTab = this.$route.query.boyGirlSoloTab;
   },
   methods:{
     goDetails(post){

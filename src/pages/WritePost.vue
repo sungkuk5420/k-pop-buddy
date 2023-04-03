@@ -4,6 +4,10 @@
       <div class="write-post-page__left is-desktop-show">
         <div class="write-post-page__title">Forums</div>
         <div class="write-post-page__left__menu">
+          <div class="write-post-page__left__menu__button" :class="boyGirlSoloTab == 'all'?'is-active':''" @click="boyGirlSoloTab = 'all'">
+            <span>ALL </span>
+            <span class="write-post-page__left__menu__button__count"> (11)</span>
+          </div>
           <div class="write-post-page__left__menu__button" :class="boyGirlSoloTab == 'boy'?'is-active':''" @click="boyGirlSoloTab = 'boy'">
             <span>IDOL Group(BOY) </span>
             <span class="write-post-page__left__menu__button__count"> (11)</span>
@@ -28,6 +32,7 @@
             active-class="is-active"
             class=" mobile-tab"
           >
+            <q-tab name="all" label="ALL" no-caps />
             <q-tab name="boy" label="IDOL Group(BOY)" no-caps />
             <q-tab name="girl"  label="IDOL Group(Girl)" no-caps />
             <q-tab name="solo"  label="IDOL Group(Solo)" no-caps />
@@ -107,7 +112,7 @@ export default {
   mixins: [ComputedMixin, UtilMethodMixin],
   data () {
     return {
-      boyGirlSoloTab:"boy",
+      boyGirlSoloTab:"",
       title: '',
       content: '',
       currentPost: null,
@@ -120,13 +125,16 @@ export default {
   },
   watch:{
     boyGirlSoloTab(value){
-      if(this.$route.query.boyGirlSoloTab!= value){
-        this.$router.push(`/write-post?category=${this.$route.query.category}&boyGirlSoloTab=${value}`)
+      if(!window.isFirstChangeBoyGirlSoloTab){
+        this.$router.push(`/forums?boyGirlSoloTab=${value}`)
+      }else{
+        delete window.isFirstChangeBoyGirlSoloTab
       }
     }
   },
   async mounted() {
     const postUid = this.$route.query.postUid;
+    window.isFirstChangeBoyGirlSoloTab = true
     this.boyGirlSoloTab = this.$route.query.boyGirlSoloTab;
     if(postUid){
       this.mode = 'edit'
@@ -345,7 +353,7 @@ export default {
       margin-top: 12px;
       background: white;
       width: 200px;
-      height: 150px;
+      height: 200px;
       padding: 12px 0;
       &>div{
         padding: 0 22px;
@@ -482,7 +490,7 @@ export default {
       margin-left: 20px;
       margin-top: 10px;
     }
-    .forums-page__right{
+    .write-post-page__right{
       width: 100%;
     }
     .write-post-page__right__content-wrapper__content{
@@ -509,6 +517,27 @@ export default {
       padding: 16px;
     }
   
+    .tab-scroll{
+      width: 100%;
+      overflow: auto;
+      display: flex;
+      .q-tab{
+        color: #000;
+        font-family: Spoqa Han Sans Neo;
+        font-size: 12px;
+        font-weight: 500;
+        line-height: 15px;
+        letter-spacing: 0em;
+        text-align: left;
+
+        &.q-tab--active{
+          color: #1C579F;
+        }
+      }
+      .q-tab__indicator{
+        display: none;
+      }
+    }
   }
 }
 
