@@ -41,7 +41,7 @@
         <div class="forums-page__right__title flex justify-between items-center" style="padding-right:20px;width: 100%;" v-show="boyGirlSoloTab == 'all' || boyGirlSoloTab == 'boy'">
             <div class="flex items-center">
               <div class="forums-page__title">IDOL Group(Boy)</div>
-              <div class="forums-page__see-all" v-show="boyGirlSoloTab=='all'">See All</div>
+              <div class="forums-page__see-all" v-show="boyGirlSoloTab=='all'" @click="boyGirlSoloTab='boy'">See All</div>
             </div>
             <q-btn class="write-button" flat label="Write" v-show="boyGirlSoloTab!='all'" no-caps @click="$router.push('/write-post?category=forums&boyGirlSoloTab='+boyGirlSoloTab)"></q-btn>
         </div>
@@ -153,7 +153,7 @@
         <div class="forums-page__right__title flex justify-between items-center" style="padding-right:20px;width: 100%;" v-show="boyGirlSoloTab == 'all' || boyGirlSoloTab == 'girl'">
           <div class="flex items-center">
             <div class="forums-page__title">IDOL Group(Girl)</div>
-            <div class="forums-page__see-all" v-show="boyGirlSoloTab=='all'">See All</div>
+            <div class="forums-page__see-all" v-show="boyGirlSoloTab=='all'" @click="boyGirlSoloTab='girl'">See All</div>
           </div>
           <q-btn class="write-button" flat label="Write" v-show="boyGirlSoloTab!='all'" no-caps @click="$router.push('/write-post?category=forums&boyGirlSoloTab='+boyGirlSoloTab)"></q-btn>
         </div>
@@ -264,7 +264,7 @@
         <div class="forums-page__right__title flex justify-between items-center" style="padding-right:20px;width: 100%;" v-show="boyGirlSoloTab == 'all' || boyGirlSoloTab == 'solo'">
           <div class="flex items-center">
             <div class="forums-page__title">IDOL Group(Solo)</div>
-            <div class="forums-page__see-all" v-show="boyGirlSoloTab=='all'">See All</div>
+            <div class="forums-page__see-all" v-show="boyGirlSoloTab=='all'" @click="boyGirlSoloTab='solo'">See All</div>
           </div>
           <q-btn class="write-button" flat label="Write" v-show="boyGirlSoloTab!='all'" no-caps @click="$router.push('/write-post?category=forums&boyGirlSoloTab='+boyGirlSoloTab)"></q-btn>
         </div>
@@ -391,6 +391,19 @@ export default {
       boyPosts:[],
       girlPosts:[],
       soloPosts:[],
+    }
+  },
+  watch : {
+    boyGirlSoloTab(value){
+      if(value == 'all'){
+        this.boyPosts= this.boyPosts.slice(0,3)
+        this.girlPosts= this.girlPosts.slice(0,3)
+        this.soloPosts= this.soloPosts.slice(0,3)
+      }else{
+        this.boyPosts = this.allPosts.filter(i=>i.boyGirlSoloTab == 'boy' )
+        this.girlPosts = this.allPosts.filter(i=>i.boyGirlSoloTab == 'girl' )
+        this.soloPosts = this.allPosts.filter(i=>i.boyGirlSoloTab == 'solo' )
+      }
     }
   },
   mounted() {
