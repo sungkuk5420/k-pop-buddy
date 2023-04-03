@@ -33,11 +33,14 @@
           </q-tabs>
         </div>
         <img src="~assets/banner-mobile.png" alt="" class="is-mobile-show" style="width: 100%;">
-        <div class="deal-page__right__title">
-          <div class="deal-page__title">Buddies Deal (A special sale only buddies)</div>
+        <div class="deal-page__right__title flex justify-between items-center" style="padding-right:20px;width: 100%;" >
+          <div class="flex items-center">
+            <div class="deal-page__title">Buddies Deal (A special sale only buddies)</div>
+          </div>
+          <q-btn class="write-button" flat label="Write"  no-caps @click="$router.push('/write-post?category=deal')"></q-btn>
         </div>
 
-        <div class="empty-list" v-show="boyPosts.length==0">
+        <div class="empty-list" v-show="dealPosts.length==0">
           There are no articles written.
         </div>
 
@@ -57,10 +60,7 @@ mixins: [ComputedMixin, UtilMethodMixin],
 data(){
   return{
     tab:"all",
-    allPosts:[],
-    boyPosts:[],
-    girlPosts:[],
-    soloPosts:[],
+    dealPosts:[],
   }
 },
 mounted() {
@@ -239,127 +239,20 @@ background: #F8F8F8;
   text-align: center;
   color: #999;
 }
-.q-list{
-  width: 100%;
-  background :white;
-  margin-bottom:24px;
-}
-.q-item{
-  display: flex;
-  height: 72px;
-  border-bottom: 2px solid #F8F8F8;
-  .q-item__section--side {
-    padding-right: 0;
-  }
-  .list-avatar{
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    .q-avatar{
-      width: 36px;
-      height: 36px;
-    }
-  }
-  .list-content-and-wirter{
-    display: flex;
-    .list-title{
-      font-family: Spoqa Han Sans Neo;
-      font-size: 14px;
-      font-weight: 700;
-      line-height: 20px;
-      letter-spacing: 0em;
-      text-align: left;
-      color: #333;
-      margin-bottom: 4px;
-    }
-    .list-nickname-and-created-at{
-      font-family: Spoqa Han Sans Neo;
-      font-size: 10px;
-      font-weight: 700;
-      line-height: 12px;
-      letter-spacing: 0em;
-      text-align: left;
-      color: #999;
-    }
+
+
+.write-button{
+    color: white;
+    background: #366EB5;
+    font-family: Spoqa Han Sans Neo;
+    font-size: 12px;
+    font-weight: 700;
+    line-height: 18px;
+    letter-spacing: 0em;
+    text-align: left;
+
   }
 
-  .list-view-replies-commenter{
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    padding-left: 0;
-    .spliter{
-      display: flex;
-      align-items: center;
-      height: 22px;
-      line-height: 50px;
-      width: 1px;
-      background: #ddd;
-      margin: 0 20px;
-    }
-    .list-view__title,
-    .list-replies__title{
-      font-family: Spoqa Han Sans Neo;
-      font-size: 10px;
-      font-weight: 700;
-      line-height: 12px;
-      letter-spacing: 0em;
-      text-align: left;
-      color: #999;
-      margin-bottom: 4px;
-    }
-    .list-view__value,
-    .list-replies__value{
-      display: flex;
-      justify-content: center;
-      font-family: Spoqa Han Sans Neo;
-      font-size: 14px;
-      font-weight: 700;
-      line-height: 20px;
-      letter-spacing: 0em;
-      text-align: left;
-      color: #333;
-    }
-    .list-commenter{
-      display: flex;
-      flex-direction: row;
-      &__left{
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        .q-avatar{
-          width: 36px;
-          height: 36px;
-        }
-      }
-      &__right{
-        display: flex;
-        flex-direction: column;
-      }
-      &__nickname{
-        font-family: Spoqa Han Sans Neo;
-        font-size: 12px;
-        font-weight: 700;
-        line-height: 18px;
-        letter-spacing: 0em;
-        text-align: left;
-        color: #333;
-        margin-bottom: 2px;
-      }
-      &__created-at{
-        font-family: Spoqa Han Sans Neo;
-        font-size: 10px;
-        font-weight: 700;
-        line-height: 12px;
-        letter-spacing: 0em;
-        text-align: left;
-        color: #999;
-      }
-    }
-  }
-
-  
-}
 
 }
 

@@ -3,6 +3,7 @@
     <div class="contianer">
       <div class="write-post-page__left is-desktop-show">
         <div class="write-post-page__title" v-show="category=='forums'">Forums</div>
+        <div class="write-post-page__title" v-show="category=='deal'">Buddies Deal</div>
         <div class="write-post-page__left__menu" v-show="category=='forums'">
           <div class="write-post-page__left__menu__button" :class="boyGirlSoloTab == 'all'?'is-active':''" @click="boyGirlSoloTab = 'all'">
             <span>ALL </span>
@@ -21,12 +22,23 @@
             <span class="write-post-page__left__menu__button__count"> (574)</span>
           </div>
         </div>
+        <div class="write-post-page__left__menu" v-show="category=='deal'">
+          <div class="write-post-page__left__menu__button" :class="dealOpenEnd == 'all'?'is-active':''" @click="dealOpenEnd = 'all'">
+            <span>ALL Event </span>
+          </div>
+          <div class="write-post-page__left__menu__button" :class="dealOpenEnd == 'open'?'is-active':''" @click="dealOpenEnd = 'open'">
+            <span>Ongoing Event </span>
+          </div>
+          <div class="write-post-page__left__menu__button" :class="dealOpenEnd == 'end'?'is-active':''" @click="dealOpenEnd ='end'">
+            <span>Ended Event</span>
+          </div>
+        </div>
         <div style="margin-top: 16px;">
           <img src="~assets/banner-pc.png" alt="">
         </div>
       </div>
       <div class="write-post-page__right">
-        <div class="tab-scroll is-mobile-show">
+        <div class="tab-scroll is-mobile-show" v-show="category=='forums'">
           <q-tabs
             v-model="boyGirlSoloTab"
             active-class="is-active"
@@ -36,6 +48,17 @@
             <q-tab name="boy" label="IDOL Group(BOY)" no-caps />
             <q-tab name="girl"  label="IDOL Group(Girl)" no-caps />
             <q-tab name="solo"  label="IDOL Group(Solo)" no-caps />
+          </q-tabs>
+        </div>
+        <div class="tab-scroll is-mobile-show" v-show="category=='deal'">
+          <q-tabs
+            v-model="dealOpenEnd"
+            active-class="is-active"
+            class=" mobile-tab"
+          >
+            <q-tab name="all" label="ALL Event" no-caps />
+            <q-tab name="open" label="Ongoing Event" no-caps />
+            <q-tab name="end"  label="Ended Event" no-caps />
           </q-tabs>
         </div>
         <img src="~assets/banner-mobile.png" alt="" class="is-mobile-show" style="width: 100%;">
@@ -59,6 +82,11 @@
             <div class="write-post-page__title">HOT Focus</div>
           </div>
         </div>
+        <div class="write-post-page__right__title flex justify-between items-center" style="width: 100%;" v-show="category == 'deal'">
+          <div class="flex items-center">
+            <div class="write-post-page__title">Buddies Deal (A special sale only buddies)</div>
+          </div>
+        </div>
         <div class="write-post-page__bg">
           <q-input
             v-model="title"
@@ -67,7 +95,57 @@
             type="text"
             style="width:100%; margin-bottom: 10px; background: white;" 
           />
-          <textarea placeholder="Please enter the content of the article" name="" id="" cols="30" rows="30" v-model="content"></textarea>
+          <div class="flex" style="gap:10px">
+            <div style="flex:1">
+              <q-input outlined v-model="fromDate" placeholder="start date">
+                <template v-slot:append>
+                  <q-icon name="event" class="cursor-pointer">
+                    <q-popup-proxy ref="qDateProxy" transition-show="scale" transition-hide="scale">
+                      <q-date v-model="dateRange" range>
+                        <div class="row items-center justify-end">
+                          <q-btn v-close-popup label="Close" color="primary" flat />
+                        </div>
+                      </q-date>
+                    </q-popup-proxy>
+                  </q-icon>
+                </template>
+              </q-input>
+            </div>
+            <div style="flex:1">
+              <q-input outlined v-model="toDate" placeholder="end date" >
+                <template v-slot:append>
+                  <q-icon name="event" class="cursor-pointer">
+                    <q-popup-proxy ref="qDateProxy" transition-show="scale" transition-hide="scale">
+                      <q-date v-model="dateRange" range>
+                        <div class="row items-center justify-end">
+                          <q-btn v-close-popup label="Close" color="primary" flat />
+                        </div>
+                      </q-date>
+                    </q-popup-proxy>
+                  </q-icon>
+                </template>
+              </q-input>
+            </div>
+            <div style="flex:1">
+              <q-input
+                v-model="regularPrice"
+                outlined
+                placeholder="regular price"
+                type="text"
+                style="width:100%; margin-bottom: 10px; background: white;" 
+              />
+            </div>
+            <div style="flex:1">
+              <q-input
+                v-model="discountedPrice"
+                outlined
+                placeholder="Discounted prices"
+                type="text"
+                style="width:100%; margin-bottom: 10px; background: white;" 
+              />
+            </div>
+          </div>
+          <textarea  placeholder="Please enter the content of the article" name="" id="" cols="30" rows="30" v-model="content"></textarea>
           <div class="clearfix">
             <div class="flex justify-between" style="margin-top: 12px;">
               <a-upload
@@ -118,8 +196,14 @@ export default {
   data () {
     return {
       boyGirlSoloTab:"",
+      dealOpenEnd:"all",
       title: '',
       content: '',
+      dateRange: '',
+      fromDate: '',
+      toDate: '',
+      regularPrice: '',
+      discountedPrice: '',
       currentPost: null,
       mode:'add',
       previewVisible: false,
@@ -130,6 +214,10 @@ export default {
     }
   },
   watch:{
+    dateRange(value){
+this.fromDate = value.from
+this.toDate = value.to
+    },
     boyGirlSoloTab(value){
       if(!window.isFirstChangeBoyGirlSoloTab){
         this.$router.push(`/forums?boyGirlSoloTab=${value}`)
@@ -290,19 +378,35 @@ export default {
           });
       };
       const db = getDatabase();
-      set(ref(db, category+'/' + postUid), {
-        postUid:postUid,
-        title: thisObj.title,
-        content: thisObj.content,
-        writer: thisObj.loginUser.uid,
-        lastCommentWriter: null,
-        views: 0,
-        replies: 0,
-        createdAt: thisObj.createNowTime(),
-        updatedAt: thisObj.createNowTime(),
-        filePaths,
-        boyGirlSoloTab:thisObj.boyGirlSoloTab?thisObj.boyGirlSoloTab:''
-      })
+      if(category == 'deal'){
+        set(ref(db, 'dealPosts/' + postUid), {
+          postUid:postUid,
+          title: thisObj.title,
+          content: thisObj.content,
+          writer: thisObj.loginUser.uid,
+          lastCommentWriter: null,
+          views: 0,
+          replies: 0,
+          createdAt: thisObj.createNowTime(),
+          updatedAt: thisObj.createNowTime(),
+          filePaths,
+          boyGirlSoloTab:thisObj.boyGirlSoloTab?thisObj.boyGirlSoloTab:''
+        })
+      }else{
+        set(ref(db, category+'/' + postUid), {
+          postUid:postUid,
+          title: thisObj.title,
+          content: thisObj.content,
+          writer: thisObj.loginUser.uid,
+          lastCommentWriter: null,
+          views: 0,
+          replies: 0,
+          createdAt: thisObj.createNowTime(),
+          updatedAt: thisObj.createNowTime(),
+          filePaths,
+          boyGirlSoloTab:thisObj.boyGirlSoloTab?thisObj.boyGirlSoloTab:''
+        })
+      }
       thisObj.hideLoading()
       thisObj.$router.go(-1)
 
@@ -358,7 +462,7 @@ export default {
       margin-top: 12px;
       background: white;
       width: 200px;
-      height: 200px;
+      height: auto;
       padding: 12px 0;
       &>div{
         padding: 0 22px;
