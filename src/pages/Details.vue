@@ -178,9 +178,17 @@ export default {
     return {
       // this accesses the "title" property in your Vue "data";
       // whenever "title" prop changes, your meta will automatically update
+      meta: {
+        description: { name: 'description', content: this.metaContent },
+        keywords: { name: 'keywords', content: `${this.$route.name  }` },
+        equiv: { 'http-equiv': 'Content-Type', content: 'text/html; charset=UTF-8' }
+      },
       title: this.metaTitle,
-      test2: 'some other text',
-      myKey: { name: 'description', content: this.metaContent },
+      // title: this.metaTitle,
+      // description: {
+      //   name: 'description',
+      //   content: this.metaContent
+      // },
     }
   },
   methods:{
