@@ -33,7 +33,7 @@
         </div>
         <div class="forums-details-page__right" v-if="currentPost">
           <div class="forums-details-page__right__title">
-            <div class="forums-details-page__title">{{ currentPost.title }}</div>
+            <h1 class="forums-details-page__title">{{ currentPost.title }}</h1>
             <q-btn label="edit" v-show="loginUser&&currentPost.writer.uid === loginUser.uid" @click="$router.push(`/edit-post?category=${category}&postUid=${currentPost.postUid}`)"></q-btn>
           </div>
           <div class="forums-details-page__right__content-wrapper">
@@ -150,7 +150,9 @@ export default {
       previewImage: '',
       commentText: '',
       fileList: [],
-      comments:[]
+      comments:[],
+      metaTitle:"",
+      metaContent:"",
     }
   },
   computed: {
@@ -169,6 +171,17 @@ export default {
     }
     this.getComments();
     this.plusView()
+    this.metaTitle = this.currentPost.title
+    this.metaContent = this.currentPost.content
+  },
+   meta () {
+    return {
+      // this accesses the "title" property in your Vue "data";
+      // whenever "title" prop changes, your meta will automatically update
+      title: this.metaTitle,
+      test2: 'some other text',
+      myKey: { name: 'description', content: this.metaContent },
+    }
   },
   methods:{
     plusView(){
@@ -413,7 +426,7 @@ export default {
                   });
                 }
                 this.currentPost = currentPost
-                resolve();
+                resolve(currentPost);
                 
               }
             })

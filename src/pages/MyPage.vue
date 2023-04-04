@@ -114,7 +114,6 @@ export default {
         persistent: true
       }).onOk(data => {
         console.log(data)
-        debugger
         this.resetPassword(data)
         // console.log('>>>> OK, received', data)
       }).onCancel(() => {
