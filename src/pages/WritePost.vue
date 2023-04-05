@@ -2,27 +2,27 @@
   <q-page class="flex items-center justify-center write-post-page">
     <div class="contianer">
       <div class="write-post-page__left is-desktop-show">
-        <div class="write-post-page__title" v-show="category=='forums'">Forums</div>
-        <div class="write-post-page__title" v-show="category=='deal'">Buddies Deal</div>
-        <div class="write-post-page__left__menu" v-show="category=='forums'">
-          <div class="write-post-page__left__menu__button" :class="boyGirlSoloTab == 'all'?'is-active':''" @click="boyGirlSoloTab = 'all'">
+        <div class="write-post-page__title" v-show="postCategory=='forums'">Forums</div>
+        <div class="write-post-page__title" v-show="postCategory=='deal'">Buddies Deal</div>
+        <div class="write-post-page__left__menu" v-show="postCategory=='forums'">
+          <div class="write-post-page__left__menu__button" :class="category == 'all'?'is-active':''" @click="category = 'all'">
             <span>ALL </span>
             <span class="write-post-page__left__menu__button__count"> (11)</span>
           </div>
-          <div class="write-post-page__left__menu__button" :class="boyGirlSoloTab == 'boy'?'is-active':''" @click="boyGirlSoloTab = 'boy'">
-            <span>IDOL Group(BOY) </span>
+          <div class="write-post-page__left__menu__button" :class="category == 'plasticSurgeryAndCosmeticProcedures'?'is-active':''" @click="category = 'plasticSurgeryAndCosmeticProcedures'">
+            <span>Plastic Surgery & Cosmetic Procedures </span>
             <span class="write-post-page__left__menu__button__count"> (11)</span>
           </div>
-          <div class="write-post-page__left__menu__button" :class="boyGirlSoloTab == 'girl'?'is-active':''" @click="boyGirlSoloTab ='girl'">
-            <span>IDOL Group(Girl)</span>
+          <div class="write-post-page__left__menu__button" :class="category == 'nailAndHairAndSkinCare'?'is-active':''" @click="category ='nailAndHairAndSkinCare'">
+            <span>Nail & Hair & SkinCare</span>
             <span class="write-post-page__left__menu__button__count"> (4)</span>
           </div>
-          <div class="write-post-page__left__menu__button" :class="boyGirlSoloTab == 'solo'?'is-active':''" @click="boyGirlSoloTab ='solo'">
-            <span>IDOL Group(Solo)</span>
+          <div class="write-post-page__left__menu__button" :class="category == 'tripAndFoodAndHotel'?'is-active':''" @click="category ='tripAndFoodAndHotel'">
+            <span>Trip & Food & Hotel</span>
             <span class="write-post-page__left__menu__button__count"> (574)</span>
           </div>
         </div>
-        <div class="write-post-page__left__menu" v-show="category=='deal'">
+        <div class="write-post-page__left__menu" v-show="postCategory=='deal'">
           <div class="write-post-page__left__menu__button" :class="dealOpenEnd == 'all'?'is-active':''" @click="dealOpenEnd = 'all'">
             <span>ALL Event </span>
           </div>
@@ -38,19 +38,19 @@
         </div>
       </div>
       <div class="write-post-page__right">
-        <div class="tab-scroll is-mobile-show" v-show="category=='forums'">
+        <div class="tab-scroll is-mobile-show" v-show="postCategory=='forums'">
           <q-tabs
-            v-model="boyGirlSoloTab"
+            v-model="category"
             active-class="is-active"
             class=" mobile-tab"
           >
             <q-tab name="all" label="ALL" no-caps />
-            <q-tab name="boy" label="IDOL Group(BOY)" no-caps />
-            <q-tab name="girl"  label="IDOL Group(Girl)" no-caps />
-            <q-tab name="solo"  label="IDOL Group(Solo)" no-caps />
+            <q-tab name="boy" label="Plastic Surgery & Cosmetic Procedures" no-caps />
+            <q-tab name="girl"  label="Nail & Hair & SkinCare" no-caps />
+            <q-tab name="solo"  label="Trip & Food & Hotel" no-caps />
           </q-tabs>
         </div>
-        <div class="tab-scroll is-mobile-show" v-show="category=='deal'">
+        <div class="tab-scroll is-mobile-show" v-show="postCategory=='deal'">
           <q-tabs
             v-model="dealOpenEnd"
             active-class="is-active"
@@ -62,27 +62,27 @@
           </q-tabs>
         </div>
         <img src="~assets/banner-mobile.png" alt="" class="is-mobile-show" style="width: 100%;">
-        <div class="write-post-page__right__title flex justify-between items-center" style="width: 100%;" v-show="boyGirlSoloTab == 'all' || boyGirlSoloTab == 'boy'">
+        <div class="write-post-page__right__title flex justify-between items-center" style="width: 100%;" v-show="category == 'all' || category == 'plasticSurgeryAndCosmeticProcedures'">
             <div class="flex items-center">
-              <div class="write-post-page__title">IDOL Group(Boy)</div>
+              <div class="write-post-page__title">Plastic Surgery & Cosmetic Procedures</div>
             </div>
         </div>
-        <div class="write-post-page__right__title flex justify-between items-center" style="width: 100%;" v-show="boyGirlSoloTab == 'all' || boyGirlSoloTab == 'girl'">
+        <div class="write-post-page__right__title flex justify-between items-center" style="width: 100%;" v-show="category == 'all' || category == 'nailAndHairAndSkinCare'">
           <div class="flex items-center">
-            <div class="write-post-page__title">IDOL Group(Girl)</div>
+            <div class="write-post-page__title">Nail & Hair & SkinCare</div>
           </div>
         </div>
-        <div class="write-post-page__right__title flex justify-between items-center" style="width: 100%;" v-show="boyGirlSoloTab == 'all' || boyGirlSoloTab == 'solo'">
+        <div class="write-post-page__right__title flex justify-between items-center" style="width: 100%;" v-show="category == 'all' || category == 'tripAndFoodAndHotel'">
           <div class="flex items-center">
-            <div class="write-post-page__title">IDOL Group(Solo)</div>
+            <div class="write-post-page__title">Trip & Food & Hotel</div>
           </div>
         </div>
-        <div class="write-post-page__right__title flex justify-between items-center" style="width: 100%;" v-show="category == 'hotFocus'">
+        <div class="write-post-page__right__title flex justify-between items-center" style="width: 100%;" v-show="postCategory == 'hotFocus'">
           <div class="flex items-center">
             <div class="write-post-page__title">HOT Focus</div>
           </div>
         </div>
-        <div class="write-post-page__right__title flex justify-between items-center" style="width: 100%;" v-show="category == 'deal'">
+        <div class="write-post-page__right__title flex justify-between items-center" style="width: 100%;" v-show="postCategory == 'deal'">
           <div class="flex items-center">
             <div class="write-post-page__title">Buddies Deal (A special sale only buddies)</div>
           </div>
@@ -95,7 +95,7 @@
             type="text"
             style="width:100%; margin-bottom: 10px; background: white;" 
           />
-          <div class="flex" style="gap:10px" v-show="category=='deal'">
+          <div class="flex" style="gap:10px" v-show="postCategory=='deal'">
             <div style="flex:1">
               <q-input outlined v-model="fromDate" placeholder="start date">
                 <template v-slot:append>
@@ -195,7 +195,7 @@ export default {
   mixins: [ComputedMixin, UtilMethodMixin],
   data () {
     return {
-      boyGirlSoloTab:"",
+      category:"",
       dealOpenEnd:"all",
       title: '',
       content: '',
@@ -208,7 +208,7 @@ export default {
       mode:'add',
       previewVisible: false,
       previewImage: '',
-      category:"",
+      postCategory:"",
       fileList: [
       ],
     }
@@ -218,19 +218,19 @@ export default {
 this.fromDate = value.from
 this.toDate = value.to
     },
-    boyGirlSoloTab(value){
-      if(!window.isFirstChangeBoyGirlSoloTab){
-        this.$router.push(`/forums?boyGirlSoloTab=${value}`)
+    category(value){
+      if(!window.isFirstChangecategory){
+        this.$router.push(`/forums?category=${value}`)
       }else{
-        delete window.isFirstChangeBoyGirlSoloTab
+        delete window.isFirstChangecategory
       }
     }
   },
   async mounted() {
     const postUid = this.$route.query.postUid;
-    window.isFirstChangeBoyGirlSoloTab = true
-    this.boyGirlSoloTab = this.$route.query.boyGirlSoloTab;
+    window.isFirstChangecategory = true
     this.category = this.$route.query.category;
+    this.postCategory = this.$route.query.postCategory;
     if(postUid){
       this.mode = 'edit'
       await this.getPostDetails()
@@ -250,9 +250,9 @@ this.toDate = value.to
   methods:{
     deletePost(){
       const db = getDatabase();
-      const category = this.category == 'forums'?'forumsPosts':'hotFocusPosts'
+      const postCategory = this.postCategory == 'forums'?'forumsPosts':'hotFocusPosts'
       const postUid = this.$route.query.postUid
-      set(ref(db, category+'/' + postUid),null)
+      set(ref(db, postCategory+'/' + postUid),null)
     },
     getPostDetails(){
       return new Promise(resolve=>{
@@ -261,8 +261,8 @@ this.toDate = value.to
           const dbRef = ref(getDatabase());
           const thisObj = this;
           console.log(postUid)
-          const category = this.category == 'forums'?'forumsPosts':'hotFocusPosts'
-          get(child(dbRef, `${category}/${postUid}`))
+          const postCategory = this.postCategory == 'forums'?'forumsPosts':'hotFocusPosts'
+          get(child(dbRef, `${postCategory}/${postUid}`))
             .then(async (snapshot) => {
               if (snapshot.exists()) {
                 // console.log(snapshot.val());
@@ -294,10 +294,9 @@ this.toDate = value.to
     },
     async writePost(){// Create the file metadata
       const thisObj =this;
-      const category = this.category == 'forums'?'forumsPosts':'hotFocusPosts'
+      const postCategory = this.postCategory == 'forums'?'forumsPosts':'hotFocusPosts'
       const queryPostUid = this.$route.query.postUid
       const storage = getStorage();
-      this.showLoading()
       let filePaths = [];
       if(!this.loginUser){
         this.errorMessage("로그인한 사용자만 작성할 수 있습니다.");
@@ -314,6 +313,7 @@ this.toDate = value.to
         console.log("error")
         return false;
       }
+      this.showLoading()
       const postUid = queryPostUid?queryPostUid:uid().replace("-","").slice(0,12)
       for (const currentFile of this.fileList) {
           await new Promise(resolve2 => {
@@ -378,7 +378,7 @@ this.toDate = value.to
           });
       };
       const db = getDatabase();
-      if(this.category == 'deal'){
+      if(this.postCategory == 'deal'){
         set(ref(db, 'dealPosts/' + postUid), {
           postUid:postUid,
           title: thisObj.title,
@@ -391,8 +391,16 @@ this.toDate = value.to
           discountedPrice: thisObj.discountedPrice,
           filePaths,
         })
+        .then(async (snapshot) => {
+          thisObj.hideLoading()
+          thisObj.$router.go(-1)
+        })
+        .catch((error) => {
+          thisObj.hideLoading()
+          thisObj.errorMessage(error);
+        });
       }else{
-        set(ref(db, category+'/' + postUid), {
+        set(ref(db, postCategory+'/' + postUid), {
           postUid:postUid,
           title: thisObj.title,
           content: thisObj.content,
@@ -403,11 +411,17 @@ this.toDate = value.to
           createdAt: thisObj.createNowTime(),
           updatedAt: thisObj.createNowTime(),
           filePaths,
-          boyGirlSoloTab:thisObj.boyGirlSoloTab?thisObj.boyGirlSoloTab:''
+          category:thisObj.category?thisObj.category:''
         })
+        .then(async (snapshot) => {
+          thisObj.hideLoading()
+          thisObj.$router.go(-1)
+        })
+        .catch((error) => {
+          thisObj.hideLoading()
+          thisObj.errorMessage(error);
+        });
       }
-      thisObj.hideLoading()
-      thisObj.$router.go(-1)
 
       
     },

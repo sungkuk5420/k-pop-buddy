@@ -4,19 +4,19 @@
       <div class="forums-page__left is-desktop-show">
         <div class="forums-page__title">Forums</div>
         <div class="forums-page__left__menu">
-          <div class="forums-page__left__menu__button" clickable :class="boyGirlSoloTab == 'all'?'is-active':''" @click="boyGirlSoloTab = 'all'">
+          <div class="forums-page__left__menu__button" clickable :class="category == 'all'?'is-active':''" @click="category = 'all'">
             ALL
           </div>
-          <div class="forums-page__left__menu__button" clickable :class="boyGirlSoloTab == 'boy'?'is-active':''" @click="boyGirlSoloTab = 'boy'">
-            <span>IDOL Group(BOY) </span>
+          <div class="forums-page__left__menu__button" clickable :class="category == 'plasticSurgeryAndCosmeticProcedures'?'is-active':''" @click="category = 'plasticSurgeryAndCosmeticProcedures'">
+            <span>Plastic Surgery & Cosmetic Procedures </span>
             <span class="forums-page__left__menu__button__count"> (11)</span>
           </div>
-          <div class="forums-page__left__menu__button" clickable :class="boyGirlSoloTab == 'girl'?'is-active':''" @click="boyGirlSoloTab ='girl'">
-            <span>IDOL Group(Girl)</span>
+          <div class="forums-page__left__menu__button" clickable :class="category == 'nailAndHairAndSkinCare'?'is-active':''" @click="category ='nailAndHairAndSkinCare'">
+            <span>Nail & Hair & SkinCare</span>
             <span class="forums-page__left__menu__button__count"> (4)</span>
           </div>
-          <div class="forums-page__left__menu__button" clickable :class="boyGirlSoloTab == 'solo'?'is-active':''" @click="boyGirlSoloTab ='solo'">
-            <span>IDOL Group(Solo)</span>
+          <div class="forums-page__left__menu__button" clickable :class="category == 'tripAndFoodAndHotel'?'is-active':''" @click="category ='tripAndFoodAndHotel'">
+            <span>Trip & Food & Hotel</span>
             <span class="forums-page__left__menu__button__count"> (574)</span>
           </div>
         </div>
@@ -27,30 +27,30 @@
       <div class="forums-page__right">
         <div class="tab-scroll is-mobile-show">
           <q-tabs
-            v-model="boyGirlSoloTab"
+            v-model="category"
             active-class="is-active"
             class=" mobile-tab"
           >
             <q-tab name="all" label="ALL" no-caps />
-            <q-tab name="boy" label="IDOL Group(BOY)" no-caps />
-            <q-tab name="girl"  label="IDOL Group(Girl)" no-caps />
-            <q-tab name="solo"  label="IDOL Group(Solo)" no-caps />
+            <q-tab name="plasticSurgeryAndCosmeticProcedures" label="Plastic Surgery & Cosmetic Procedures" no-caps />
+            <q-tab name="nailAndHairAndSkinCare"  label="Nail & Hair & SkinCare" no-caps />
+            <q-tab name="tripAndFoodAndHotel"  label="Trip & Food & Hotel" no-caps />
           </q-tabs>
         </div>
         <img src="~assets/banner-mobile.png" alt="" class="is-mobile-show" style="width: 100%;">
-        <div class="forums-page__right__title flex justify-between items-center" style="padding-right:20px;width: 100%;" v-show="boyGirlSoloTab == 'all' || boyGirlSoloTab == 'boy'">
+        <div class="forums-page__right__title flex justify-between items-center" style="padding-right:20px;width: 100%;" v-show="category == 'all' || category == 'plasticSurgeryAndCosmeticProcedures'">
             <div class="flex items-center">
-              <div class="forums-page__title">IDOL Group(Boy)</div>
-              <div class="forums-page__see-all" v-show="boyGirlSoloTab=='all'" @click="boyGirlSoloTab='boy'">See All</div>
+              <div class="forums-page__title">Plastic Surgery & Cosmetic Procedures</div>
+              <div class="forums-page__see-all" v-show="category=='all'" @click="category='plasticSurgeryAndCosmeticProcedures'">See All</div>
             </div>
-            <q-btn class="write-button" flat label="Write" v-show="boyGirlSoloTab!='all'" no-caps @click="$router.push('/write-post?category=forums&boyGirlSoloTab='+boyGirlSoloTab)"></q-btn>
+            <q-btn class="write-button" flat label="Write" v-show="category!='all'" no-caps @click="$router.push('/write-post?postCategory=forums&category='+category)"></q-btn>
         </div>
 
-        <q-list class="list" v-show="boyGirlSoloTab == 'all' || boyGirlSoloTab == 'boy'">
-          <div class="empty-list" v-show="boyPosts.length==0">
+        <q-list class="list" v-show="category == 'all' || category == 'plasticSurgeryAndCosmeticProcedures'">
+          <div class="empty-list" v-show="plasticSurgeryAndCosmeticProceduresPosts.length==0">
               There are no articles written.
           </div>
-          <q-item clickable v-ripple v-for="(item,index) in boyPosts" :key="index" @click="()=>goDetails(item)">
+          <q-item clickable v-ripple v-for="(item,index) in plasticSurgeryAndCosmeticProceduresPosts" :key="index" @click="()=>goDetails(item)">
             <q-item-section avatar class="list-avatar is-desktop-show">
               <q-avatar v-if="item.writer&&!item.writer.avatar" color="red" text-color="white" class="q-mr-md">{{ item.writer?item.writer.nickname.slice(0, 1).toUpperCase():''}}</q-avatar>
               <q-avatar v-if="item.writer&&item.writer.avatar" color="red" text-color="white" class="q-mr-md">
@@ -150,18 +150,18 @@
             </q-item-section>
           </q-item>
         </q-list>
-        <div class="forums-page__right__title flex justify-between items-center" style="padding-right:20px;width: 100%;" v-show="boyGirlSoloTab == 'all' || boyGirlSoloTab == 'girl'">
+        <div class="forums-page__right__title flex justify-between items-center" style="padding-right:20px;width: 100%;" v-show="category == 'all' || category == 'nailAndHairAndSkinCare'">
           <div class="flex items-center">
-            <div class="forums-page__title">IDOL Group(Girl)</div>
-            <div class="forums-page__see-all" v-show="boyGirlSoloTab=='all'" @click="boyGirlSoloTab='girl'">See All</div>
+            <div class="forums-page__title">Nail & Hair & SkinCare</div>
+            <div class="forums-page__see-all" v-show="category=='all'" @click="category='nailAndHairAndSkinCare'">See All</div>
           </div>
-          <q-btn class="write-button" flat label="Write" v-show="boyGirlSoloTab!='all'" no-caps @click="$router.push('/write-post?category=forums&boyGirlSoloTab='+boyGirlSoloTab)"></q-btn>
+          <q-btn class="write-button" flat label="Write" v-show="category!='all'" no-caps @click="$router.push('/write-post?postCategory=forums&category='+category)"></q-btn>
         </div>
-        <q-list class="list" v-show="boyGirlSoloTab == 'all' || boyGirlSoloTab == 'girl'">
-          <div class="empty-list" v-show="girlPosts.length==0">
+        <q-list class="list" v-show="category == 'all' || category == 'nailAndHairAndSkinCare'">
+          <div class="empty-list" v-show="nailAndHairAndSkinCarePosts.length==0">
             There are no articles written.
           </div>
-          <q-item clickable v-ripple v-for="(item,index) in girlPosts" :key="index" @click="()=>goDetails(item)">
+          <q-item clickable v-ripple v-for="(item,index) in nailAndHairAndSkinCarePosts" :key="index" @click="()=>goDetails(item)">
             <q-item-section avatar class="list-avatar is-desktop-show">
               <q-avatar v-if="item.writer&&!item.writer.avatar" color="red" text-color="white" class="q-mr-md">{{ item.writer?item.writer.nickname.slice(0, 1).toUpperCase():''}}</q-avatar>
               <q-avatar v-if="item.writer&&item.writer.avatar" color="red" text-color="white" class="q-mr-md">
@@ -261,19 +261,19 @@
             </q-item-section>
           </q-item>
         </q-list>
-        <div class="forums-page__right__title flex justify-between items-center" style="padding-right:20px;width: 100%;" v-show="boyGirlSoloTab == 'all' || boyGirlSoloTab == 'solo'">
+        <div class="forums-page__right__title flex justify-between items-center" style="padding-right:20px;width: 100%;" v-show="category == 'all' || category == 'tripAndFoodAndHotel'">
           <div class="flex items-center">
-            <div class="forums-page__title">IDOL Group(Solo)</div>
-            <div class="forums-page__see-all" v-show="boyGirlSoloTab=='all'" @click="boyGirlSoloTab='solo'">See All</div>
+            <div class="forums-page__title">Trip & Food & Hotel</div>
+            <div class="forums-page__see-all" v-show="category=='all'" @click="category='tripAndFoodAndHotel'">See All</div>
           </div>
-          <q-btn class="write-button" flat label="Write" v-show="boyGirlSoloTab!='all'" no-caps @click="$router.push('/write-post?category=forums&boyGirlSoloTab='+boyGirlSoloTab)"></q-btn>
+          <q-btn class="write-button" flat label="Write" v-show="category!='all'" no-caps @click="$router.push('/write-post?postCategory=forums&category='+category)"></q-btn>
         </div>
-        <q-list class="list" v-show="boyGirlSoloTab == 'all' || boyGirlSoloTab == 'solo'">
+        <q-list class="list" v-show="category == 'all' || category == 'tripAndFoodAndHotel'">
 
-          <div class="empty-list" v-show="soloPosts.length==0">
+          <div class="empty-list" v-show="tripAndFoodAndHotelPosts.length==0">
             There are no articles written.
           </div>
-          <q-item clickable v-ripple v-for="(item,index) in soloPosts" :key="index" @click="()=>goDetails(item)">
+          <q-item clickable v-ripple v-for="(item,index) in tripAndFoodAndHotelPosts" :key="index" @click="()=>goDetails(item)">
             <q-item-section avatar class="list-avatar is-desktop-show">
               <q-avatar v-if="item.writer&&!item.writer.avatar" color="red" text-color="white" class="q-mr-md">{{ item.writer?item.writer.nickname.slice(0, 1).toUpperCase():''}}</q-avatar>
               <q-avatar v-if="item.writer&&item.writer.avatar" color="red" text-color="white" class="q-mr-md">
@@ -386,31 +386,37 @@ export default {
   mixins: [ComputedMixin, UtilMethodMixin],
   data(){
     return{
-      boyGirlSoloTab:"all",
+      category:"all",
       allPosts:[],
-      boyPosts:[],
-      girlPosts:[],
-      soloPosts:[],
+      plasticSurgeryAndCosmeticProceduresPosts:[],
+      nailAndHairAndSkinCarePosts:[],
+      tripAndFoodAndHotelPosts:[],
     }
   },
   watch : {
-    boyGirlSoloTab(value){
+    category(value){
       if(value == 'all'){
-        this.boyPosts= this.boyPosts.slice(0,3)
-        this.girlPosts= this.girlPosts.slice(0,3)
-        this.soloPosts= this.soloPosts.slice(0,3)
+        this.plasticSurgeryAndCosmeticProceduresPosts= this.plasticSurgeryAndCosmeticProceduresPosts.slice(0,3)
+        this.nailAndHairAndSkinCarePosts= this.nailAndHairAndSkinCarePosts.slice(0,3)
+        this.tripAndFoodAndHotelPosts= this.tripAndFoodAndHotelPosts.slice(0,3)
       }else{
-        this.boyPosts = this.allPosts.filter(i=>i.boyGirlSoloTab == 'boy' )
-        this.girlPosts = this.allPosts.filter(i=>i.boyGirlSoloTab == 'girl' )
-        this.soloPosts = this.allPosts.filter(i=>i.boyGirlSoloTab == 'solo' )
+        if(!window.isFirstChangecategory){
+          this.$router.push(`/forums?category=${value}`)
+        }else{
+          delete window.isFirstChangecategory
+        }
+        this.plasticSurgeryAndCosmeticProceduresPosts = this.allPosts.filter(i=>i.category == 'plasticSurgeryAndCosmeticProcedures' )
+        this.nailAndHairAndSkinCarePosts = this.allPosts.filter(i=>i.category == 'nailAndHairAndSkinCare' )
+        this.tripAndFoodAndHotelPosts = this.allPosts.filter(i=>i.category == 'tripAndFoodAndHotel' )
       }
     }
   },
   mounted() {
     // this.showLoading();
       this.getPosts();
-      if(this.$route.query.boyGirlSoloTab){
-        this.boyGirlSoloTab = this.$route.query.boyGirlSoloTab;
+      if(this.$route.query.category){
+        window.isFirstChangecategory = true
+        this.category = this.$route.query.category;
       }
   },
   methods:{
@@ -466,9 +472,9 @@ export default {
             thisObj.allPosts = allPosts.sort((a, b)=>{
               return b.updatedAt - a.updatedAt;
             })
-            thisObj.boyPosts = allPosts.filter(i=>i.boyGirlSoloTab == 'boy' )
-            thisObj.girlPosts = allPosts.filter(i=>i.boyGirlSoloTab == 'girl' )
-            thisObj.soloPosts = allPosts.filter(i=>i.boyGirlSoloTab == 'solo' )
+            thisObj.plasticSurgeryAndCosmeticProceduresPosts = allPosts.filter(i=>i.category == 'plasticSurgeryAndCosmeticProcedures' )
+            thisObj.nailAndHairAndSkinCarePosts = allPosts.filter(i=>i.category == 'nailAndHairAndSkinCare' )
+            thisObj.tripAndFoodAndHotelPosts = allPosts.filter(i=>i.category == 'tripAndFoodAndHotel' )
           }
         })
         .catch((error) => {

@@ -3,21 +3,18 @@
       <div class="contianer">
         <div class="forums-details-page__left is-desktop-show">
           <div class="forums-details-page__title" v-show="category == 'forums' ">Forums</div>
-          <div class="forums-details-page__left__menu" v-show="category == 'forums' ">
-            <div class="forums-details-page__left__menu__button">
+          <div class="forums-page__left__menu"  v-show="category == 'forums' ">
+            <div class="forums-page__left__menu__button" clickable :class="categoryTab == 'all'?'is-active':''" @click="categoryTab = 'all'">
               ALL
             </div>
-            <div class="forums-details-page__left__menu__button">
-              <span>IDOL Group(BOY) </span>
-              <span class="forums-details-page__left__menu__button__count"> (11)</span>
+            <div class="forums-page__left__menu__button" clickable :class="categoryTab == 'plasticSurgeryAndCosmeticProcedures'?'is-active':''" @click="categoryTab = 'plasticSurgeryAndCosmeticProcedures'">
+              <span>Plastic Surgery & Cosmetic Procedures </span>
             </div>
-            <div class="forums-details-page__left__menu__button">
-              <span>IDOL Group(Girl)</span>
-              <span class="forums-details-page__left__menu__button__count"> (4)</span>
+            <div class="forums-page__left__menu__button" clickable :class="categoryTab == 'nailAndHairAndSkinCare'?'is-active':''" @click="categoryTab ='nailAndHairAndSkinCare'">
+              <span>Nail & Hair & SkinCare</span>
             </div>
-            <div class="forums-details-page__left__menu__button">
-              <span>IDOL Group(Solo)</span>
-              <span class="forums-details-page__left__menu__button__count"> (574)</span>
+            <div class="forums-page__left__menu__button" clickable :class="categoryTab == 'tripAndFoodAndHotel'?'is-active':''" @click="categoryTab ='tripAndFoodAndHotel'">
+              <span>Trip & Food & Hotel</span>
             </div>
           </div>
           <div style="margin-top: 16px;">
@@ -32,6 +29,19 @@
           </div>
         </div>
         <div class="forums-details-page__right" v-if="currentPost">
+            <div class="tab-scroll is-mobile-show">
+            <q-tabs
+              v-model="categoryTab"
+              active-class="is-active"
+              class=" mobile-tab"
+            >
+              <q-tab name="all" label="ALL" no-caps />
+              <q-tab name="plasticSurgeryAndCosmeticProcedures" label="Plastic Surgery & Cosmetic Procedures" no-caps />
+              <q-tab name="nailAndHairAndSkinCare"  label="Nail & Hair & SkinCare" no-caps />
+              <q-tab name="tripAndFoodAndHotel"  label="Trip & Food & Hotel" no-caps />
+            </q-tabs>
+          </div>
+          <img src="~assets/banner-mobile.png" alt="" class="is-mobile-show" style="width: 100%;">
           <div class="forums-details-page__right__title">
             <h1 class="forums-details-page__title">{{ currentPost.title }}</h1>
             <q-btn label="edit" v-show="loginUser&&currentPost.writer.uid === loginUser.uid" @click="$router.push(`/edit-post?category=${category}&postUid=${currentPost.postUid}`)"></q-btn>
@@ -144,7 +154,7 @@ export default {
   },
   data(){
     return{
-      tab:"all",
+      categoryTab:"",
       currentPost:null,
       previewVisible: false,
       previewImage: '',
@@ -153,6 +163,20 @@ export default {
       comments:[],
       metaTitle:"",
       metaContent:"",
+    }
+  },
+  watch : {
+    categoryTab(value){
+      if(value == 'all'){
+          this.$router.push(`/forums?category=all`)
+          delete window.isFirstChangecategory
+      }else{
+        if(!window.isFirstChangecategory){
+          this.$router.push(`/forums?category=${value}`)
+        }else{
+          delete window.isFirstChangecategory
+        }
+      }
     }
   },
   computed: {
@@ -171,6 +195,8 @@ export default {
     }
     this.getComments();
     this.plusView()
+    // window.isFirstChangecategory = true
+    // this.categoryTab = this.currentPost.category
     this.metaTitle = this.currentPost.title
     this.metaContent = this.currentPost.content
   },
@@ -688,7 +714,7 @@ export default {
       margin-left: 20px;
       margin-top: 10px;
     }
-    .forums-page__right{
+    .forums-details-page__right{
       width: 100%;
     }
     .forums-details-page__right__content-wrapper__content{
@@ -708,6 +734,28 @@ export default {
       flex-wrap: wrap;
       width: 100%;
       max-width: 230px;
+    }
+    
+    .tab-scroll{
+      width: 100%;
+      overflow: auto;
+      display: flex;
+      .q-tab{
+        color: #000;
+        font-family: Spoqa Han Sans Neo;
+        font-size: 12px;
+        font-weight: 500;
+        line-height: 15px;
+        letter-spacing: 0em;
+        text-align: left;
+
+        &.q-tab--active{
+          color: #1C579F;
+        }
+      }
+      .q-tab__indicator{
+        display: none;
+      }
     }
   }
 }

@@ -17,7 +17,7 @@
         <div style="margin-top: 16px;">
           <img src="~assets/banner-pc.png" alt="">
         </div>
-        <q-btn label="write post" no-caps @click="$router.push('/write-post?category=forums')"></q-btn>
+        <q-btn label="write post" no-caps @click="$router.push('/write-post?postCategory=forums')"></q-btn>
       </div>
       <div class="deal-page__right">
         <div class="tab-scroll is-mobile-show">
@@ -37,7 +37,7 @@
           <div class="flex items-center">
             <div class="deal-page__title">Buddies Deal (A special sale only buddies)</div>
           </div>
-          <q-btn class="write-button" flat label="Write"  no-caps @click="$router.push('/write-post?category=deal')"></q-btn>
+          <q-btn class="write-button" flat label="Write"  no-caps @click="$router.push('/write-post?postCategory=deal')"></q-btn>
         </div>
 
         <div class="empty-list" v-show="dealPosts.length==0">
