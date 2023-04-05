@@ -196,7 +196,7 @@ methods:{
           console.log(allPosts)
           
           thisObj.allPosts = allPosts.sort((a, b)=>{
-            return a.createdAt - b.createdAt;
+            return b.updatedAt - a.updatedAt;
           })
         }
       })
