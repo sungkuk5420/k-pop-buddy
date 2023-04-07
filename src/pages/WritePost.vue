@@ -93,6 +93,7 @@
             outlined
             placeholder="Please enter the subject"
             type="text"
+            maxlength="200"
             style="width:100%; margin-bottom: 10px; background: white;" 
           />
           <div class="flex" style="gap:10px" v-show="postCategory=='deal'">
@@ -145,7 +146,13 @@
               />
             </div>
           </div>
-          <textarea  placeholder="Please enter the content of the article" name="" id="" cols="30" rows="30" v-model="content"></textarea>
+          <q-input
+              placeholder="Please enter the content of the article" name="" id="" cols="30" rows="30" v-model="content"
+              maxlength="5000"
+              outlined
+              type="textarea"
+              :rules="[ val => val.length <= 4999 || errorMessage('Please use maximum 5000 characters.')]"
+            />
           <div class="clearfix">
             <div class="flex justify-between" style="margin-top: 12px;">
               <a-upload
@@ -442,11 +449,13 @@ export default {
     beforeUpload(file) {
       const isJpgOrPng = file.type === 'image/jpg' || file.type === 'image/jpeg' || file.type === 'image/png';
       if (!isJpgOrPng) {
-        this.errorMessage('You can only upload JPG file!');
+        this.errorMessage('Only jpg and png files can be uploaded.');
+        // this.errorMessage('You can only upload JPG file or PNG file!');
       }
       const isLt10M = file.size / 1024 / 1024 < 10;
       if (!isLt10M) {
-        this.errorMessage('Image must smaller than 10MB!');
+        this.errorMessage('Photos can be up to 10 MB in size.');
+        // this.errorMessage('Image must smaller than 10MB!');
       }
       return isJpgOrPng && isLt10M;
     },
@@ -558,22 +567,22 @@ export default {
     padding: 28px;
   }
   
-  textarea{
-    padding: 12px;
-    border: 1px solid #999;
-    border-radius: 6px;
-    width: 100%;
-    height: 100%;
-    resize: none;
-    height: 300px;
-    background: white;
-    &:focus,
-    &:active{
-      border:1px solid #366EB5;
-      outline: auto;  
-      outline-color: #366EB5 !important;
-    }
-  }
+  // textarea{
+  //   padding: 12px;
+  //   border: 1px solid #999;
+  //   border-radius: 6px;
+  //   width: 100%;
+  //   height: 100%;
+  //   resize: none;
+  //   height: 300px;
+  //   background: white;
+  //   &:focus,
+  //   &:active{
+  //     border:1px solid #366EB5;
+  //     outline: auto;  
+  //     outline-color: #366EB5 !important;
+  //   }
+  // }
   .ant-upload{
     height: 32px !important;
     width: 113px;

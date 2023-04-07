@@ -106,7 +106,15 @@
             </div>
           </div>
           <div class="forums-details-page__right__conmment-wrapper">
-            <textarea placeholder="Please write a comment" name="" id="" cols="30" rows="10" v-model="commentText"></textarea>
+            
+            
+    <q-input
+      placeholder="Please write a comment" name="" id="" cols="30" rows="10" v-model="commentText"
+      maxlength="5000"
+      outlined
+      type="textarea"
+      :rules="[ val => val.length <= 4999 || errorMessage('Please enter a comment with at least 10 characters and no more than 5,000 characters.')]"
+    />
             <div class="flex justify-between" style="margin-top: 12px;">
               <div class="clearfix">
                 <a-upload
@@ -202,19 +210,12 @@ export default {
   },
    meta () {
     return {
-      // this accesses the "title" property in your Vue "data";
-      // whenever "title" prop changes, your meta will automatically update
       meta: {
         description: { name: 'description', content: this.metaContent },
         keywords: { name: 'keywords', content: `${this.$route.name  }` },
         equiv: { 'http-equiv': 'Content-Type', content: 'text/html; charset=UTF-8' }
       },
       title: this.metaTitle,
-      // title: this.metaTitle,
-      // description: {
-      //   name: 'description',
-      //   content: this.metaContent
-      // },
     }
   },
   methods:{
@@ -423,14 +424,21 @@ export default {
       this.previewVisible = true;
     },
     handleChange({ fileList }) {
-      this.fileList = fileList.filter(i=>i.type === 'image/jpg'||i.type === 'image/jpeg'||i.type === 'image/png');
+      this.fileList = fileList.filter(i=>(i.type === 'image/jpg'||i.type === 'image/jpeg'||i.type === 'image/png' )
+      &&(i.size / 1024 / 1024 < 10)       );
     },
     beforeUpload(file) {
       const isJpgOrPng = file.type === 'image/jpg' || file.type === 'image/jpeg' || file.type === 'image/png';
       if (!isJpgOrPng) {
-        this.errorMessage('You can only upload JPG file or PNG file!');
+        this.errorMessage('Only jpg and png files can be uploaded.');
+        // this.errorMessage('You can only upload JPG file or PNG file!');
       }
-      return isJpgOrPng ;
+      const isLt10M = file.size / 1024 / 1024 < 10;
+      if (!isLt10M) {
+        this.errorMessage('Photos can be up to 10 MB in size.');
+        // this.errorMessage('Image must smaller than 10MB!');
+      }
+      return isJpgOrPng && isLt10M;
     },
     getPostDetails(){
       return new Promise(resolve=>{
@@ -645,21 +653,21 @@ export default {
       background: white;
       padding: 24px 24px;
       margin-top: 20px;
-      textarea{
-        padding: 12px;
-        border: 1px solid #999;
-        border-radius: 6px;
-        width: 100%;
-        height: 100%;
-        resize: none;
-        height: 108px;
-        background: white;
-        &:focus,
-        &:active{
-          border:2px solid #366EB5;
-          outline: none !important;
-        }
-      }
+      // textarea{
+        // padding: 12px;
+        // border: 1px solid #999;
+        // border-radius: 6px;
+        // width: 100%;
+        // height: 100%;
+        // resize: none;
+        // height: 108px;
+        // background: white;
+        // &:focus,
+        // &:active{
+        //   border:2px solid #366EB5;
+        //   outline: none !important;
+        // }
+      // }
       .ant-upload{
         height: 32px !important;
         width: 113px;
