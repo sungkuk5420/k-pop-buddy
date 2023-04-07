@@ -311,12 +311,12 @@ export default {
         return false;
       }
       if(this.title==""){
-        this.errorMessage("타이틀을 작성해주세요");
+        this.errorMessage("Please enter title");
         console.log("error")
         return false;
       }
       if(this.content==""){
-        this.errorMessage("내용을 작성해주세요");
+        this.errorMessage("Please enter content");
         console.log("error")
         return false;
       }
