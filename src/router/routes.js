@@ -58,10 +58,10 @@ const routes = [
     ],
   },
   {
-    path: '/premium-service',
+    path: '/special-offer',
     component: () => import('layouts/MainLayout.vue'),
     children: [
-      { path: '', component: () => import('pages/PremiumService.vue') },
+      { path: '', component: () => import('pages/SpecialOffer.vue') },
     ],
   },
   {

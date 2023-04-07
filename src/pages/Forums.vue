@@ -9,15 +9,15 @@
           </div>
           <div class="forums-page__left__menu__button" clickable :class="category == 'plasticSurgeryAndCosmeticProcedures'?'is-active':''" @click="category = 'plasticSurgeryAndCosmeticProcedures'">
             <span>Plastic Surgery & Cosmetic Procedures </span>
-            <span class="forums-page__left__menu__button__count"> (11)</span>
+            <span class="forums-page__left__menu__button__count"> ({{ plasticSurgeryAndCosmeticProceduresPosts.length }})</span>
           </div>
           <div class="forums-page__left__menu__button" clickable :class="category == 'nailAndHairAndSkinCare'?'is-active':''" @click="category ='nailAndHairAndSkinCare'">
             <span>Nail & Hair & SkinCare</span>
-            <span class="forums-page__left__menu__button__count"> (4)</span>
+            <span class="forums-page__left__menu__button__count"> ({{ nailAndHairAndSkinCarePosts.length }})</span>
           </div>
           <div class="forums-page__left__menu__button" clickable :class="category == 'tripAndFoodAndHotel'?'is-active':''" @click="category ='tripAndFoodAndHotel'">
             <span>Trip & Food & Hotel</span>
-            <span class="forums-page__left__menu__button__count"> (574)</span>
+            <span class="forums-page__left__menu__button__count"> ({{tripAndFoodAndHotelPosts.length}})</span>
           </div>
         </div>
         <div style="margin-top: 16px;">
@@ -419,6 +419,16 @@ export default {
         this.category = this.$route.query.category;
       }
   },
+  meta () {
+    return {
+      meta: {
+        description: { name: 'description', content: "My Gangnam Insider" },
+        keywords: { name: 'keywords', content: `${this.$route.name  }` },
+        equiv: { 'http-equiv': 'Content-Type', content: 'text/html; charset=UTF-8' }
+      },
+      title: "My Gangnam Insider",
+    }
+  },
   methods:{
     goDetails(post){
       console.log(post)
@@ -554,6 +564,7 @@ export default {
   }
   &__right{
     flex: 1;
+    width: calc(100% - 250px);
     &__title{
       display: flex;
       align-items: center;

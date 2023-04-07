@@ -44,7 +44,7 @@
           <img src="~assets/banner-mobile.png" alt="" class="is-mobile-show" style="width: 100%;">
           <div class="forums-details-page__right__title">
             <h1 class="forums-details-page__title">{{ currentPost.title }}</h1>
-            <q-btn label="edit" v-show="loginUser&&currentPost.writer.uid === loginUser.uid" @click="$router.push(`/edit-post?category=${category}&postUid=${currentPost.postUid}`)"></q-btn>
+            <!-- <q-btn label="edit" v-show="loginUser&&currentPost.writer.uid === loginUser.uid" @click="$router.push(`/edit-post?category=${category}&postUid=${currentPost.postUid}`)"></q-btn> -->
           </div>
           <div class="forums-details-page__right__content-wrapper">
             <div class="forums-details-page__right__content-wrapper__writer">
@@ -70,7 +70,7 @@
               </div>
             </div>
             <div class="forums-details-page__right__content-wrapper__content">
-              <p style="white-space: pre-line;">{{ currentPost.content }}</p>
+              <p style="white-space: pre-line;  word-wrap: break-word;">{{ currentPost.content }}</p>
 
               <img :src="currentFile.url" alt="" v-for="(currentFile, index) in currentPost.filePaths" :key="index" style="width:100%;">
             </div>
@@ -99,7 +99,7 @@
                 </div>
               </div>
               <div class="forums-details-page__right__content-wrapper__content">
-                <p style="white-space: pre-line;">{{ currentComment.comment }}</p>
+                <p style="white-space: pre-line; word-wrap: break-word;">{{ currentComment.comment }}</p>
   
                 <img :src="currentFile" alt="" v-for="(currentFile, index) in currentComment.filePaths" :key="index" style="width:100%;">
               </div>
@@ -536,9 +536,12 @@ export default {
     line-height: 24px;
     letter-spacing: 0em;
     text-align: left;
+    width: 100%;
+    word-wrap: break-word;
   }
   &__right{
     flex: 1;
+    width: 100%;
     &__title{
       display: flex;
       align-items: center;

@@ -65,6 +65,17 @@ data(){
     dealPosts:[],
   }
 },
+
+meta () {
+  return {
+    meta: {
+      description: { name: 'description', content: "My Gangnam Insider" },
+      keywords: { name: 'keywords', content: `${this.$route.name  }` },
+      equiv: { 'http-equiv': 'Content-Type', content: 'text/html; charset=UTF-8' }
+    },
+    title: "My Gangnam Insider",
+  }
+},
 mounted() {
   // this.showLoading();
     this.getPosts();

@@ -145,6 +145,16 @@ mounted() {
   // this.showLoading();
     this.getPosts();
 },
+meta () {
+  return {
+    meta: {
+      description: { name: 'description', content: "My Gangnam Insider" },
+      keywords: { name: 'keywords', content: `${this.$route.name  }` },
+      equiv: { 'http-equiv': 'Content-Type', content: 'text/html; charset=UTF-8' }
+    },
+    title: "My Gangnam Insider",
+  }
+},
 methods:{
   goDetails(post){
     console.log(post)
@@ -274,6 +284,7 @@ background: #F8F8F8;
 }
 &__right{
   flex: 1;
+    width: calc(100% - 250px);
   &__title{
     display: flex;
     align-items: center;

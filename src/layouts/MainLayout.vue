@@ -14,8 +14,8 @@
             >
               <q-tab name="forums"  @click="$router.push('/forums')" label="Forums" no-caps/>
               <q-tab name="hotFocus"  @click="$router.push('/hot-focus')" label="HOT Focus" no-caps/>
-              <q-tab name="deal"  @click="$router.push('/deal')" label="Buddies Deal" no-caps/>
-              <q-tab name="Premium Service"  @click="$router.push('/premium-service')" label="Special Offer" no-caps/>
+              <!-- <q-tab name="deal"  @click="$router.push('/deal')" label="Buddies Deal" no-caps/> -->
+              <q-tab name="SpecialOffer"  @click="$router.push('/special-offer')" label="Special Offer" no-caps/>
             </q-tabs>
   
   
@@ -48,11 +48,11 @@
         <q-item v-ripple clickable class="text-grey-8" @click="$router.push('/hot-focus')">
           HOT Focus
         </q-item>
-        <q-item v-ripple clickable class="text-grey-8" @click="$router.push('/deal')">
+        <!-- <q-item v-ripple clickable class="text-grey-8" @click="$router.push('/deal')">
           Buddies Deal
-        </q-item>
-        <q-item v-ripple clickable class="text-grey-8" @click="$router.push('/premium-service')">
-          Premium Service
+        </q-item> -->
+        <q-item v-ripple clickable class="text-grey-8" @click="$router.push('/special-offer')">
+          Special Offer
         </q-item>
       </q-list>
       <q-list v-show="!loginUser">
@@ -120,6 +120,8 @@ export default {
       this.tab = 'hotFocus'
     }else if(this.$route.path == '/deal' ){
       this.tab = 'deal'
+    }else if(this.$route.path == '/special-offer' ){
+      this.tab = 'SpecialOffer'
     }else{
       this.tab = ''
     }

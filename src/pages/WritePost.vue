@@ -157,7 +157,7 @@
                 @change="handleChange"
                     class="custom-upload"
               >
-                <div v-if="fileList.length < 8">
+                <div v-if="fileList.length < 10">
                   <div class="ant-upload-text">
                       Photo Upload
                   </div>
@@ -215,8 +215,8 @@ export default {
   },
   watch:{
     dateRange(value){
-this.fromDate = value.from
-this.toDate = value.to
+      this.fromDate = value.from
+      this.toDate = value.to
     },
     category(value){
       if(!window.isFirstChangecategory){
@@ -436,14 +436,19 @@ this.toDate = value.to
       this.previewVisible = true;
     },
     handleChange({ fileList }) {
-      this.fileList = fileList.filter(i=>i.type === 'image/jpg'||i.type === 'image/jpeg'||i.type === 'image/png' ||i.url);
+      this.fileList = fileList.filter(i=>(i.type === 'image/jpg'||i.type === 'image/jpeg'||i.type === 'image/png' ||i.url )
+      &&(i.size / 1024 / 1024 < 10)       );
     },
     beforeUpload(file) {
       const isJpgOrPng = file.type === 'image/jpg' || file.type === 'image/jpeg' || file.type === 'image/png';
       if (!isJpgOrPng) {
-        this.errorMessage('You can only upload JPG file or PNG file!');
+        this.errorMessage('You can only upload JPG file!');
       }
-      return isJpgOrPng ;
+      const isLt10M = file.size / 1024 / 1024 < 10;
+      if (!isLt10M) {
+        this.errorMessage('Image must smaller than 10MB!');
+      }
+      return isJpgOrPng && isLt10M;
     },
   }
 };
