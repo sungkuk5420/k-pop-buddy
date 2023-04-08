@@ -14,8 +14,8 @@
             <span>Ended Event</span>
           </div>
         </div>
-        <div style="margin-top: 16px;">
-          <img src="~assets/banner-pc.png" alt="">
+        <div style="margin-top: 16px; cursor: pointer;">
+          <img src="~assets/banner-pc.png" alt="" @click="$router.push('/premium-service')">
         </div>
         <q-btn label="write post" no-caps @click="$router.push('/write-post?postCategory=forums')"></q-btn>
       </div>
@@ -32,7 +32,7 @@
             <q-tab name="solo"  label="IDOL Group(Solo)" no-caps />
           </q-tabs>
         </div>
-        <img src="~assets/banner-mobile.png" alt="" class="is-mobile-show" style="width: 100%;">
+        <img src="~assets/banner-mobile.png" alt="" class="is-mobile-show" style="width: 100%; cursor:pointer;" @click="$router.push('/premium-service')">
         <div class="deal-page__right__title flex justify-between items-center" style="padding-right:20px;width: 100%;" >
           <div class="flex items-center">
             <div class="deal-page__title">Buddies Deal (A special sale only buddies)</div>

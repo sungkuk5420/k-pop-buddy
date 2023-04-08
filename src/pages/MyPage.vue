@@ -11,8 +11,8 @@
             <span>Logout</span>
           </div>
         </div>
-        <div style="margin-top: 16px;">
-          <img src="~assets/banner-pc.png" alt="">
+        <div style="margin-top: 16px; cursor: pointer;">
+          <img src="~assets/banner-pc.png" alt="" @click="$router.push('/premium-service')">
         </div>
       </div>
       <div class="my-page__right" v-if="loginUser">
@@ -26,7 +26,7 @@
             <q-tab name="logout"  label="Logout" no-caps />
           </q-tabs>
         </div>
-        <img src="~assets/banner-mobile.png" alt="" class="is-mobile-show" style="width: 100%;">
+        <img src="~assets/banner-mobile.png" alt="" class="is-mobile-show" style="width: 100%; cursor:pointer;" @click="$router.push('/premium-service')">
         <div class="my-infomation-wrapper">
           <div class="flex column" style="width: 100%;">
             <div class="flex" style="width: 100%;">

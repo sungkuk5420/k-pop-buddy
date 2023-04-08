@@ -33,8 +33,8 @@
             <span>Ended Event</span>
           </div>
         </div>
-        <div style="margin-top: 16px;">
-          <img src="~assets/banner-pc.png" alt="">
+        <div style="margin-top: 16px; cursor: pointer;">
+          <img src="~assets/banner-pc.png" alt="" @click="$router.push('/premium-service')">
         </div>
       </div>
       <div class="write-post-page__right">
@@ -61,7 +61,7 @@
             <q-tab name="end"  label="Ended Event" no-caps />
           </q-tabs>
         </div>
-        <img src="~assets/banner-mobile.png" alt="" class="is-mobile-show" style="width: 100%;">
+        <img src="~assets/banner-mobile.png" alt="" class="is-mobile-show" style="width: 100%; cursor:pointer;" @click="$router.push('/premium-service')">
         <div class="write-post-page__right__title flex justify-between items-center" style="width: 100%;" v-show="category == 'all' || category == 'plasticSurgeryAndCosmeticProcedures'">
             <div class="flex items-center">
               <div class="write-post-page__title">Plastic Surgery & Cosmetic Procedures</div>

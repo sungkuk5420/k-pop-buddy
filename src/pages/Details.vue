@@ -17,8 +17,8 @@
               <span>Trip & Food & Hotel</span>
             </div>
           </div>
-          <div style="margin-top: 16px;">
-            <img src="~assets/banner-pc.png" alt="">
+        <div style="margin-top: 16px; cursor: pointer;">
+            <img src="~assets/banner-pc.png" alt="" @click="$router.push('/premium-service')">
           </div>
         </div>
         <div class="forums-details-page__right" v-if="!currentPost">
@@ -36,7 +36,7 @@
               class=" mobile-tab"
             >
               <q-tab name="all" label="ALL" no-caps />
-              <q-tab name="plasticSurgeryAndCosmeticProcedures" label="Plastic Surgery & Cosmetic Procedures" no-caps />
+              <q-tab name="plasticSurgeryAndCosmeticProcedures" label="Plastiimage.pngc Surgery & Cosmetic Procedures" no-caps />
               <q-tab name="nailAndHairAndSkinCare"  label="Nail & Hair & SkinCare" no-caps />
               <q-tab name="tripAndFoodAndHotel"  label="Trip & Food & Hotel" no-caps />
             </q-tabs>
@@ -44,7 +44,7 @@
           <img src="~assets/banner-mobile.png" alt="" class="is-mobile-show" style="width: 100%;">
           <div class="forums-details-page__right__title">
             <h1 class="forums-details-page__title">{{ currentPost.title }}</h1>
-            <!-- <q-btn label="edit" v-show="loginUser&&currentPost.writer.uid === loginUser.uid" @click="$router.push(`/edit-post?category=${category}&postUid=${currentPost.postUid}`)"></q-btn> -->
+            <q-btn label="edit" v-show="loginUser&&currentPost.writer.uid === loginUser.uid" @click="$router.push(`/edit-post?category=${category}&postUid=${currentPost.postUid}`)"></q-btn>
           </div>
           <div class="forums-details-page__right__content-wrapper">
             <div class="forums-details-page__right__content-wrapper__writer">

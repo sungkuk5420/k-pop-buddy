@@ -7,7 +7,7 @@
         </div>
       </div>
       <div class="hot-focus-page__right">
-        <img src="~assets/banner-mobile.png" alt="" class="is-mobile-show" style="width: 100%;">
+        <img src="~assets/banner-mobile.png" alt="" class="is-mobile-show" style="width: 100%; cursor:pointer;" @click="$router.push('/premium-service')">
         <div class="hot-focus-page__right__title flex justify-between items-center" style="padding-right:20px;width: 100%;" >
           <div class="flex items-center">
             <div class="hot-focus-page__title">HOT Focus</div>
