@@ -67,7 +67,7 @@
             <q-item-section class="list-content-and-wirter">
               <q-item-label class="list-title" lines="1">{{ item.title }}</q-item-label>
               <q-item-label caption lines="2" class="list-nickname-and-created-at">
-                <span >{{ item.writer.nickname }}</span>
+                <span class="list-nickname-and-created-at__nickname">{{ item.writer.nickname }}</span>
                 <span style="margin:0 6px;" > | </span>
                 <span class="text-weight-bold">{{ convertedDateFormatEnglish(item.createdAt) }}</span>
               </q-item-label>
@@ -178,7 +178,7 @@
             <q-item-section class="list-content-and-wirter">
               <q-item-label class="list-title" lines="1">{{ item.title }}</q-item-label>
               <q-item-label caption lines="2" class="list-nickname-and-created-at">
-                <span >{{ item.writer.nickname }}</span>
+                <span class="list-nickname-and-created-at__nickname">{{ item.writer.nickname }}</span>
                 <span style="margin:0 6px;" > | </span>
                 <span class="text-weight-bold">{{ convertedDateFormatEnglish(item.createdAt) }}</span>
               </q-item-label>
@@ -290,7 +290,7 @@
             <q-item-section class="list-content-and-wirter">
               <q-item-label class="list-title" lines="1">{{ item.title }}</q-item-label>
               <q-item-label caption lines="2" class="list-nickname-and-created-at">
-                <span >{{ item.writer.nickname }}</span>
+                <span class="list-nickname-and-created-at__nickname">{{ item.writer.nickname }}</span>
                 <span style="margin:0 6px;" > | </span>
                 <span class="text-weight-bold">{{ convertedDateFormatEnglish(item.createdAt) }}</span>
               </q-item-label>
@@ -485,6 +485,11 @@ export default {
             thisObj.plasticSurgeryAndCosmeticProceduresPosts = allPosts.filter(i=>i.category == 'plasticSurgeryAndCosmeticProcedures' )
             thisObj.nailAndHairAndSkinCarePosts = allPosts.filter(i=>i.category == 'nailAndHairAndSkinCare' )
             thisObj.tripAndFoodAndHotelPosts = allPosts.filter(i=>i.category == 'tripAndFoodAndHotel' )
+            if(thisObj.category == 'all'){
+              thisObj.plasticSurgeryAndCosmeticProceduresPosts= thisObj.allPosts.filter(i=>i.category == 'plasticSurgeryAndCosmeticProcedures' ).slice(0,3)
+              thisObj.nailAndHairAndSkinCarePosts= thisObj.allPosts.filter(i=>i.category == 'nailAndHairAndSkinCare' ).slice(0,3)
+              thisObj.tripAndFoodAndHotelPosts= thisObj.allPosts.filter(i=>i.category == 'tripAndFoodAndHotel' ).slice(0,3)
+            }
           }
         })
         .catch((error) => {
@@ -711,6 +716,10 @@ export default {
           text-align: left;
           color: #333;
           margin-bottom: 2px;
+          max-width: 100px;
+          text-overflow: ellipsis;
+          white-space: nowrap;
+          overflow: hidden;
         }
         &__created-at{
           font-family: Spoqa Han Sans Neo;
@@ -767,6 +776,16 @@ export default {
           .list-view__title{
             margin-right: 8px;
           }
+        }
+      }
+      .list-nickname-and-created-at{
+        &__nickname{
+          max-width: 170px;
+          text-overflow: ellipsis;
+          white-space: nowrap;
+          overflow: hidden;
+          display: inline-block;
+          vertical-align: middle;
         }
       }
 
@@ -849,6 +868,10 @@ export default {
             letter-spacing: 0em;
             text-align: left;
             color: #333;
+            max-width: 25px;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+            overflow: hidden;
           }
         }
         .list-commenter__created-at{

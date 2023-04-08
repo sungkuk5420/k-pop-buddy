@@ -76,8 +76,8 @@
 
 
       </div> <!-- my-page-right-->
-      <q-dialog v-model="editModal" class="edit-modal">
-      <q-card>
+      <q-dialog v-model="editModal" >
+      <q-card class="edit-modal">
         <q-card-section class="row items-center q-pb-none">
           <div class="edit-modal__title">Account details</div>
           <q-space />
@@ -85,25 +85,29 @@
         </q-card-section>
 
         <q-card-section>
-          <div class="flex column">
-            
-            <q-avatar v-show="!imageFile" v-if="loginUser&&!loginUser.avatar&&!imageUrl"   square color="red" text-color="white" >{{ loginUser?loginUser.nickname.slice(0, 1).toUpperCase():''}}</q-avatar>
-            <q-avatar v-show="!imageFile" v-if="loginUser&&loginUser.avatar&&!imageUrl"   square color="red" text-color="white" >
+          <div class="flex column items-center">
+            <q-avatar class="edit-modal__avatar" v-show="!imageFile" v-if="loginUser&&!loginUser.avatar&&!imageUrl"  color="red" text-color="white" >{{ loginUser?loginUser.nickname.slice(0, 1).toUpperCase():''}}</q-avatar>
+            <q-avatar class="edit-modal__avatar" v-show="!imageFile" v-if="loginUser&&loginUser.avatar&&!imageUrl"  color="red" text-color="white" >
               <img :src="loginUser.avatar" alt="" srcset="">  
             </q-avatar>
-            <q-avatar >
+            <q-avatar class="edit-modal__avatar" v-show="imageFile">
               <img v-if="imageUrl" :src="imageUrl" alt="avatar" />
             </q-avatar>
             
-            <div class="ant-upload-text" @click="fileFormOpen">
-                Photo Upload
+            <q-btn class="ant-upload-text" @click="fileFormOpen" outline label="Photo Upload" no-caps color="primary">
+                
+            </q-btn>
+            <div class="flex column" style="width:100%;">
+              <div class="edit-modal__label" @click="fileFormOpen">
+                  Nickname
+              </div>
+              <q-input type="text" outlined v-model="nickname" maxlength="20"></q-input>
+              <q-form @submit="changeUserInfo">
+                <q-file style="display:none;" outlined v-model="imageFile" @input="previewFile" class="photo-upload-button" ref="fileButton">
+                </q-file>
+                <q-btn label="Edit" type="submit"  class="edit-modal__button" no-caps/>
+              </q-form>
             </div>
-            <q-input type="text" outlined v-model="nickname"></q-input>
-            <q-form @submit="changeUserInfo" class="q-gutter-md">
-              <q-file style="display:none;" outlined v-model="imageFile" @input="previewFile" class="photo-upload-button" ref="fileButton">
-              </q-file>
-              <q-btn label="Submit" type="submit" color="primary"/>
-            </q-form>
           </div>
         </q-card-section>
       </q-card>
@@ -186,6 +190,9 @@ export default {
               // `url` is the download URL for 'images/stars.jpg'
               console.log(url)
               const db = getDatabase();
+              if(window.users){
+                window.users = window.users.filter(i=>i.uid !==thisObj.loginUser.uid);
+              }
               set(ref(db, 'users/' + thisObj.loginUser.uid), {
                 email: thisObj.loginUser.email,
                 nickname: thisObj.nickname,
@@ -207,6 +214,9 @@ export default {
         });
       }else{
         const db = getDatabase();
+        if(window.users){
+          window.users = window.users.filter(i=>i.uid !==thisObj.loginUser.uid);
+        }
         set(ref(db, 'users/' + thisObj.loginUser.uid), {
           email: thisObj.loginUser.email,
           nickname: thisObj.nickname,
@@ -317,6 +327,9 @@ export default {
         // Email updated!
         thisObj.successMessage("Email updated!")
         const db = getDatabase();
+        if(window.users){
+          window.users = window.users.filter(i=>i.uid !==thisObj.loginUser.uid);
+        }
         set(ref(db, 'users/' + thisObj.loginUser.uid), {
           email: newEmail,
           nickname: thisObj.loginUser.nickname,
@@ -579,7 +592,64 @@ export default {
     }
   }
 
+}
 
+
+.edit-modal{
+  width: 100%;
+  max-width: 520px;
+  &__title{
+    font-family: Pretendard;
+    font-size: 24px;
+    font-weight: 700;
+    line-height: 32px;
+    letter-spacing: 0em;
+    text-align: left;
+    color: #333;
+    margin-bottom: 24px;
+  }
+  &__avatar{
+    width: 80px;
+    height: 80px;
+    margin-bottom: 12px;
+  }
+
+  .ant-upload-text{
+    border: 1px solid #366EB5 !important;
+    color: #366EB5;
+    font-family: Spoqa Han Sans Neo;
+    font-size: 12px;
+    font-weight: 700;
+    line-height: 18px;
+    letter-spacing: 0em;
+    text-align: left;
+    margin-bottom: 24px;
+  }
+
+  &__label{
+    margin-bottom: 4px;
+    font-family: Pretendard;
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 20px;
+    letter-spacing: 0em;
+    text-align: left;
+    color: #000;
+  }
+
+  &__button{
+    margin-top: 24px;
+    width: 100%;
+    background: $primary;
+    color: white;
+    font-family: Spoqa Han Sans Neo;
+    font-size: 12px;
+    font-weight: 700;
+    line-height: 18px;
+    letter-spacing: 0em;
+    text-align: left;
+    height: 48px;
+  }
 }
 
 

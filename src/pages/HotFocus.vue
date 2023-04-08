@@ -36,7 +36,7 @@
             <q-item-section class="list-content-and-wirter">
               <q-item-label class="list-title" lines="1">{{ item.title }}</q-item-label>
               <q-item-label caption lines="2" class="list-nickname-and-created-at">
-                <span >{{ item.writer.nickname }}</span>
+                <span class="list-nickname-and-created-at__nickname">{{ item.writer.nickname }}</span>
                 <span style="margin:0 6px;" > | </span>
                 <span class="text-weight-bold">{{ convertedDateFormatEnglish(item.createdAt) }}</span>
               </q-item-label>
@@ -490,6 +490,17 @@ background: #F8F8F8;
         }
       }
     }
+    
+    .list-nickname-and-created-at{
+        &__nickname{
+          max-width: 170px;
+          text-overflow: ellipsis;
+          white-space: nowrap;
+          overflow: hidden;
+          display: inline-block;
+          vertical-align: middle;
+        }
+      }
 
     .mobile-list-view-replies-commenter{
       display: flex;
@@ -570,6 +581,10 @@ background: #F8F8F8;
           letter-spacing: 0em;
           text-align: left;
           color: #333;
+          max-width: 25px;
+          text-overflow: ellipsis;
+          white-space: nowrap;
+          overflow: hidden;
         }
       }
       .list-commenter__created-at{

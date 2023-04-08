@@ -29,6 +29,7 @@
           v-model="localNickname"
           placeholder="Please enter your nickname."
           lazy-rules
+          maxlength="20"
         />
         <div class="nickname-sub-text">
           This is the name that will be shown with your messages. You may use any name you wish.
