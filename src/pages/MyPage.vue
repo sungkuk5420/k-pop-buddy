@@ -217,19 +217,34 @@ export default {
         if(window.users){
           window.users = window.users.filter(i=>i.uid !==thisObj.loginUser.uid);
         }
-        set(ref(db, 'users/' + thisObj.loginUser.uid), {
-          email: thisObj.loginUser.email,
-          nickname: thisObj.nickname,
-          avatar:thisObj.loginUser.avatar,
-          createdAt: thisObj.loginUser.createdAt,
-        }).then(()=>{
-          thisObj.$store.dispatch(T.SET_LOGIN_USER_INFO, {
-            ...thisObj.loginUser,
+        if(thisObj.loginUser.avatar){
+          set(ref(db, 'users/' + thisObj.loginUser.uid), {
+            email: thisObj.loginUser.email,
             nickname: thisObj.nickname,
-          });
-          thisObj.editModal = false
-          thisObj.hideLoading()
-        })
+            avatar:thisObj.loginUser.avatar,
+            createdAt: thisObj.loginUser.createdAt,
+          }).then(()=>{
+            thisObj.$store.dispatch(T.SET_LOGIN_USER_INFO, {
+              ...thisObj.loginUser,
+              nickname: thisObj.nickname,
+            });
+            thisObj.editModal = false
+            thisObj.hideLoading()
+          })
+        }else{
+          set(ref(db, 'users/' + thisObj.loginUser.uid), {
+            email: thisObj.loginUser.email,
+            nickname: thisObj.nickname,
+            createdAt: thisObj.loginUser.createdAt,
+          }).then(()=>{
+            thisObj.$store.dispatch(T.SET_LOGIN_USER_INFO, {
+              ...thisObj.loginUser,
+              nickname: thisObj.nickname,
+            });
+            thisObj.editModal = false
+            thisObj.hideLoading()
+          })
+        }
       }
 
       
