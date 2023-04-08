@@ -42,6 +42,8 @@
                   {{ loginUser.nickname}}
                 </div>
                 <div class="my-infomation-wrapper__post-and-comment">
+                  <div class="my-infomation-wrapper__created-at q-mr-sm">{{loginUser.email }}</div>
+                  <div class="my-infomation-wrapper__created-at q-mr-sm"> |</div>
                   <div class="my-infomation-wrapper__created-at">{{ convertedDateFormatEnglish(loginUser.createdAt) }}</div>
                   <!-- <div class="my-infomation-wrapper__spliter"></div>
                   <div class="my-infomation-wrapper__post">
@@ -54,23 +56,58 @@
                     <div class="my-infomation-wrapper__value">{{ commentCount }}</div>
                   </div> -->
                 </div>
+                <div class="my-infomation-wrapper__reset-password" @click="changeEmailLogin">
+                  Reset Email
+                </div>
                 <div class="my-infomation-wrapper__reset-password" @click="prompt">
                   Reset Password
                 </div>
 
               </div>
               <div class="my-infomation-wrapper__edit is-desktop-show" style="margin-left:auto;">
-                <q-btn outline label="Edit" no-caps/>
+                <q-btn outline label="Edit" no-caps @click="editModal=true"/>
               </div>
             </div>
             <div class="my-infomation-wrapper__edit is-mobile-show" style="width: 100%;padding:20px 0px 0 0px">
-              <q-btn outline label="Edit" no-caps style="width: 100%;" />
+              <q-btn outline label="Edit" no-caps @click="editModal=true" style="width: 100%;" />
             </div>
           </div>
         </div><!--  my-infomation-wrapper -->
 
 
-      </div>
+      </div> <!-- my-page-right-->
+      <q-dialog v-model="editModal" class="edit-modal">
+      <q-card>
+        <q-card-section class="row items-center q-pb-none">
+          <div class="edit-modal__title">Account details</div>
+          <q-space />
+          <q-btn icon="close" flat round dense v-close-popup />
+        </q-card-section>
+
+        <q-card-section>
+          <div class="flex column">
+            
+            <q-avatar v-show="!imageFile" v-if="loginUser&&!loginUser.avatar&&!imageUrl"   square color="red" text-color="white" >{{ loginUser?loginUser.nickname.slice(0, 1).toUpperCase():''}}</q-avatar>
+            <q-avatar v-show="!imageFile" v-if="loginUser&&loginUser.avatar&&!imageUrl"   square color="red" text-color="white" >
+              <img :src="loginUser.avatar" alt="" srcset="">  
+            </q-avatar>
+            <q-avatar >
+              <img v-if="imageUrl" :src="imageUrl" alt="avatar" />
+            </q-avatar>
+            
+            <div class="ant-upload-text" @click="fileFormOpen">
+                Photo Upload
+            </div>
+            <q-input type="text" outlined v-model="nickname"></q-input>
+            <q-form @submit="changeUserInfo" class="q-gutter-md">
+              <q-file style="display:none;" outlined v-model="imageFile" @input="previewFile" class="photo-upload-button" ref="fileButton">
+              </q-file>
+              <q-btn label="Submit" type="submit" color="primary"/>
+            </q-form>
+          </div>
+        </q-card-section>
+      </q-card>
+    </q-dialog>
     </div>
   </q-page>
 </template>
@@ -78,8 +115,22 @@
 <script>
 import ComputedMixin from "../ComputedMixin";
 import UtilMethodMixin from "../UtilMethodMixin";
-import { getAuth, updatePassword } from "firebase/auth";
-import { getDatabase, ref, set, child, get,query, orderByChild,equalTo  } from 'firebase/database';
+import { getAuth, updatePassword,updateEmail,signInWithEmailAndPassword,    } from "firebase/auth";
+import { T } from '../store/module-example/types';
+import { getStorage, ref as fileRef, uploadBytes ,getDownloadURL } from "firebase/storage";
+import { getDatabase, ref , set, child, get,query, orderByChild,equalTo } from 'firebase/database';
+
+function getBase64(file) {
+  return new Promise((resolve, reject) => {
+    const reader = new FileReader();
+    reader.readAsDataURL(file);
+    reader.onload = () => {
+      resolve(reader.result);
+    }
+    reader.onerror = error => reject(error);
+  });
+}
+
 export default {
   mixins: [ComputedMixin, UtilMethodMixin],
   data(){
@@ -87,6 +138,10 @@ export default {
       tab:"noteManagement",
       postCount:0,
       commentCount:0,
+      editModal:false,
+      imageFile: null,
+      imageUrl: '',
+      nickname:"",
     }
   },
   mounted() {
@@ -98,9 +153,77 @@ export default {
       if(value == 'logout'){
         this.logout()
       }
+    },
+    editModal(value){
+      if(value){
+        this.nickname = this.loginUser.nickname;
+      }
     }
   },
   methods:{
+    fileFormOpen(){
+      console.log(this.$refs.fileButton)
+      this.$refs.fileButton.pickFiles()
+    },
+    async previewFile(){
+        const result= await getBase64(this.imageFile);
+        console.log(result)
+        this.imageUrl = result;
+    },
+    changeUserInfo (evt) {
+      console.log(this.imageFile)
+      const storage = getStorage();
+      const storageRef = fileRef(storage, this.loginUser.uid+'/avatar' );
+      const thisObj = this;
+      thisObj.showLoading()
+      // 'file' comes from the Blob or File API
+      if(this.imageFile){
+        uploadBytes(storageRef, this.imageFile).then((snapshot) => {
+          console.log('Uploaded a blob or file!');
+          const storage = getStorage();
+          getDownloadURL(fileRef(storage, this.loginUser.uid+'/avatar'))
+            .then((url) => {
+              // `url` is the download URL for 'images/stars.jpg'
+              console.log(url)
+              const db = getDatabase();
+              set(ref(db, 'users/' + thisObj.loginUser.uid), {
+                email: thisObj.loginUser.email,
+                nickname: thisObj.nickname,
+                avatar:url,
+                createdAt: thisObj.loginUser.createdAt,
+              }).then(()=>{
+                thisObj.$store.dispatch(T.SET_LOGIN_USER_INFO, {
+                  ...thisObj.loginUser,
+                  avatar:url,
+                  nickname: thisObj.nickname,
+                });
+                thisObj.editModal = false
+                thisObj.hideLoading()
+              })
+            })
+            .catch((error) => {
+              // Handle any errors
+            });
+        });
+      }else{
+        const db = getDatabase();
+        set(ref(db, 'users/' + thisObj.loginUser.uid), {
+          email: thisObj.loginUser.email,
+          nickname: thisObj.nickname,
+          avatar:thisObj.loginUser.avatar,
+          createdAt: thisObj.loginUser.createdAt,
+        }).then(()=>{
+          thisObj.$store.dispatch(T.SET_LOGIN_USER_INFO, {
+            ...thisObj.loginUser,
+            nickname: thisObj.nickname,
+          });
+          thisObj.editModal = false
+          thisObj.hideLoading()
+        })
+      }
+
+      
+    }, 
     prompt () {
       this.$q.dialog({
         title: 'Reset Password',
@@ -122,6 +245,96 @@ export default {
         // console.log('I am triggered on both OK and Cancel')
       })
     },
+    changeEmailLogin () {
+      const thisObj = this;
+      this.$q.dialog({
+        title: 'Reset Email',
+        message: 'input your password',
+        prompt: {
+          model: '',
+          type: 'password' // optional
+        },
+        cancel: true,
+        persistent: true
+      }).onOk(data => {
+      const auth = getAuth();
+      signInWithEmailAndPassword(auth, this.loginUser.email, data)
+        .then((userCredential) => {
+          this.changeEmail()
+        })
+        .catch((error) => {
+          const errorCode = error.code;
+          let errorMessage = error.message;
+          console.log(errorCode)
+          console.log(errorMessage)
+          
+          if (error.message.indexOf('(auth/user-not-found)') != -1) {
+              errorMessage = "The requested user '"+ this.localEmail+ "' could not be found.";
+          }
+          if (error.message.indexOf('(auth/wrong-password)') != -1) {
+              errorMessage = "Incorrect password. Please try again.";
+          }
+          if (error.message.indexOf('(auth/weak-password)') != -1) {
+            errorMessage = "Password should be at least 6 characters.";
+          }
+          if (error.message.indexOf('(auth/invalid-email)') != -1) {
+            errorMessage = "Please enter a valid email address.";
+          }
+          thisObj.localErrorMessage = errorMessage
+        });
+        // console.log('>>>> OK, received', data)
+      }).onCancel(() => {
+        // console.log('>>>> Cancel')
+      }).onDismiss(() => {
+        // console.log('I am triggered on both OK and Cancel')
+      })
+    },
+    changeEmail () {
+      this.$q.dialog({
+        title: 'Reset Email',
+        message: 'input your new E-mail',
+        prompt: {
+          model: '',
+          type: 'text' // optional
+        },
+        cancel: true,
+        persistent: true
+      }).onOk(newEmail => {
+        console.log(newEmail)
+        this.resetEmail(newEmail)
+        // console.log('>>>> OK, received', data)
+      }).onCancel(() => {
+        // console.log('>>>> Cancel')
+      }).onDismiss(() => {
+        // console.log('I am triggered on both OK and Cancel')
+      })
+    },
+    resetEmail(newEmail){
+      const auth = getAuth();
+      const thisObj = this;
+
+      updateEmail(auth.currentUser, newEmail).then(() => {
+        // Email updated!
+        thisObj.successMessage("Email updated!")
+        const db = getDatabase();
+        set(ref(db, 'users/' + thisObj.loginUser.uid), {
+          email: newEmail,
+          nickname: thisObj.loginUser.nickname,
+          avatar:thisObj.loginUser.avatar,
+          createdAt: thisObj.loginUser.createdAt,
+        }).then(()=>{
+          thisObj.$store.dispatch(T.SET_LOGIN_USER_INFO, {
+            ...thisObj.loginUser,
+            email:newEmail
+          });
+          thisObj.hideLoading()
+        })
+        // ...
+      }).catch((error) => {
+        // An error occurred
+        thisObj.errorMessage("Fail to update email")
+      });
+    },
     resetPassword(newPassword){
       const auth = getAuth();
 
@@ -129,6 +342,7 @@ export default {
 
       updatePassword(user, newPassword).then(() => {
         this.successMessage("Update successful")
+        
       }).catch((error) => {
           let errorMessage = error.message
           if(error.message.indexOf('auth/email-already-in-use')!=-1){
