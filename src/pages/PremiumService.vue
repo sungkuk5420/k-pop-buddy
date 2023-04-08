@@ -233,7 +233,7 @@ export default {
       word-break: normal;
     }
     .q-list{
-      width: 930px;
+      width: 1000px;
     }
   }
 
