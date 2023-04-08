@@ -17,7 +17,6 @@
         <div style="margin-top: 16px; cursor: pointer;">
           <img src="~assets/banner-pc.png" alt="" @click="$router.push('/premium-service')">
         </div>
-        <q-btn label="write post" no-caps @click="$router.push('/write-post?postCategory=forums')"></q-btn>
       </div>
       <div class="deal-page__right">
         <div class="tab-scroll is-mobile-show">
@@ -37,19 +36,45 @@
           <div class="flex items-center">
             <div class="deal-page__title">Buddies Deal (A special sale only buddies)</div>
           </div>
-          <q-btn class="write-button" flat label="Write"  no-caps @click="$router.push('/write-post?postCategory=deal')"></q-btn>
+          <q-btn class="write-button" flat label="Write" v-show="loginUser.isAdmin" no-caps @click="$router.push('/write-post?postCategory=deal')"></q-btn>
         </div>
 
         <div class="empty-list" v-show="dealPosts.length==0">
           There are no articles written.
         </div>
-
-        {{ dealPosts }}
+        <div class="deal-card-bg">
+          <div class="deal-card" v-for="(currentPost,index) in dealPosts" :key="index"  @click="()=>goDetails(currentPost)">
+            <div class="deal-card__main-image">
+              <img :src="currentPost.mainImage" alt="" srcset="">
+            </div>
+            <div class="deal-card__title">
+              {{ currentPost.title }}
+            </div>
+            <div class="deal-card__date">
+              <div class="deal-card__date__from">
+                {{ currentPost.fromDate}}
+              </div>
+              <div>~</div>
+              <div class="deal-card__date__to">
+                {{ currentPost.toDate}}
+              </div>
+            </div>
+            <div class="deal-card__price-wrapper">
+              <div class="deal-card__discount">
+                {{ parseInt((1-currentPost.discountedPrice/currentPost.regularPrice)*100)  }}%
+              </div>
+              <div class="deal-card__price">
+                {{ currentPost.discountedPrice }}
+              </div>
+              <div class="deal-card__price-2">
+                KRW
+              </div>
+            </div>
+          </div>
+        </div>
 
       </div>
     </div>
-  <div class="flex column">
-  </div>
 </q-page>
 </template>
 
@@ -84,7 +109,7 @@ methods:{
   goDetails(post){
     console.log(post)
     this.$router.push({
-        name: 'forumsDetails',
+        name: 'dealDetails',
         query:{
           postUid:post.postUid
         },
@@ -145,124 +170,197 @@ methods:{
 
 <style lang="scss">
 .deal-page{
-display: flex; 
-justify-content: center;
-background: #F8F8F8;
-.contianer{
   display: flex; 
   justify-content: center;
-  width: 100%;
-  max-width: 1080px;
-  padding: 24px;
+  background: #F8F8F8;
+  .contianer{
+    display: flex; 
+    justify-content: center;
+    width: 100%;
+    max-width: 1080px;
+    padding: 24px;
 
-}
+  }
 
-&__left{
-  width: 240px;
-  margin-right: 36px;
-  &__menu{
-    margin-top: 12px;
-    background: white;
-    width: 200px;
-    height: 150px;
-    padding: 12px 0;
-    &>div{
-      padding: 0 22px;
-      height: 43px;
-      font-family: Spoqa Han Sans Neo;
-      font-size: 12px;
-      font-weight: 500;
-      line-height: 15px;
-      letter-spacing: 0em;
-      text-align: left;
-      display: flex;
-      justify-content: flex-start;
-      align-items: center;
-      &:not(.deal-page__left__menu__title):hover{
-        cursor: pointer;
-        background: #ddd;
-        opacity: 0.8;
-      }
-    }
-    &__button{
-      &__count{
+  &__left{
+    width: 240px;
+    margin-right: 36px;
+    &__menu{
+      margin-top: 12px;
+      background: white;
+      width: 200px;
+      height: 150px;
+      padding: 12px 0;
+      &>div{
+        padding: 0 22px;
+        height: 43px;
         font-family: Spoqa Han Sans Neo;
         font-size: 12px;
-        font-weight: 400;
+        font-weight: 500;
         line-height: 15px;
         letter-spacing: 0em;
         text-align: left;
-        margin-left: 4px;
-        color: #999;
+        display: flex;
+        justify-content: flex-start;
+        align-items: center;
+        &:not(.deal-page__left__menu__title):hover{
+          cursor: pointer;
+          background: #ddd;
+          opacity: 0.8;
+        }
+      }
+      &__button{
+        &__count{
+          font-family: Spoqa Han Sans Neo;
+          font-size: 12px;
+          font-weight: 400;
+          line-height: 15px;
+          letter-spacing: 0em;
+          text-align: left;
+          margin-left: 4px;
+          color: #999;
+        }
       }
     }
   }
-}
-&__title{
-  font-family: Spoqa Han Sans Neo;
-  font-size: 16px;
-  font-weight: 700;
-  line-height: 24px;
-  letter-spacing: 0em;
-  text-align: left;
-  color: #000;
-}
-&__right{
-  flex: 1;
   &__title{
-    display: flex;
-    align-items: center;
-    height: 40px;
-    margin-bottom: 4px;
-  }
-  .deal-page__title{
-    margin-right: 5px;
-  }
-  .deal-page__see-all{
     font-family: Spoqa Han Sans Neo;
-    font-size: 12px;
+    font-size: 16px;
     font-weight: 700;
-    line-height: 18px;
+    line-height: 24px;
     letter-spacing: 0em;
     text-align: left;
+    color: #000;
+  }
+  &__right{
+    flex: 1;
+    &__title{
+      display: flex;
+      align-items: center;
+      height: 40px;
+      margin-bottom: 4px;
+    }
+    .deal-page__title{
+      margin-right: 5px;
+    }
+    .deal-page__see-all{
+      font-family: Spoqa Han Sans Neo;
+      font-size: 12px;
+      font-weight: 700;
+      line-height: 18px;
+      letter-spacing: 0em;
+      text-align: left;
 
-    color: #1C579F;
-    &:hover{
-      cursor: pointer;
-      text-decoration: underline;
+      color: #1C579F;
+      &:hover{
+        cursor: pointer;
+        text-decoration: underline;
+      }
     }
   }
-}
 
-.empty-list{
-  width: 100%;
-  height: 150px;
-  background: white;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-family: Spoqa Han Sans Neo;
-  font-size: 14px;
-  font-weight: 700;
-  line-height: 20px;
-  letter-spacing: 0em;
-  text-align: center;
-  color: #999;
-}
-
-
-.write-button{
-    color: white;
-    background: #366EB5;
+  .empty-list{
+    width: 100%;
+    height: 150px;
+    background: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
     font-family: Spoqa Han Sans Neo;
-    font-size: 12px;
+    font-size: 14px;
     font-weight: 700;
-    line-height: 18px;
+    line-height: 20px;
     letter-spacing: 0em;
-    text-align: left;
+    text-align: center;
+    color: #999;
+  }
+
+
+  .write-button{
+      color: white;
+      background: #366EB5;
+      font-family: Spoqa Han Sans Neo;
+      font-size: 12px;
+      font-weight: 700;
+      line-height: 18px;
+      letter-spacing: 0em;
+      text-align: left;
 
   }
 
+  .deal-card-bg{
+    background: white;
+    padding: 20px;
+    display: flex;
+    gap: 20px;
+  }
+
+  .deal-card{
+    cursor: pointer;
+    &__main-image{
+      max-width: 250px;
+      width: 100%;
+      margin-bottom: 16px;
+    }
+    &__title{
+      font-family: Spoqa Han Sans Neo;
+      font-size: 14px;
+      font-weight: 700;
+      line-height: 20px;
+      letter-spacing: 0em;
+      text-align: left;
+      color: #333;
+      margin-bottom: 8px;
+    }
+    &__date{
+      font-family: Spoqa Han Sans Neo;
+      font-size: 10px;
+      font-weight: 700;
+      line-height: 12px;
+      letter-spacing: 0em;
+      text-align: left;
+      color: #999;
+      display: flex;
+      gap: 3px;
+      margin-bottom: 20px;
+    }
+    &__price-wrapper{
+      display: flex;
+      align-items: center;
+    }
+    &__discount{
+      font-family: Spoqa Han Sans Neo;
+      font-size: 12px;
+      font-weight: 700;
+      line-height: 18px;
+      letter-spacing: 0em;
+      text-align: left;
+      color: #EF5350;
+      margin-right: 8px;
+    }
+    &__price{
+      //styleName: Subtitle3;
+      font-family: Spoqa Han Sans Neo;
+      font-size: 14px;
+      font-weight: 700;
+      line-height: 20px;
+      letter-spacing: 0em;
+      text-align: left;
+      color: #333;
+      margin-right: 2px;
+    }
+    &__price-2{
+      //styleName: Subtitle4;
+      font-family: Spoqa Han Sans Neo;
+      font-size: 12px;
+      font-weight: 700;
+      line-height: 18px;
+      letter-spacing: 0em;
+      text-align: left;
+      color: #333;
+      margin-top: 2px;
+    }
+  }
 
 }
 

@@ -44,6 +44,13 @@ const routes = [
     ],
   },
   {
+    path: '/deal-details',
+    component: () => import('layouts/MainLayout.vue'),
+    children: [
+      { path: '', name: 'dealDetails', props: { category: 'deal' }, component: () => import('pages/Details.vue') },
+    ],
+  },
+  {
     path: '/hot-focus',
     component: () => import('layouts/MainLayout.vue'),
     children: [

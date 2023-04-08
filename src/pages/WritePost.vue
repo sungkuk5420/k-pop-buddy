@@ -88,6 +88,11 @@
           </div>
         </div>
         <div class="write-post-page__bg">
+          <img v-if="imageUrl" :src="imageUrl" alt="avatar"  style="max-width:200px;margin-bottom: 12px; margin-right: 12px;"/>
+
+          <q-file style="display:none;" outlined v-model="mainImage" @input="previewFile" class="photo-upload-button" ref="fileButton">
+          </q-file>
+          <q-btn class="ant-upload-text" @click="fileFormOpen" outline label="Photo Upload" no-caps color="primary"/>
           <q-input
             v-model="title"
             outlined
@@ -96,6 +101,8 @@
             maxlength="200"
             style="width:100%; margin-bottom: 10px; background: white;" 
           />
+
+
           <div class="flex" style="gap:10px" v-show="postCategory=='deal'">
             <div style="flex:1">
               <q-input outlined v-model="fromDate" placeholder="start date">
@@ -202,6 +209,17 @@ function getBase64(file) {
     reader.onerror = error => reject(error);
   });
 }
+
+function getMainBase64(file) {
+  return new Promise((resolve, reject) => {
+    const reader = new FileReader();
+    reader.readAsDataURL(file);
+    reader.onload = () => {
+      resolve(reader.result);
+    }
+    reader.onerror = error => reject(error);
+  });
+}
 import { uid } from 'quasar';
 export default {
   mixins: [ComputedMixin, UtilMethodMixin],
@@ -233,6 +251,9 @@ export default {
       postCategory:"",
       fileList: [
       ],
+      mainImage: null,
+      imageUrl: '',
+      mainFileUrl: '',
     }
   },
   watch:{
@@ -325,6 +346,12 @@ export default {
         console.log("error")
         return false;
       }
+
+      if ((this.postCategory == 'deal')&&(this.mainImage==null)){
+        this.errorMessage("Please upload main image");
+        console.log("error")
+        return false;
+      }
       if(this.title==""){
         this.errorMessage("Please enter title");
         console.log("error")
@@ -337,6 +364,66 @@ export default {
       }
       this.showLoading()
       const postUid = queryPostUid?queryPostUid:uid().replace("-","").slice(0,12)
+      
+      if(this.postCategory == 'deal'){
+        await new Promise(resolve2 => {
+            const file = thisObj.mainImage
+            if(file){
+              const storageRef = fileRef(storage, 'images/'+postUid+'/' + file.name);
+              const uploadTask = uploadBytesResumable(storageRef, file, {contentType: file.type});
+
+              // Listen for state changes, errors, and completion of the upload.
+              uploadTask.on('state_changed',
+                (snapshot) => {
+                  // Get task progress, including the number of bytes uploaded and the total number of bytes to be uploaded
+                  const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+                  thisObj.showLoading('Upload is ' + progress + '% done ');
+                  switch (snapshot.state) {
+                    case 'paused':
+                      console.log('Upload is paused');
+                      break;
+                    case 'running':
+                      console.log('Upload is running');
+                      break;
+                  }
+                },
+                (error) => {
+                  // A full list of error codes is available at
+                  // https://firebase.google.com/docs/storage/web/handle-errors
+                  switch (error.code) {
+                    case 'storage/unauthorized':
+                      // User doesn't have permission to access the object
+                      break;
+                    case 'storage/canceled':
+                      // User canceled the upload
+                      break;
+
+                    // ...
+
+                    case 'storage/unknown':
+                      // Unknown error occurred, inspect error.serverResponse
+                      break;
+                  }
+                },
+                () => {
+                  // Upload completed successfully, now we can get the download URL
+                  getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
+                    console.log('File available at', downloadURL);
+                    thisObj.mainFileUrl = downloadURL;
+                    resolve2();
+                  });
+                }
+              );
+            }else{
+              //no file 
+              filePaths.push({
+                fileName:currentFile.fileName,
+                url:currentFile.url
+              })
+              resolve2();
+            }
+          });
+      }
       for (const currentFile of this.fileList) {
           await new Promise(resolve2 => {
             const file = currentFile.originFileObj
@@ -403,6 +490,7 @@ export default {
       if(this.postCategory == 'deal'){
         set(ref(db, 'dealPosts/' + postUid), {
           postUid:postUid,
+          mainImage: thisObj.mainFileUrl,
           title: thisObj.title,
           content: thisObj.content,
           writer: thisObj.loginUser.uid,
@@ -473,6 +561,17 @@ export default {
         // this.errorMessage('Image must smaller than 10MB!');
       }
       return isJpgOrPng && isLt10M;
+    },
+    
+    async previewFile(){
+        const result= await getMainBase64(this.mainImage);
+        console.log(result)
+        this.imageUrl = result;
+    },
+    
+    fileFormOpen(){
+      console.log(this.$refs.fileButton)
+      this.$refs.fileButton.pickFiles()
     },
   }
 };

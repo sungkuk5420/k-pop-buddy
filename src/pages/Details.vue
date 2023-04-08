@@ -60,12 +60,24 @@
                 </div>
                 <div class="view-replies-warpper">
                   {{ convertedDateFormatEnglish(currentPost.createdAt) }}
-                  <div class="spliter"></div>
-                  <div class="view-replies-warpper__label">Views</div>
-                  <div class="view-replies-warpper__value">{{ currentPost.views }}</div>
-                  <div class="spliter"></div>
-                  <div class="view-replies-warpper__label">Replies</div>
-                  <div class="view-replies-warpper__value">{{currentPost.replies}}</div>
+                  <div class="spliter" v-show="category != 'deal'"></div>
+                  <div class="view-replies-warpper__label" v-show="category != 'deal'">Views</div>
+                  <div class="view-replies-warpper__value" v-show="category != 'deal'">{{ currentPost.views }}</div>
+                  <div class="spliter" v-show="category != 'deal'"></div>
+                  <div class="view-replies-warpper__label" v-show="category != 'deal'">Replies</div>
+                  <div class="view-replies-warpper__value" v-show="category != 'deal'">{{currentPost.replies}}</div>
+                </div>
+                
+                <div class="price-wrapper" v-if="category == 'deal'">
+                  <div class="price-wrapper__discount">
+                    {{ parseInt((1-currentPost.discountedPrice/currentPost.regularPrice)*100)  }}%
+                  </div>
+                  <div class="price-wrapper__price">
+                    {{ currentPost.discountedPrice }}
+                  </div>
+                  <div class="price-wrapper__price-2">
+                    KRW
+                  </div>
                 </div>
               </div>
             </div>
@@ -723,6 +735,44 @@ export default {
         background: #999;
         margin: 0 8px;
       }
+  }
+
+  .price-wrapper{
+    display: flex;
+    align-items: center;
+    margin-top: 10px;
+    &__discount{
+      font-family: Spoqa Han Sans Neo;
+      font-size: 12px;
+      font-weight: 700;
+      line-height: 18px;
+      letter-spacing: 0em;
+      text-align: left;
+      color: #EF5350;
+      margin-right: 8px;
+    }
+    &__price{
+      //styleName: Subtitle3;
+      font-family: Spoqa Han Sans Neo;
+      font-size: 14px;
+      font-weight: 700;
+      line-height: 20px;
+      letter-spacing: 0em;
+      text-align: left;
+      color: #333;
+      margin-right: 2px;
+    }
+    &__price-2{
+      //styleName: Subtitle4;
+      font-family: Spoqa Han Sans Neo;
+      font-size: 12px;
+      font-weight: 700;
+      line-height: 18px;
+      letter-spacing: 0em;
+      text-align: left;
+      color: #333;
+      margin-top: 2px;
+    }
   }
 
 

@@ -137,6 +137,7 @@ export default {
             email: thisObj.localEmail,
             nickname: thisObj.localNickname,
             createdAt: thisObj.createNowTime(),
+            isAdmin:false
           })
           thisObj.successMessage("Log in")
           thisObj.$router.push("/")

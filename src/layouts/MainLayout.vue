@@ -14,7 +14,7 @@
             >
               <q-tab name="forums"  @click="$router.push('/forums')" label="Forums" no-caps/>
               <q-tab name="hotFocus"  @click="$router.push('/hot-focus')" label="HOT Focus" no-caps/>
-              <!-- <q-tab name="deal"  @click="$router.push('/deal')" label="Buddies Deal" no-caps/> -->
+              <q-tab name="deal"  @click="$router.push('/deal')" label="Buddies Deal" no-caps/>
               <q-tab name="premiumService"  @click="$router.push('/premium-service')" label="Premium Service" no-caps/>
             </q-tabs>
   
@@ -48,9 +48,9 @@
         <q-item v-ripple clickable class="text-grey-8" @click="$router.push('/hot-focus')">
           HOT Focus
         </q-item>
-        <!-- <q-item v-ripple clickable class="text-grey-8" @click="$router.push('/deal')">
+        <q-item v-ripple clickable class="text-grey-8" @click="$router.push('/deal')">
           Buddies Deal
-        </q-item> -->
+        </q-item>
         <q-item v-ripple clickable class="text-grey-8" @click="$router.push('/premium-service')">
           Premium Service
         </q-item>
