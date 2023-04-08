@@ -31,8 +31,8 @@
           <div class="flex column" style="width: 100%;">
             <div class="flex" style="width: 100%;">
               <div class="my-infomation-wrapper__avatar">
-                <q-avatar v-if="loginUser&&!loginUser.avatar"  @click="$router.push('/change-info')"  color="red" text-color="white" >{{ loginUser?loginUser.nickname.slice(0, 1).toUpperCase():''}}</q-avatar>
-              <q-avatar v-if="loginUser&&loginUser.avatar" @click="$router.push('/change-info')"   color="red" text-color="white" >
+                <q-avatar v-if="loginUser&&!loginUser.avatar"  color="red" text-color="white" >{{ loginUser?loginUser.nickname.slice(0, 1).toUpperCase():''}}</q-avatar>
+              <q-avatar v-if="loginUser&&loginUser.avatar"  color="red" text-color="white" >
                 <img :src="loginUser.avatar" alt="" srcset="">  
               </q-avatar>
 
@@ -98,10 +98,10 @@
                 
             </q-btn>
             <div class="flex column" style="width:100%;">
-              <div class="edit-modal__label" @click="fileFormOpen">
+              <!-- <div class="edit-modal__label" @click="fileFormOpen">
                   Nickname
               </div>
-              <q-input type="text" outlined v-model="nickname" maxlength="20"></q-input>
+              <q-input type="text" outlined v-model="nickname" maxlength="20" readonly></q-input> -->
               <q-form @submit="changeUserInfo">
                 <q-file style="display:none;" outlined v-model="imageFile" @input="previewFile" class="photo-upload-button" ref="fileButton">
                 </q-file>
