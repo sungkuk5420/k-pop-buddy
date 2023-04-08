@@ -306,7 +306,7 @@ export default {
       const storage = getStorage();
       let filePaths = [];
       if(!this.loginUser){
-        this.errorMessage("로그인한 사용자만 작성할 수 있습니다.");
+        this.errorMessage("Please log in to creat a post");
         console.log("error")
         return false;
       }
