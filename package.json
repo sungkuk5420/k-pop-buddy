@@ -15,6 +15,8 @@
     "build-ssr": "quasar build -m ssr"
   },
   "dependencies": {
+    "@ckeditor/ckeditor5-build-classic": "^37.0.1",
+    "@ckeditor/ckeditor5-vue2": "^3.0.1",
     "@quasar/cli": "^1.2.1",
     "@quasar/extras": "^1.0.0",
     "ant-design-vue": "^1.4.9",

@@ -146,13 +146,15 @@
               />
             </div>
           </div>
-          <q-input
+          
+          <ckeditor :editor="editor" placeholder="Please enter the content of the article" cols="30" rows="30" v-model="content" maxlength="5000"   :config="editorConfig"></ckeditor>
+          <!-- <q-input
               placeholder="Please enter the content of the article" name="" id="" cols="30" rows="30" v-model="content"
               maxlength="5000"
               outlined
               type="textarea"
               :rules="[ val => val.length <= 4999 || errorMessage('Please use maximum 5000 characters.')]"
-            />
+            /> -->
           <div class="clearfix">
             <div class="flex justify-between" style="margin-top: 12px;">
               <a-upload
@@ -185,6 +187,9 @@
 </template>
 
 <script>
+
+import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
+
 import ComputedMixin from "../ComputedMixin";
 import UtilMethodMixin from "../UtilMethodMixin";
 import { getStorage, ref as fileRef, uploadBytesResumable, getDownloadURL } from "firebase/storage";
@@ -202,6 +207,16 @@ export default {
   mixins: [ComputedMixin, UtilMethodMixin],
   data () {
     return {
+      editor: ClassicEditor,
+      editorConfig: {
+          toolbar: {
+              items: [
+                  'bold',
+                  'italic',
+                  'link',
+              ]
+          }
+      },
       category:"",
       dealOpenEnd:"all",
       title: '',
@@ -473,6 +488,10 @@ export default {
   justify-content: center;
   align-items: flex-start;
   background: #F8F8F8;
+  
+  .ck-content{
+    height: 300px;
+  }
   .contianer{
     display: flex; 
     justify-content: center;

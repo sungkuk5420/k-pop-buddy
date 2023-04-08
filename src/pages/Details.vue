@@ -41,7 +41,7 @@
               <q-tab name="tripAndFoodAndHotel"  label="Trip & Food & Hotel" no-caps />
             </q-tabs>
           </div>
-          <img src="~assets/banner-mobile.png" alt="" class="is-mobile-show" style="width: 100%;">
+          <img src="~assets/banner-mobile.png" alt="" class="is-mobile-show" style="width: 100%; cursor:pointer;" @click="$router.push('/premium-service')">
           <div class="forums-details-page__right__title">
             <h1 class="forums-details-page__title">{{ currentPost.title }}</h1>
             <q-btn label="edit" v-show="loginUser&&currentPost.writer.uid === loginUser.uid" @click="$router.push(`/edit-post?category=${category}&postUid=${currentPost.postUid}`)"></q-btn>
@@ -70,7 +70,7 @@
               </div>
             </div>
             <div class="forums-details-page__right__content-wrapper__content">
-              <p style="white-space: pre-line;  word-wrap: break-word;">{{ currentPost.content }}</p>
+              <p style="white-space: pre-line;  word-wrap: break-word;" v-html="currentPost.content"></p>
 
               <img :src="currentFile.url" alt="" v-for="(currentFile, index) in currentPost.filePaths" :key="index" style="width:100%;">
             </div>
@@ -99,22 +99,21 @@
                 </div>
               </div>
               <div class="forums-details-page__right__content-wrapper__content">
-                <p style="white-space: pre-line; word-wrap: break-word;">{{ currentComment.comment }}</p>
+                <p style="white-space: pre-line; word-wrap: break-word;" v-html="currentComment.comment"></p>
   
                 <img :src="currentFile" alt="" v-for="(currentFile, index) in currentComment.filePaths" :key="index" style="width:100%;">
               </div>
             </div>
           </div>
           <div class="forums-details-page__right__conmment-wrapper">
-            
-            
-            <q-input
+            <!-- <q-input
               placeholder="Please write a comment" name="" id="" cols="30" rows="10" v-model="commentText"
               maxlength="5000"
               outlined
               type="textarea"
               :rules="[ val => val.length <= 4999 || errorMessage('Please enter a comment with at least 10 characters and no more than 5,000 characters.')]"
-            />
+            /> -->
+            <ckeditor :editor="editor" placeholder="Please write a comment" name="" id="" cols="30" rows="10" v-model="commentText" maxlength="5000"   :config="editorConfig"></ckeditor>
             <div class="flex justify-between" style="margin-top: 12px;">
               <div class="clearfix">
                 <a-upload
@@ -151,6 +150,8 @@ import UtilMethodMixin from "../UtilMethodMixin";
 import { getStorage, ref as fileRef, uploadBytesResumable, getDownloadURL } from "firebase/storage";
 import { getDatabase, ref, set, child, get,update  } from 'firebase/database';
 import { uid } from 'quasar';
+
+import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
 export default {
   name:"forumsDetails",
   mixins: [ComputedMixin, UtilMethodMixin],
@@ -162,6 +163,16 @@ export default {
   },
   data(){
     return{
+      editor: ClassicEditor,
+      editorConfig: {
+          toolbar: {
+              items: [
+                  'bold',
+                  'italic',
+                  'link',
+              ]
+          }
+      },
       categoryTab:"",
       currentPost:null,
       previewVisible: false,
@@ -496,6 +507,9 @@ export default {
 
   }
   
+  .ck-content{
+    height: 100px;
+  }
   &__left{
     width: 240px;
     margin-right: 36px;

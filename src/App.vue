@@ -202,4 +202,5 @@ export default {
         url('https://cdn.jsdelivr.net/gh/webfontworld/pretendard/Pretendard-Black.ttf') format("truetype");
     font-display: swap;
 }
+
 </style>
