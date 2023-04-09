@@ -2,7 +2,7 @@
   <q-page class="deal-page">
     <div class="contianer">
       <div class="deal-page__left is-desktop-show">
-        <div class="deal-page__title">Buddies Deal</div>
+        <div class="deal-page__title">Hot Deal</div>
         <div class="deal-page__left__menu">
           <div class="deal-page__left__menu__button" @click="openCloseTab = 'all'" :class="openCloseTab == 'all'?'is-active':''">
             ALL Event
@@ -33,7 +33,7 @@
         <img src="~assets/banner-mobile.png" alt="" class="is-mobile-show" style="width: 100%; cursor:pointer;" @click="$router.push('/premium-service')">
         <div class="deal-page__right__title flex justify-between items-center" style="padding-right:20px;width: 100%;" >
           <div class="flex items-center">
-            <div class="deal-page__title">Buddies Deal (A special sale only buddies)</div>
+            <div class="deal-page__title">Hot Deal (A special sale only buddies)</div>
           </div>
           <q-btn class="write-button" flat label="Write" v-show="loginUser.isAdmin" no-caps @click="$router.push('/write-post?postCategory=deal')"></q-btn>
         </div>

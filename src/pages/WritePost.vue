@@ -3,7 +3,7 @@
     <div class="contianer">
       <div class="write-post-page__left is-desktop-show">
         <div class="write-post-page__title" v-show="postCategory=='forums'">Forums</div>
-        <div class="write-post-page__title" v-show="postCategory=='deal'">Buddies Deal</div>
+        <div class="write-post-page__title" v-show="postCategory=='deal'">Hot Deal</div>
         <div class="write-post-page__left__menu" v-show="postCategory=='forums'">
           <div class="write-post-page__left__menu__button" :class="category == 'all'?'is-active':''" @click="category = 'all'">
             <span>ALL </span>
@@ -84,7 +84,7 @@
         </div>
         <div class="write-post-page__right__title flex justify-between items-center" style="width: 100%;" v-show="postCategory == 'deal'">
           <div class="flex items-center">
-            <div class="write-post-page__title">Buddies Deal (A special sale only buddies)</div>
+            <div class="write-post-page__title">Hot Deal (A special sale only buddies)</div>
           </div>
         </div>
         <div class="write-post-page__bg">
