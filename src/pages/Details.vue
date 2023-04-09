@@ -36,7 +36,7 @@
               class=" mobile-tab"
             >
               <q-tab name="all" label="ALL" no-caps />
-              <q-tab name="plasticSurgeryAndCosmeticProcedures" label="Plastiimage.pngc Surgery & Cosmetic Procedures" no-caps />
+              <q-tab name="plasticSurgeryAndCosmeticProcedures" label="Plastic Surgery & Cosmetic Procedures" no-caps />
               <q-tab name="nailAndHairAndSkinCare"  label="Nail & Hair & SkinCare" no-caps />
               <q-tab name="tripAndFoodAndHotel"  label="Trip & Food & Hotel" no-caps />
             </q-tabs>
