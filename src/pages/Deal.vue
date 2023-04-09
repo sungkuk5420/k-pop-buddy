@@ -4,13 +4,13 @@
       <div class="deal-page__left is-desktop-show">
         <div class="deal-page__title">Buddies Deal</div>
         <div class="deal-page__left__menu">
-          <div class="deal-page__left__menu__button">
+          <div class="deal-page__left__menu__button" @click="openCloseTab = 'all'" :class="openCloseTab == 'all'?'is-active':''">
             ALL Event
           </div>
-          <div class="deal-page__left__menu__button">
+          <div class="deal-page__left__menu__button" @click="openCloseTab = 'open'" :class="openCloseTab == 'open'?'is-active':''">
             <span>Ongoing Event</span>
           </div>
-          <div class="deal-page__left__menu__button">
+          <div class="deal-page__left__menu__button" @click="openCloseTab = 'close'"  :class="openCloseTab == 'close'?'is-active':''">
             <span>Ended Event</span>
           </div>
         </div>
@@ -21,14 +21,13 @@
       <div class="deal-page__right">
         <div class="tab-scroll is-mobile-show">
           <q-tabs
-            v-model="tab"
+            v-model="openCloseTab"
             active-class="is-active"
             class=" mobile-tab"
           >
-            <q-tab name="all" label="ALL" no-caps />
-            <q-tab name="boy" label="IDOL Group(BOY)" no-caps />
-            <q-tab name="girl"  label="IDOL Group(Girl)" no-caps />
-            <q-tab name="solo"  label="IDOL Group(Solo)" no-caps />
+            <q-tab name="all" label="ALL Event" no-caps />
+            <q-tab name="open" label="Ongoing Event" no-caps />
+            <q-tab name="close"  label="Ended Event" no-caps />
           </q-tabs>
         </div>
         <img src="~assets/banner-mobile.png" alt="" class="is-mobile-show" style="width: 100%; cursor:pointer;" @click="$router.push('/premium-service')">
@@ -43,8 +42,9 @@
           There are no articles written.
         </div>
         <div class="deal-card-bg">
-          <div class="deal-card" v-for="(currentPost,index) in dealPosts" :key="index"  @click="()=>goDetails(currentPost)">
+          <div class="deal-card" v-for="(currentPost,index) in dealPosts" :key="index"  @click="()=>goDetails(currentPost)" :class="currentPost.openOrClose=='close'?'is-close':''">
             <div class="deal-card__main-image">
+              <div class="close-bg" v-show="currentPost.openOrClose=='close'">Closed</div>
               <img :src="currentPost.mainImage" alt="" srcset="">
             </div>
             <div class="deal-card__title">
@@ -52,11 +52,11 @@
             </div>
             <div class="deal-card__date">
               <div class="deal-card__date__from">
-                {{ currentPost.fromDate}}
+                {{ convertedDateFormatEnglish(currentPost.fromDate)}}
               </div>
               <div>~</div>
               <div class="deal-card__date__to">
-                {{ currentPost.toDate}}
+                {{ convertedDateFormatEnglish(currentPost.toDate)}}
               </div>
             </div>
             <div class="deal-card__price-wrapper">
@@ -64,10 +64,10 @@
                 {{ parseInt((1-currentPost.discountedPrice/currentPost.regularPrice)*100)  }}%
               </div>
               <div class="deal-card__price">
-                {{ currentPost.discountedPrice }}
+                {{ numberWithCommas(currentPost.discountedPrice) }}
               </div>
               <div class="deal-card__price-2">
-                KRW
+                KRW 
               </div>
             </div>
           </div>
@@ -82,11 +82,13 @@
 import ComputedMixin from "../ComputedMixin";
 import UtilMethodMixin from "../UtilMethodMixin";
 import { getDatabase, ref, set, child, get } from 'firebase/database';
+import moment from 'moment';
 export default {
 mixins: [ComputedMixin, UtilMethodMixin],
 data(){
   return{
-    tab:"all",
+    openCloseTab:"all",
+    allPosts:[],
     dealPosts:[],
   }
 },
@@ -99,6 +101,17 @@ meta () {
       equiv: { 'http-equiv': 'Content-Type', content: 'text/html; charset=UTF-8' }
     },
     title: "My Gangnam Insider",
+  }
+},
+watch:{
+  openCloseTab(value){
+      if(value == 'all'){
+        this.dealPosts= this.allPosts
+      }else if(value == 'open'){
+        this.dealPosts= this.allPosts.filter(i=>i.openOrClose=='open')
+      }else if(value == 'close'){
+        this.dealPosts= this.allPosts.filter(i=>i.openOrClose=='close')
+      }
   }
 },
 mounted() {
@@ -127,18 +140,17 @@ methods:{
         if (snapshot.exists()) {
           // console.log(snapshot.val());
           const data = snapshot.val();
-          let allPosts = [];
 
           Object.keys(data).forEach(function(key, index) {
             const currentObject = data[key];
             let data2 = currentObject;
-            allPosts.push({
+            thisObj.allPosts.push({
               ...data2,
             });
           });
 
-          console.log(allPosts)
-          for(const currentPost of allPosts){
+          console.log(thisObj.allPosts)
+          for(const currentPost of thisObj.allPosts){
             await thisObj.getUserProfile(currentPost.writer).then( result=>{
               currentPost.writer = {
               ...result
@@ -153,10 +165,38 @@ methods:{
             }
           }
 
-          console.log(allPosts)
+          console.log(thisObj.allPosts[0].fromDate)
           
-          thisObj.dealPosts = allPosts.sort((a, b)=>{
-            return a.createdAt - b.createdAt;
+          thisObj.allPosts = thisObj.allPosts.map(i=>{
+            console.log(i.fromDate)
+            console.log(`${i.fromDate.slice(0,4)}-${i.fromDate.slice(5,7)}-${i.fromDate.slice(8,10)}`)
+            let  fromYear =i.fromDate.slice(0,4);
+            let  fromMonth =i.fromDate.slice(5,7);
+            let  fromDay =i.fromDate.slice(8,10);
+            let  toYear =i.toDate.slice(0,4);
+            let  toMonth =i.toDate.slice(5,7);
+            let  toDay =i.toDate.slice(8,10);
+            let newFromDate = moment(`${fromYear}${fromMonth}${fromDay}`, "YYYYMMDD")
+            let newtoDate = moment(`${toYear}${toMonth}${toDay}`, "YYYYMMDD")
+            let openOrCloseString = moment(`${toYear}${toMonth}${toDay}`, "YYYYMMDD").fromNow();
+            let openOrClose = openOrCloseString.indexOf("in")==-1? "close":"open"
+            return {
+              ...i,
+              fromDate:newFromDate,
+              toDate:newtoDate,
+              openOrClose
+            }
+          })
+          thisObj.dealPosts = thisObj.allPosts.sort((a, b)=>{
+            return b.createdAt - a.createdAt;
+          }).sort((a, b)=>{
+            if ( a.openOrClose < b.openOrClose ){
+              return 1;
+            }
+            if ( a.openOrClose > b.openOrClose ){
+              return -1;
+            }
+            return 0
           })
         }
       })
@@ -210,6 +250,9 @@ methods:{
         }
       }
       &__button{
+        &.is-active{
+          color: #366EB5;
+        }
         &__count{
           font-family: Spoqa Han Sans Neo;
           font-size: 12px;
@@ -293,14 +336,19 @@ methods:{
     padding: 20px;
     display: flex;
     gap: 20px;
+    flex-wrap: wrap;
   }
 
   .deal-card{
     cursor: pointer;
+    width: calc(33% - 15px);
     &__main-image{
       max-width: 250px;
       width: 100%;
       margin-bottom: 16px;
+      img{
+        width: 100%;
+      }
     }
     &__title{
       font-family: Spoqa Han Sans Neo;
@@ -360,6 +408,35 @@ methods:{
       color: #333;
       margin-top: 2px;
     }
+
+    &.is-close{
+      .deal-card__main-image{
+        position: relative;
+      }
+      .deal-card__price,
+      .deal-card__price-2,
+      .deal-card__price-wrapper,
+      .deal-card__title{
+        color: #999 !important;
+      }
+      .close-bg{
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        background:#00000070;
+        color:white;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        //styleName: Subtitle3;
+        font-family: Spoqa Han Sans Neo;
+        font-size: 14px;
+        font-weight: 700;
+        line-height: 20px;
+        letter-spacing: 0em;
+        text-align: left;
+      }
+    }
   }
 
 }
@@ -377,113 +454,22 @@ methods:{
   .deal-page__title{
     margin-left: 24px;
   }
-  .q-item{
-    height: auto;
-    padding: 16 px;
-    .list-view-replies-commenter{
-      display: flex;
-      justify-content: flex-start ;
-      .list-view{
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        flex-direction: row;
-        .list-view__title{
-          margin-right: 8px;
-        }
-      }
+
+  .deal-page__title{
+      max-width: 230px;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      overflow: hidden;
     }
-
-    .mobile-list-view-replies-commenter{
-      display: flex;
-      flex-direction: row;
-      align-items: center;
-      .spliter{
-        margin:0 8px;
-        width: 1px;
-        background: #999;
-        height: 11px;
-      }
-      .list-view{
-        display: flex;
-        align-items: center;
-        &__title{
-          font-family: Spoqa Han Sans Neo;
-          font-size: 10px;
-          font-weight: 700;
-          line-height: 12px;
-          letter-spacing: 0em;
-          text-align: left;
-          margin-right: 8px;
-          color: #999;
+  .deal-card-bg{
+    flex-wrap: wrap;
+    .deal-card{
+      width: 100%;
+      &__main-image{
+        max-width: unset;
+        img{
+          width: 100%;
         }
-        &__value{
-          font-family: Spoqa Han Sans Neo;
-          font-size: 12px;
-          font-weight: 700;
-          line-height: 18px;
-          letter-spacing: 0em;
-          text-align: left;
-          color: #333;
-        }
-      }
-      .list-replies{
-        display: flex;
-        align-items: center;
-        &__title{
-          font-family: Spoqa Han Sans Neo;
-          font-size: 10px;
-          font-weight: 700;
-          line-height: 12px;
-          letter-spacing: 0em;
-          text-align: left;
-          margin-right: 8px;
-          color: #999;
-        }
-        
-        &__value{
-          font-family: Spoqa Han Sans Neo;
-          font-size: 12px;
-          font-weight: 700;
-          line-height: 18px;
-          letter-spacing: 0em;
-          text-align: left;
-          color: #333;
-        }
-      }
-      .list-commenter{
-        display: flex;
-        align-items: center;
-        .list-commenter__avater{
-            width: 18px;
-            height: 18px;
-            margin-right: 8px;
-          .q-avatar{
-            width: 18px;
-            height: 18px;
-
-          }
-        }
-        .list-commenter__nickname{
-          margin-right: 8px;
-          font-family: Spoqa Han Sans Neo;
-          font-size: 12px;
-          font-weight: 700;
-          line-height: 18px;
-          letter-spacing: 0em;
-          text-align: left;
-          color: #333;
-        }
-      }
-      .list-commenter__created-at{
-        font-family: Spoqa Han Sans Neo;
-        font-size: 10px;
-        font-weight: 700;
-        line-height: 12px;
-        letter-spacing: 0em;
-        text-align: left;
-        color: #999;
-
       }
     }
   }

@@ -357,6 +357,26 @@ export default {
         console.log("error")
         return false;
       }
+      if ((this.postCategory == 'deal')&&(thisObj.fromDate=='')){
+        this.errorMessage("Please start date");
+        console.log("error")
+        return false;
+      }
+      if ((this.postCategory == 'deal')&&(thisObj.toDate=='')){
+        this.errorMessage("Please end date");
+        console.log("error")
+        return false;
+      }
+      if ((this.postCategory == 'deal')&&(thisObj.regularPrice=='')){
+        this.errorMessage("Please regular price");
+        console.log("error")
+        return false;
+      }
+      if ((this.postCategory == 'deal')&&(thisObj.discountedPrice=='')){
+        this.errorMessage("Please discounted price");
+        console.log("error")
+        return false;
+      }
       if(this.content==""){
         this.errorMessage("Please enter content");
         console.log("error")

@@ -6,11 +6,12 @@ import Antd from 'ant-design-vue';
 import 'ant-design-vue/dist/antd.css';
 import CKEditor from '@ckeditor/ckeditor5-vue2';
 Vue.config.productionTip = false;
-
+import moment from 'moment';
 
 Vue.use(VueRouter)
 Vue.use(Antd);
 Vue.use(CKEditor);
+Vue.use(moment);
 
 /*
  * If not building with SSR mode, you can

@@ -87,7 +87,7 @@
               <img :src="currentFile.url" alt="" v-for="(currentFile, index) in currentPost.filePaths" :key="index" style="width:100%;">
             </div>
           </div>
-          <div class="comment-empty" v-show="comments.length == 0">
+          <div class="comment-empty" v-show="comments.length == 0 && category != 'deal'">
             <div class="comment-empty__bg">
               There are no comments.
             </div>
@@ -117,7 +117,7 @@
               </div>
             </div>
           </div>
-          <div class="forums-details-page__right__conmment-wrapper">
+          <div class="forums-details-page__right__conmment-wrapper" v-show="category != 'deal'">
             <!-- <q-input
               placeholder="Please write a comment" name="" id="" cols="30" rows="10" v-model="commentText"
               maxlength="5000"
