@@ -225,7 +225,9 @@ export default {
       this.currentPost = this.getPost
     }
     this.getComments();
-    this.plusView()
+    if(this.category != 'deal'){
+      this.plusView()
+    }
     // window.isFirstChangecategory = true
     // this.categoryTab = this.currentPost.category
     this.metaTitle = this.currentPost.title

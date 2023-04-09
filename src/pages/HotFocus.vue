@@ -12,7 +12,7 @@
           <div class="flex items-center">
             <div class="hot-focus-page__title">HOT Focus</div>
           </div>
-          <q-btn class="write-button" flat label="Write"  no-caps @click="$router.push('/write-post?postCategory=hotFocus')"></q-btn>
+          <q-btn class="write-button" flat label="Write" v-if="loginUser.isAdmin" no-caps @click="$router.push('/write-post?postCategory=hotFocus')"></q-btn>
         </div>
 
         <div class="empty-list" v-show="allPosts.length==0">

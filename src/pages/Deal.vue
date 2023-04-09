@@ -35,7 +35,7 @@
           <div class="flex items-center">
             <div class="deal-page__title">Hot Deal (A special sale only buddies)</div>
           </div>
-          <q-btn class="write-button" flat label="Write" v-show="loginUser.isAdmin" no-caps @click="$router.push('/write-post?postCategory=deal')"></q-btn>
+          <q-btn class="write-button" flat label="Write" v-if="loginUser&&loginUser.isAdmin" no-caps @click="$router.push('/write-post?postCategory=deal')"></q-btn>
         </div>
 
         <div class="empty-list" v-show="dealPosts.length==0">
