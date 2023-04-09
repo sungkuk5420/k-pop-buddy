@@ -788,7 +788,7 @@ export default {
       padding: 0;
     }
     .forums-details-page__right__title{
-      margin-left: 20px;
+      padding-left: 20px;
       margin-top: 10px;
     }
     .forums-details-page__right{

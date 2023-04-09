@@ -103,7 +103,7 @@
           />
 
 
-          <div class="flex" style="gap:10px" v-show="postCategory=='deal'">
+          <div class="flex deal-from-to-date-warpper" style="gap:10px" v-show="postCategory=='deal'">
             <div style="flex:1">
               <q-input outlined v-model="fromDate" placeholder="start date">
                 <template v-slot:append>
@@ -761,7 +761,7 @@ export default {
       padding: 0;
     }
     .write-post-page__right__title{
-      margin-left: 20px;
+      padding-left: 20px;
       margin-top: 10px;
     }
     .write-post-page__right{
@@ -812,6 +812,14 @@ export default {
         display: none;
       }
     }
+
+    .deal-from-to-date-warpper{
+      flex-wrap: wrap;
+      &>div{
+        min-width: calc(50% - 5px);
+      }
+    }
+
   }
 }
 
