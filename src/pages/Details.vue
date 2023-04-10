@@ -110,7 +110,7 @@
                     {{ parseInt((1-currentPost.discountedPrice/currentPost.regularPrice)*100)  }}%
                   </div>
                   <div class="price-wrapper__price">
-                    {{ currentPost.discountedPrice }}
+                    {{ numberWithCommas(currentPost.discountedPrice) }}
                   </div>
                   <div class="price-wrapper__price-2">
                     KRW
