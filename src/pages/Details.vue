@@ -44,7 +44,7 @@
           <img src="~assets/banner-mobile.png" alt="" class="is-mobile-show" style="width: 100%; cursor:pointer;" @click="$router.push('/premium-service')">
           <div class="forums-details-page__right__title">
             <h1 class="forums-details-page__title">{{ currentPost.title }}</h1>
-            <!-- <q-btn label="edit" v-show="loginUser&&currentPost.writer.uid === loginUser.uid" @click="$router.push(`/edit-post?category=${category}&postUid=${currentPost.postUid}`)"></q-btn> -->
+            <q-btn label="edit" v-if="loginUser&&loginUser.isAdmin" @click="$router.push(`/edit-post?postCategory=${category}&postUid=${currentPost.postUid}`)"></q-btn>
           </div>
           <div class="forums-details-page__right__content-wrapper">
             
@@ -151,7 +151,15 @@
               </q-card-section>
 
               <q-card-section class="edit-dialog__content q-pt-none">
-                <ckeditor :editor="editor" placeholder="Please write a comment" name="" id="" cols="30" rows="10" v-model="editCommentText" maxlength="5000"   :config="editorConfig2"></ckeditor>
+                <!-- <ckeditor :editor="editor" placeholder="Please write a comment" name="" id="" cols="30" rows="10" v-model="editCommentText" maxlength="5000"   :config="editorConfig2"></ckeditor> -->
+                
+            <q-input
+              placeholder="Please write a comment" name="" id="" cols="30" rows="10" v-model="editCommentText"
+              maxlength="5000"
+              outlined
+              type="textarea"
+              :rules="[ val => val.length <= 4999 || errorMessage('Please enter a comment with at least 10 characters and no more than 5,000 characters.')]"
+            />
               </q-card-section>
 
               <q-card-actions align="right">
@@ -205,14 +213,14 @@
             </div>
           </div>
           <div class="forums-details-page__right__conmment-wrapper" v-show="category != 'deal'">
-            <!-- <q-input
+            <q-input
               placeholder="Please write a comment" name="" id="" cols="30" rows="10" v-model="commentText"
               maxlength="5000"
               outlined
               type="textarea"
               :rules="[ val => val.length <= 4999 || errorMessage('Please enter a comment with at least 10 characters and no more than 5,000 characters.')]"
-            /> -->
-            <ckeditor :editor="editor" placeholder="Please write a comment" name="" id="" cols="30" rows="10" v-model="commentText" maxlength="5000"   :config="editorConfig"></ckeditor>
+            />
+            <!-- <ckeditor :editor="editor" placeholder="Please write a comment" name="" id="" cols="30" rows="10" v-model="commentText" maxlength="5000"   :config="editorConfig"></ckeditor> -->
             <div class="flex justify-between" style="margin-top: 12px;">
               <div class="clearfix">
                 <a-upload
@@ -510,16 +518,28 @@ export default {
           console.error(error);
       });
       const db = getDatabase();
+      if(currentPostComments){
+        currentPostComments = [...currentPostComments,
+          {
+            commentUid,
+            comment:this.commentText,
+            createdAt: thisObj.createNowTime(),
+            filePaths,
+            writer: thisObj.loginUser.uid,
+          }
+        ]
+      }else{
+        currentPostComments = [
+          {
+            commentUid,
+            comment:this.commentText,
+            createdAt: thisObj.createNowTime(),
+            filePaths,
+            writer: thisObj.loginUser.uid,
+          }
+        ]
+      }
       
-      currentPostComments = [...currentPostComments,
-        {
-          commentUid,
-          comment:this.commentText,
-          createdAt: thisObj.createNowTime(),
-          filePaths,
-          writer: thisObj.loginUser.uid,
-        }
-      ]
 
       set(ref(db, 'comments/' + postUid), {
         postUid:postUid,

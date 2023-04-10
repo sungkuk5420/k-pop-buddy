@@ -154,14 +154,14 @@
             </div>
           </div>
           
-          <ckeditor :editor="editor" placeholder="Please enter the content of the article" cols="30" rows="30" v-model="content" maxlength="5000"   :config="editorConfig"></ckeditor>
-          <!-- <q-input
+          <!-- <ckeditor :editor="editor" placeholder="Please enter the content of the article" cols="30" rows="30" v-model="content" maxlength="5000"   :config="editorConfig"></ckeditor> -->
+          <q-input
               placeholder="Please enter the content of the article" name="" id="" cols="30" rows="30" v-model="content"
               maxlength="5000"
               outlined
               type="textarea"
               :rules="[ val => val.length <= 4999 || errorMessage('Please use maximum 5000 characters.')]"
-            /> -->
+            />
           <div class="clearfix">
             <div class="flex justify-between" style="margin-top: 12px;">
               <a-upload
@@ -183,9 +183,9 @@
                 <img alt="example" style="width: 100%" :src="previewImage" />
               </a-modal>
               <q-btn class="write-button" label="Write" no-caps v-show="mode=='add'" @click="writePost"></q-btn>
+              <q-btn class="write-button" label="edit post" v-show="mode=='edit'" @click="writePost"></q-btn>
+              <!-- <q-btn class="write-button" label="delete post" v-show="mode=='edit'" @click="deletePost"></q-btn> -->
             </div>
-            <!-- <q-btn label="edit post" v-show="mode=='edit'" @click="writePost"></q-btn>
-            <q-btn label="delete post" v-show="mode=='edit'" @click="deletePost"></q-btn> -->
           </div>
         </div>
       </div>
@@ -566,8 +566,8 @@ export default {
       this.previewVisible = true;
     },
     handleChange({ fileList }) {
-      this.fileList = fileList.filter(i=>(i.type === 'image/jpg'||i.type === 'image/jpeg'||i.type === 'image/png' ||i.url )
-      &&(i.size / 1024 / 1024 < 10)       );
+      this.fileList = fileList.filter(i=>(i.type === 'image/jpg'||i.type === 'image/jpeg'||i.type === 'image/png' )
+      &&(i.size / 1024 / 1024 < 10)  ||i.url       );
     },
     beforeUpload(file) {
       const isJpgOrPng = file.type === 'image/jpg' || file.type === 'image/jpeg' || file.type === 'image/png';
