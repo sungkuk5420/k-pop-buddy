@@ -7,19 +7,18 @@
         <div class="write-post-page__left__menu" v-show="postCategory=='forums'">
           <div class="write-post-page__left__menu__button" :class="category == 'all'?'is-active':''" @click="category = 'all'">
             <span>ALL </span>
-            <span class="write-post-page__left__menu__button__count"> (11)</span>
           </div>
           <div class="write-post-page__left__menu__button" :class="category == 'plasticSurgeryAndCosmeticProcedures'?'is-active':''" @click="category = 'plasticSurgeryAndCosmeticProcedures'">
             <span>Plastic Surgery & Cosmetic Procedures </span>
-            <span class="write-post-page__left__menu__button__count"> (11)</span>
+            <span class="write-post-page__left__menu__button__count"> ({{ plasticCount }})</span>
           </div>
           <div class="write-post-page__left__menu__button" :class="category == 'nailAndHairAndSkinCare'?'is-active':''" @click="category ='nailAndHairAndSkinCare'">
             <span>Nail & Hair & SkinCare</span>
-            <span class="write-post-page__left__menu__button__count"> (4)</span>
+            <span class="write-post-page__left__menu__button__count"> ({{ nailCount }})</span>
           </div>
           <div class="write-post-page__left__menu__button" :class="category == 'tripAndFoodAndHotel'?'is-active':''" @click="category ='tripAndFoodAndHotel'">
             <span>Trip & Food & Hotel</span>
-            <span class="write-post-page__left__menu__button__count"> (574)</span>
+            <span class="write-post-page__left__menu__button__count"> ({{tripCount}})</span>
           </div>
         </div>
         <div class="write-post-page__left__menu" v-show="postCategory=='deal'">
@@ -258,6 +257,9 @@ export default {
       mainImage: null,
       imageUrl: '',
       mainFileUrl: '',
+      plasticCount:0,
+      nailCount:0,
+      tripCount:0,
     }
   },
   watch:{
@@ -278,6 +280,9 @@ export default {
     window.isFirstChangecategory = true
     this.category = this.$route.query.category;
     this.postCategory = this.$route.query.postCategory;
+    this.plasticCount = localStorage.getItem('plasticCount')
+    this.nailCount = localStorage.getItem('nailCount')
+    this.tripCount = localStorage.getItem('tripCount')
     if(postUid){
       this.mode = 'edit'
       await this.getPostDetails()

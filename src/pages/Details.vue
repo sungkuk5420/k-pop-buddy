@@ -9,12 +9,15 @@
             </div>
             <div class="forums-page__left__menu__button" clickable :class="categoryTab == 'plasticSurgeryAndCosmeticProcedures'?'is-active':''" @click="categoryTab = 'plasticSurgeryAndCosmeticProcedures'">
               <span>Plastic Surgery & Cosmetic Procedures </span>
+              <span class="forums-page__left__menu__button__count"> ({{ plasticCount }})</span>
             </div>
             <div class="forums-page__left__menu__button" clickable :class="categoryTab == 'nailAndHairAndSkinCare'?'is-active':''" @click="categoryTab ='nailAndHairAndSkinCare'">
               <span>Nail & Hair & SkinCare</span>
+              <span class="forums-page__left__menu__button__count"> ({{ nailCount }})</span>
             </div>
             <div class="forums-page__left__menu__button" clickable :class="categoryTab == 'tripAndFoodAndHotel'?'is-active':''" @click="categoryTab ='tripAndFoodAndHotel'">
               <span>Trip & Food & Hotel</span>
+              <span class="forums-page__left__menu__button__count"> ({{tripCount}})</span>
             </div>
           </div>
         <div style="margin-top: 16px; cursor: pointer;">
@@ -299,7 +302,10 @@ export default {
       commentDeletePopup: false,
       commentEditPopup: false,
       editOrDeleteCurrentComment:null,
-      editCommentText:""
+      editCommentText:"",
+      plasticCount:0,
+      nailCount:0,
+      tripCount:0,
     }
   },
   watch : {
@@ -343,6 +349,10 @@ export default {
     if(this.category != 'deal'){
       this.plusView()
     }
+    
+    this.plasticCount = localStorage.getItem('plasticCount')
+    this.nailCount = localStorage.getItem('nailCount')
+    this.tripCount = localStorage.getItem('tripCount')
     // window.isFirstChangecategory = true
     // this.categoryTab = this.currentPost.category
     this.metaTitle = this.currentPost.title

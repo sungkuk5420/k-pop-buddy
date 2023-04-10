@@ -9,15 +9,15 @@
           </div>
           <div class="forums-page__left__menu__button" clickable :class="category == 'plasticSurgeryAndCosmeticProcedures'?'is-active':''" @click="category = 'plasticSurgeryAndCosmeticProcedures'">
             <span>Plastic Surgery & Cosmetic Procedures </span>
-            <span class="forums-page__left__menu__button__count"> ({{ plasticSurgeryAndCosmeticProceduresPosts.length }})</span>
+            <span class="forums-page__left__menu__button__count"> ({{ plasticCount }})</span>
           </div>
           <div class="forums-page__left__menu__button" clickable :class="category == 'nailAndHairAndSkinCare'?'is-active':''" @click="category ='nailAndHairAndSkinCare'">
             <span>Nail & Hair & SkinCare</span>
-            <span class="forums-page__left__menu__button__count"> ({{ nailAndHairAndSkinCarePosts.length }})</span>
+            <span class="forums-page__left__menu__button__count"> ({{ nailCount }})</span>
           </div>
           <div class="forums-page__left__menu__button" clickable :class="category == 'tripAndFoodAndHotel'?'is-active':''" @click="category ='tripAndFoodAndHotel'">
             <span>Trip & Food & Hotel</span>
-            <span class="forums-page__left__menu__button__count"> ({{tripAndFoodAndHotelPosts.length}})</span>
+            <span class="forums-page__left__menu__button__count"> ({{tripCount}})</span>
           </div>
         </div>
         <div style="margin-top: 16px; cursor: pointer;">
@@ -43,7 +43,7 @@
               <div class="forums-page__title">Plastic Surgery & Cosmetic Procedures</div>
               <div class="forums-page__see-all" v-show="category=='all'" @click="category='plasticSurgeryAndCosmeticProcedures'">See All</div>
             </div>
-            <q-btn class="write-button" flat label="Write" v-show="category!='all'" no-caps @click="$router.push('/write-post?postCategory=forums&category='+category)"></q-btn>
+            <q-btn class="write-button" flat label="Write" v-show="category!='all'" no-caps @click="goWritePage(category)"></q-btn>
         </div>
 
         <q-list class="list" v-show="category == 'all' || category == 'plasticSurgeryAndCosmeticProcedures'">
@@ -155,7 +155,7 @@
             <div class="forums-page__title">Nail & Hair & SkinCare</div>
             <div class="forums-page__see-all" v-show="category=='all'" @click="category='nailAndHairAndSkinCare'">See All</div>
           </div>
-          <q-btn class="write-button" flat label="Write" v-show="category!='all'" no-caps @click="$router.push('/write-post?postCategory=forums&category='+category)"></q-btn>
+          <q-btn class="write-button" flat label="Write" v-show="category!='all'" no-caps @click="goWritePage(category)"></q-btn>
         </div>
         <q-list class="list" v-show="category == 'all' || category == 'nailAndHairAndSkinCare'">
           <div class="empty-list" v-show="nailAndHairAndSkinCarePosts.length==0">
@@ -266,7 +266,7 @@
             <div class="forums-page__title">Trip & Food & Hotel</div>
             <div class="forums-page__see-all" v-show="category=='all'" @click="category='tripAndFoodAndHotel'">See All</div>
           </div>
-          <q-btn class="write-button" flat label="Write" v-show="category!='all'" no-caps @click="$router.push('/write-post?postCategory=forums&category='+category)"></q-btn>
+          <q-btn class="write-button" flat label="Write" v-show="category!='all'" no-caps @click="goWritePage(category)"></q-btn>
         </div>
         <q-list class="list" v-show="category == 'all' || category == 'tripAndFoodAndHotel'">
 
@@ -391,6 +391,9 @@ export default {
       plasticSurgeryAndCosmeticProceduresPosts:[],
       nailAndHairAndSkinCarePosts:[],
       tripAndFoodAndHotelPosts:[],
+      plasticCount:0,
+      nailCount:0,
+      tripCount:0,
     }
   },
   watch : {
@@ -409,6 +412,9 @@ export default {
         this.nailAndHairAndSkinCarePosts = this.allPosts.filter(i=>i.category == 'nailAndHairAndSkinCare' )
         this.tripAndFoodAndHotelPosts = this.allPosts.filter(i=>i.category == 'tripAndFoodAndHotel' )
       }
+      this.plasticCount = this.allPosts.filter(i=>i.category == 'plasticSurgeryAndCosmeticProcedures' ).length
+      this.nailCount = this.allPosts.filter(i=>i.category == 'nailAndHairAndSkinCare' ).length
+      this.tripCount = this.allPosts.filter(i=>i.category == 'tripAndFoodAndHotel' ).length
     }
   },
   mounted() {
@@ -430,8 +436,17 @@ export default {
     }
   },
   methods:{
+    goWritePage(category){
+      localStorage.setItem('plasticCount',this.plasticCount)
+      localStorage.setItem('nailCount',this.nailCount)
+      localStorage.setItem('tripCount',this.tripCount)
+      this.$router.push('/write-post?postCategory=forums&category='+category)
+    },
     goDetails(post){
       console.log(post)
+      localStorage.setItem('plasticCount',this.plasticCount)
+      localStorage.setItem('nailCount',this.nailCount)
+      localStorage.setItem('tripCount',this.tripCount)
       this.$router.push({
           name: 'forumsDetails',
           query:{
@@ -490,6 +505,9 @@ export default {
               thisObj.nailAndHairAndSkinCarePosts= thisObj.allPosts.filter(i=>i.category == 'nailAndHairAndSkinCare' ).slice(0,3)
               thisObj.tripAndFoodAndHotelPosts= thisObj.allPosts.filter(i=>i.category == 'tripAndFoodAndHotel' ).slice(0,3)
             }
+            thisObj.plasticCount = thisObj.allPosts.filter(i=>i.category == 'plasticSurgeryAndCosmeticProcedures' ).length
+            thisObj.nailCount = thisObj.allPosts.filter(i=>i.category == 'nailAndHairAndSkinCare' ).length
+            thisObj.tripCount = thisObj.allPosts.filter(i=>i.category == 'tripAndFoodAndHotel' ).length
           }
         })
         .catch((error) => {
