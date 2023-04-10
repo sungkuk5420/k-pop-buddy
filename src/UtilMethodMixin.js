@@ -177,6 +177,7 @@ let UtilMethodMixin = {
                         message: 'logout',
                         icon: 'announcement',
                     });
+                    thisObj.$router.push("/")
                 })
                 .catch((error) => {
                     // An error happened.
