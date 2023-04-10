@@ -118,7 +118,7 @@
             <div class="forums-details-page__right__content-wrapper__content">
               <p style="white-space: pre-line;  word-wrap: break-word;" v-html="currentPost.content"></p>
 
-              <img :src="currentFile.url" alt="" v-for="(currentFile, index) in currentPost.filePaths" :key="index" style="width:100%;">
+              <img :src="currentFile.url" alt="" v-for="(currentFile, index) in currentPost.filePaths" :key="index" style="max-width:100%;">
             </div>
           </div>
           <div class="comment-empty" v-show="comments.length == 0 && category != 'deal'">
