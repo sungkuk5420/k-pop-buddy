@@ -47,6 +47,40 @@
             <!-- <q-btn label="edit" v-show="loginUser&&currentPost.writer.uid === loginUser.uid" @click="$router.push(`/edit-post?category=${category}&postUid=${currentPost.postUid}`)"></q-btn> -->
           </div>
           <div class="forums-details-page__right__content-wrapper">
+            
+            <q-btn flat class="more-button" v-show="loginUser&&(currentPost.writer.uid == loginUser.uid)">
+              <q-icon name="more_horiz"></q-icon>
+              <q-menu>
+                <q-list style="min-width: 100px">
+                  <q-item clickable v-close-popup @click="editDialog = true">
+                    <q-item-section>Edit</q-item-section>
+                  </q-item>
+                </q-list>
+                <q-list style="min-width: 100px" @click="editDialog = true">
+                  <q-item clickable v-close-popup>
+                    <q-item-section>Delete</q-item-section>
+                  </q-item>
+                </q-list>
+              </q-menu>
+            </q-btn>
+            <q-dialog v-model="editDialog" >
+              <q-card class="edit-dialog">
+                <q-card-section>
+                  <div class="edit-dialog__title">Unable to work.</div>
+                </q-card-section>
+
+                <q-card-section class="edit-dialog__content q-pt-none">
+                  Editing and deleting of posts is not possible according to policy. If you wish to delete, please contact us by e-mail.
+                </q-card-section>
+                <q-card-section class="edit-dialog__content q-pt-none">
+                  mygangnaminsider@gmail.com
+                </q-card-section>
+
+                <q-card-actions align="right">
+                  <q-btn flat label="Close" color="primary" v-close-popup  no-caps/>
+                </q-card-actions>
+              </q-card>
+            </q-dialog>
             <div class="forums-details-page__right__content-wrapper__writer">
               <div class="avatar">
                 <q-avatar v-if="currentPost.writer&&!currentPost.writer.avatar" color="red" text-color="white" class="q-mr-md">{{ currentPost.writer?currentPost.writer.nickname.slice(0, 1).toUpperCase():''}}</q-avatar>
@@ -92,7 +126,60 @@
               There are no comments.
             </div>
           </div>
+
+          <q-dialog v-model="commentDeletePopup">
+            <q-card class="edit-dialog">
+              <q-card-section>
+                <div class="edit-dialog__title">Delete the post?</div>
+              </q-card-section>
+
+              <q-card-section class="edit-dialog__content q-pt-none">
+                If you delete a post, it cannot be recovered.
+              </q-card-section>
+
+              <q-card-actions align="right">
+              
+                <q-btn flat label="Delete" color="primary" v-close-popup no-caps @click="commentDelete"/>
+                <q-btn flat label="Close" color="primary" v-close-popup no-caps />
+              </q-card-actions>
+            </q-card>
+          </q-dialog>
+          <q-dialog v-model="commentEditPopup" persistent>
+            <q-card class="edit-dialog" style="width: 100%">
+              <q-card-section>
+                <div class="edit-dialog__title">Edit the post?</div>
+              </q-card-section>
+
+              <q-card-section class="edit-dialog__content q-pt-none">
+                <ckeditor :editor="editor" placeholder="Please write a comment" name="" id="" cols="30" rows="10" v-model="editCommentText" maxlength="5000"   :config="editorConfig2"></ckeditor>
+              </q-card-section>
+
+              <q-card-actions align="right">
+              
+                <q-btn flat label="Cancel" color="primary" v-close-popup no-caps />
+                <q-btn flat label="OK" color="primary" v-close-popup no-caps @click="commentEdit"/>
+              </q-card-actions>
+            </q-card>
+          </q-dialog>
           <div class="forums-details-page__right__content-wrapper comment" v-for="(currentComment,index) in comments" :key="index">
+            <q-btn flat class="more-button" v-show="loginUser&&(currentComment.writer.uid == loginUser.uid)">
+              <q-icon name="more_horiz"></q-icon>
+              <q-menu>
+                <q-list style="min-width: 100px">
+                  <q-item clickable v-close-popup @click="commentEditPopup = true;editOrDeleteCurrentComment = currentComment">
+                    <q-item-section>Edit</q-item-section>
+
+                    
+                  </q-item>
+                </q-list>
+                <q-list style="min-width: 100px" @click="commentDeletePopup = true;editOrDeleteCurrentComment = currentComment">
+                  <q-item clickable v-close-popup>
+                    <q-item-section>Delete</q-item-section>
+                  </q-item>
+                </q-list>
+              </q-menu>
+            </q-btn>
+
             <div class="forums-details-page__right__content-wrapper__bg">
               <div class="forums-details-page__right__content-wrapper__writer">
                 <div class="avatar">
@@ -185,6 +272,12 @@ export default {
               ]
           }
       },
+      editorConfig2: {
+          toolbar: {
+              items: [
+              ]
+          }
+      },
       categoryTab:"",
       currentPost:null,
       previewVisible: false,
@@ -194,6 +287,11 @@ export default {
       comments:[],
       metaTitle:"",
       metaContent:"",
+      editDialog: false,
+      commentDeletePopup: false,
+      commentEditPopup: false,
+      editOrDeleteCurrentComment:null,
+      editCommentText:""
     }
   },
   watch : {
@@ -208,6 +306,12 @@ export default {
           delete window.isFirstChangecategory
         }
       }
+    },
+    commentEditPopup(value){
+      if(value){
+        this.editCommentText = this.editOrDeleteCurrentComment.comment
+      }
+
     }
   },
   computed: {
@@ -502,6 +606,77 @@ export default {
             });
         }, 0);
       })
+    },
+
+    async commentDelete(){
+      const currentComment = this.editOrDeleteCurrentComment
+      const db = getDatabase();
+      
+      const postUid = this.currentPost.postUid;
+      let currentPostComments = []
+      const dbRef = ref(getDatabase());
+      await get(child(dbRef, `comments/${postUid}`))
+      .then((snapshot) => {
+          if (snapshot.exists()) {
+              // console.log(snapshot.val());
+              const data = snapshot.val();
+              currentPostComments = data.comments
+          }
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+      currentPostComments = currentPostComments.filter(i=>i.commentUid!=currentComment.commentUid);
+      set(ref(db, 'comments/' + postUid),{ 
+        postUid:postUid,
+        comments:currentPostComments
+      })
+      this.comments = this.comments.filter(i=>i.commentUid!=currentComment.commentUid)
+    },
+    async commentEdit(){
+      console.log(this.editCommentText) 
+      const currentComment = this.editOrDeleteCurrentComment
+      const db = getDatabase();
+      
+      const postUid = this.currentPost.postUid;
+      let currentPostComments = []
+      const dbRef = ref(getDatabase());
+      await get(child(dbRef, `comments/${postUid}`))
+      .then((snapshot) => {
+          if (snapshot.exists()) {
+              // console.log(snapshot.val());
+              const data = snapshot.val();
+              currentPostComments = data.comments
+          }
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+      let newComments =  []
+      for (let i = 0; i < currentPostComments.length; i++) {
+        let element = currentPostComments[i];
+        if(element.commentUid == currentComment.commentUid){
+          console.log(element)
+          element = {
+            ...element,
+            comment:this.editCommentText
+          }
+        }
+        newComments.push(element)        
+      }
+      set(ref(db, 'comments/' + postUid),{ 
+        postUid:postUid,
+        comments:newComments
+      })
+      
+      for(const currentComment of newComments){
+        await this.getUserProfile(currentComment.writer).then( result=>{
+          currentComment.writer = {
+          ...result
+          }
+        });
+      }
+      this.comments = newComments
     }
   },
 };
@@ -595,6 +770,7 @@ export default {
     &__content-wrapper{
       background: white;
       padding: 32px 24px;
+      position: relative;
       &.comment{
         padding: 0px 24px 24px 24px;
         .forums-details-page__right__content-wrapper__bg{
@@ -602,6 +778,10 @@ export default {
           padding: 20px;
         }
 
+        .more-button{
+          top: 10px;
+          right: 30px;
+        }
       }
       &__writer{
         display: flex;
@@ -657,6 +837,11 @@ export default {
       }
     }
 
+
+    .more-button{
+      position: absolute;
+      right: 10px;
+    }
     .comment-empty{
       background: white;
       padding: 20px;
@@ -778,6 +963,29 @@ export default {
   }
 
 
+}
+
+.edit-dialog{
+  width: 270px;
+  &__title{
+    font-family: Spoqa Han Sans Neo;
+    font-size: 16px;
+    font-weight: 700;
+    line-height: 24px;
+    letter-spacing: 0em;
+    text-align: left;
+    color: #000;
+  }
+  &__content{
+    //styleName: Body2;
+    font-family: Spoqa Han Sans Neo;
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 20px;
+    letter-spacing: 0em;
+    text-align: left;
+    color: rgba(0, 0, 0, 0.6);
+  }
 }
 
 
