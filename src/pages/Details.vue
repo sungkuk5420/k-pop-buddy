@@ -336,8 +336,7 @@ export default {
   async mounted() {
     // this.showLoading();
     
-    
-    if(!this.loginUser){
+    if(this.$route.path.indexOf('deal-details')==-1&&!this.loginUser){
       this.$router.push('/login')
     }
     if(!this.getPost){
