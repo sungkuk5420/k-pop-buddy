@@ -66,8 +66,8 @@
         <div class="bottom-text">WhatsApp : +821086333213</div>
       </div>
       <div class="bottom-wrapper">
-        <div class="bottom-text">Business license number : 803-01-03096(m3solution)</div>
-        <div class="bottom-text">Address : 6F #395, 584, Gangnam-daero, Gangnam-gu, Seoul, Republic of Korea</div>
+        <div class="bottom-text">Business license number : 803-01-03096</div>
+        <div class="bottom-text">Address : 584, Gangnam-daero, Gangnam-gu, Seoul, Republic of Korea</div>
       </div>
       <div class="bottom-wrapper">
         <div class="bottom-text">© 2023 m3solution. All rights reserved.</div>
