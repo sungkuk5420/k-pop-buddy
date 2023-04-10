@@ -84,15 +84,15 @@
         </div>
         <div class="write-post-page__right__title flex justify-between items-center" style="width: 100%;" v-show="postCategory == 'deal'">
           <div class="flex items-center">
-            <div class="write-post-page__title">Hot Deal (A special sale only buddies)</div>
+            <div class="write-post-page__title">Hot Deal (A special deal only our members)</div>
           </div>
         </div>
         <div class="write-post-page__bg">
-          <img v-if="imageUrl" :src="imageUrl" alt="avatar"  style="max-width:200px;margin-bottom: 12px; margin-right: 12px;"/>
+          <img v-show="postCategory=='deal'" v-if="imageUrl" :src="imageUrl" alt="avatar"  style="max-width:200px;margin-bottom: 12px; margin-right: 12px;"/>
 
-          <q-file style="display:none;" outlined v-model="mainImage" @input="previewFile" class="photo-upload-button" ref="fileButton">
+          <q-file v-show="postCategory=='deal'" style="display:none;" outlined v-model="mainImage" @input="previewFile" class="photo-upload-button" ref="fileButton">
           </q-file>
-          <q-btn class="ant-upload-text" @click="fileFormOpen" outline label="Photo Upload" no-caps color="primary"/>
+          <q-btn v-show="postCategory=='deal'" class="ant-upload-text" @click="fileFormOpen" outline label="Photo Upload" no-caps color="primary"/>
           <q-input
             v-model="title"
             outlined

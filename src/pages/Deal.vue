@@ -33,7 +33,7 @@
         <img src="~assets/banner-mobile.png" alt="" class="is-mobile-show" style="width: 100%; cursor:pointer;" @click="$router.push('/premium-service')">
         <div class="deal-page__right__title flex justify-between items-center" style="padding-right:20px;width: 100%;" >
           <div class="flex items-center">
-            <div class="deal-page__title">Hot Deal (A special sale only buddies)</div>
+            <div class="deal-page__title">Hot Deal (A special deal only our members)</div>
           </div>
           <q-btn class="write-button" flat label="Write" v-if="loginUser&&loginUser.isAdmin" no-caps @click="$router.push('/write-post?postCategory=deal')"></q-btn>
         </div>
