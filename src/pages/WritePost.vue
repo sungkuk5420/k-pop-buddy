@@ -90,7 +90,7 @@
         <div class="write-post-page__bg">
           <img v-show="postCategory=='deal'" v-if="imageUrl" :src="imageUrl" alt="avatar"  style="max-width:200px;margin-bottom: 12px; margin-right: 12px;"/>
 
-          <q-file v-show="postCategory=='deal'" style="display:none;" outlined v-model="mainImage" @input="previewFile" class="photo-upload-button" ref="fileButton">
+          <q-file style="display:none;" outlined v-model="mainImage" @input="previewFile" class="photo-upload-button" ref="fileButton">
           </q-file>
           <q-btn v-show="postCategory=='deal'" class="ant-upload-text" @click="fileFormOpen" outline label="Photo Upload" no-caps color="primary"/>
           <q-input
@@ -288,6 +288,14 @@ export default {
             url: i.url,
         }})
       }
+      if(this.postCategory =='deal'){
+        this.fromDate = this.currentPost.fromDate
+        this.toDate = this.currentPost.toDate
+        this.regularPrice = this.currentPost.regularPrice
+        this.discountedPrice = this.currentPost.discountedPrice
+        this.imageUrl = this.currentPost.mainImage
+        this.mainFileUrl = this.currentPost.mainImage
+      }
     }
   },
   methods:{
@@ -304,7 +312,7 @@ export default {
           const dbRef = ref(getDatabase());
           const thisObj = this;
           console.log(postUid)
-          const postCategory = this.postCategory == 'forums'?'forumsPosts':'hotFocusPosts'
+          const postCategory = this.postCategory == 'forums'?'forumsPosts':(this.postCategory == 'hot-focus'?'hotFocusPosts':'dealPosts')
           get(child(dbRef, `${postCategory}/${postUid}`))
             .then(async (snapshot) => {
               if (snapshot.exists()) {
@@ -347,7 +355,7 @@ export default {
         return false;
       }
 
-      if ((this.postCategory == 'deal')&&(this.mainImage==null)){
+      if ((this.postCategory == 'deal')&&(this.mainImage==null) && (this.imageUrl == '')){
         this.errorMessage("Please upload main image");
         console.log("error")
         return false;
@@ -385,7 +393,7 @@ export default {
       this.showLoading()
       const postUid = queryPostUid?queryPostUid:uid().replace("-","").slice(0,12)
       
-      if(this.postCategory == 'deal'){
+      if(this.postCategory == 'deal' && thisObj.mainImage){
         await new Promise(resolve2 => {
             const file = thisObj.mainImage
             if(file){
