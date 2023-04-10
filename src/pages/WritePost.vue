@@ -137,6 +137,8 @@
             <div style="flex:1">
               <q-input
                 v-model="regularPrice"
+                mask="###,###,###"
+                reverse-fill-mask
                 outlined
                 placeholder="regular price"
                 type="text"
@@ -146,6 +148,8 @@
             <div style="flex:1">
               <q-input
                 v-model="discountedPrice"
+                mask="###,###,###"
+                reverse-fill-mask
                 outlined
                 placeholder="Discounted prices"
                 type="text"
@@ -525,8 +529,8 @@ export default {
           createdAt: thisObj.createNowTime(),
           fromDate: thisObj.fromDate,
           toDate: thisObj.toDate,
-          regularPrice: thisObj.regularPrice,
-          discountedPrice: thisObj.discountedPrice,
+          regularPrice: thisObj.regularPrice.replaceAll(",",""),
+          discountedPrice: thisObj.discountedPrice.replaceAll(",",""),
           filePaths,
         })
         .then(async (snapshot) => {
