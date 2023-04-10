@@ -331,6 +331,9 @@ export default {
     // this.showLoading();
     
     
+    if(!this.loginUser){
+      this.$router.push('/login')
+    }
     if(!this.getPost){
       await this.getPostDetails()
     }else{
