@@ -194,6 +194,7 @@ export default {
                 window.users = window.users.filter(i=>i.uid !==thisObj.loginUser.uid);
               }
               set(ref(db, 'users/' + thisObj.loginUser.uid), {
+                ...thisObj.loginUser,
                 email: thisObj.loginUser.email,
                 nickname: thisObj.nickname,
                 avatar:url,
@@ -219,6 +220,7 @@ export default {
         }
         if(thisObj.loginUser.avatar){
           set(ref(db, 'users/' + thisObj.loginUser.uid), {
+            ...thisObj.loginUser,
             email: thisObj.loginUser.email,
             nickname: thisObj.nickname,
             avatar:thisObj.loginUser.avatar,
@@ -233,6 +235,7 @@ export default {
           })
         }else{
           set(ref(db, 'users/' + thisObj.loginUser.uid), {
+            ...thisObj.loginUser,
             email: thisObj.loginUser.email,
             nickname: thisObj.nickname,
             createdAt: thisObj.loginUser.createdAt,
@@ -346,6 +349,7 @@ export default {
           window.users = window.users.filter(i=>i.uid !==thisObj.loginUser.uid);
         }
         set(ref(db, 'users/' + thisObj.loginUser.uid), {
+          ...thisObj.loginUser,
           email: newEmail,
           nickname: thisObj.loginUser.nickname,
           avatar:thisObj.loginUser.avatar,
