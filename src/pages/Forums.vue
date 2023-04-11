@@ -437,8 +437,8 @@ export default {
       if(value=='all'){
         this.plasticMaxPage = 1
         this.plasticSurgeryAndCosmeticProceduresPosts[0]=this.plasticSurgeryAndCosmeticProceduresPosts[0].slice(0,3)
-        this.nailAndHairAndSkinCarePosts=this.nailAndHairAndSkinCarePosts.slice(0,3)
-        this.tripAndFoodAndHotelPosts=this.tripAndFoodAndHotelPosts.slice(0,3)
+        this.nailAndHairAndSkinCarePosts[0]=this.nailAndHairAndSkinCarePosts[0].slice(0,3)
+        this.tripAndFoodAndHotelPosts[0]=this.tripAndFoodAndHotelPosts[0].slice(0,3)
       }else{
         this.getPageNation()
       }
