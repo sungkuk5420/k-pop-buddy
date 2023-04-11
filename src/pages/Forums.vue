@@ -50,7 +50,7 @@
           <div class="empty-list" v-show="plasticSurgeryAndCosmeticProceduresPosts.length==0">
               There are no articles written.
           </div>
-          <q-item clickable v-ripple v-for="(item,index) in plasticSurgeryAndCosmeticProceduresPosts" :key="index" @click="()=>goDetails(item)">
+          <q-item clickable v-ripple v-for="(item,index) in plasticSurgeryAndCosmeticProceduresPosts[plasticCurrentPage-1]" :key="index" @click="()=>goDetails(item)">
             <q-item-section avatar class="list-avatar is-desktop-show">
               <q-avatar v-if="item.writer&&!item.writer.avatar" color="red" text-color="white" class="q-mr-md">{{ item.writer?item.writer.nickname.slice(0, 1).toUpperCase():''}}</q-avatar>
               <q-avatar v-if="item.writer&&item.writer.avatar" color="red" text-color="white" class="q-mr-md">
@@ -150,6 +150,14 @@
             </q-item-section>
           </q-item>
         </q-list>
+        <q-pagination
+          v-model="plasticCurrentPage"
+          color="primary"
+          :max="plasticMaxPage"
+          :max-pages="6"
+          boundary-numbers
+          v-show="category=='plasticSurgeryAndCosmeticProcedures'"
+        />
         <div class="forums-page__right__title flex justify-between items-center" style="padding-right:20px;width: 100%;" v-show="category == 'all' || category == 'nailAndHairAndSkinCare'">
           <div class="flex items-center">
             <div class="forums-page__title">Nail & Hair & SkinCare</div>
@@ -161,7 +169,7 @@
           <div class="empty-list" v-show="nailAndHairAndSkinCarePosts.length==0">
             There are no articles written.
           </div>
-          <q-item clickable v-ripple v-for="(item,index) in nailAndHairAndSkinCarePosts" :key="index" @click="()=>goDetails(item)">
+          <q-item clickable v-ripple v-for="(item,index) in nailAndHairAndSkinCarePosts[nailCurrentPage-1]" :key="index" @click="()=>goDetails(item)">
             <q-item-section avatar class="list-avatar is-desktop-show">
               <q-avatar v-if="item.writer&&!item.writer.avatar" color="red" text-color="white" class="q-mr-md">{{ item.writer?item.writer.nickname.slice(0, 1).toUpperCase():''}}</q-avatar>
               <q-avatar v-if="item.writer&&item.writer.avatar" color="red" text-color="white" class="q-mr-md">
@@ -261,6 +269,16 @@
             </q-item-section>
           </q-item>
         </q-list>
+
+        <q-pagination
+          v-model="nailCurrentPage"
+          color="primary"
+          :max="nailMaxPage"
+          :max-pages="6"
+          boundary-numbers
+          v-show="category=='nailAndHairAndSkinCare'"
+        />
+
         <div class="forums-page__right__title flex justify-between items-center" style="padding-right:20px;width: 100%;" v-show="category == 'all' || category == 'tripAndFoodAndHotel'">
           <div class="flex items-center">
             <div class="forums-page__title">Trip & Food & Hotel</div>
@@ -273,7 +291,7 @@
           <div class="empty-list" v-show="tripAndFoodAndHotelPosts.length==0">
             There are no articles written.
           </div>
-          <q-item clickable v-ripple v-for="(item,index) in tripAndFoodAndHotelPosts" :key="index" @click="()=>goDetails(item)">
+          <q-item clickable v-ripple v-for="(item,index) in tripAndFoodAndHotelPosts[tripCurrentPage-1]" :key="index" @click="()=>goDetails(item)">
             <q-item-section avatar class="list-avatar is-desktop-show">
               <q-avatar v-if="item.writer&&!item.writer.avatar" color="red" text-color="white" class="q-mr-md">{{ item.writer?item.writer.nickname.slice(0, 1).toUpperCase():''}}</q-avatar>
               <q-avatar v-if="item.writer&&item.writer.avatar" color="red" text-color="white" class="q-mr-md">
@@ -373,6 +391,16 @@
             </q-item-section>
           </q-item>
         </q-list>
+
+
+        <q-pagination
+          v-model="tripCurrentPage"
+          color="primary"
+          :max="tripMaxPage"
+          :max-pages="6"
+          boundary-numbers
+          v-show="category=='tripAndFoodAndHotel'"
+        />        
       </div>
     </div>
   </q-page>
@@ -394,32 +422,31 @@ export default {
       plasticCount:0,
       nailCount:0,
       tripCount:0,
+      plasticCurrentPage:1,
+      plasticMaxPage:1,
+      nailCurrentPage:1,
+      nailMaxPage:1,
+      tripCurrentPage:1,
+      tripMaxPage:1,
+
     }
   },
   watch : {
-    category(value){
-      if(value == 'all'){
-        this.plasticSurgeryAndCosmeticProceduresPosts= this.plasticSurgeryAndCosmeticProceduresPosts.slice(0,3)
-        this.nailAndHairAndSkinCarePosts= this.nailAndHairAndSkinCarePosts.slice(0,3)
-        this.tripAndFoodAndHotelPosts= this.tripAndFoodAndHotelPosts.slice(0,3)
+    async category(value){
+      console.log(value)
+      if(value=='all'){
+        this.plasticMaxPage = 1
+        this.plasticSurgeryAndCosmeticProceduresPosts[0]=this.plasticSurgeryAndCosmeticProceduresPosts[0].slice(0,3)
+        this.nailAndHairAndSkinCarePosts=this.nailAndHairAndSkinCarePosts.slice(0,3)
+        this.tripAndFoodAndHotelPosts=this.tripAndFoodAndHotelPosts.slice(0,3)
       }else{
-        if(!window.isFirstChangecategory){
-          this.$router.push(`/forums?category=${value}`)
-        }else{
-          delete window.isFirstChangecategory
-        }
-        this.plasticSurgeryAndCosmeticProceduresPosts = this.allPosts.filter(i=>i.category == 'plasticSurgeryAndCosmeticProcedures' )
-        this.nailAndHairAndSkinCarePosts = this.allPosts.filter(i=>i.category == 'nailAndHairAndSkinCare' )
-        this.tripAndFoodAndHotelPosts = this.allPosts.filter(i=>i.category == 'tripAndFoodAndHotel' )
+        this.getPageNation()
       }
-      this.plasticCount = this.allPosts.filter(i=>i.category == 'plasticSurgeryAndCosmeticProcedures' ).length
-      this.nailCount = this.allPosts.filter(i=>i.category == 'nailAndHairAndSkinCare' ).length
-      this.tripCount = this.allPosts.filter(i=>i.category == 'tripAndFoodAndHotel' ).length
     }
   },
-  mounted() {
+  async mounted() {
     // this.showLoading();
-      this.getPosts();
+      await this.getPosts();
       if(this.$route.query.category){
         window.isFirstChangecategory = true
         this.category = this.$route.query.category;
@@ -460,60 +487,115 @@ export default {
     
     getPosts(){
       const thisObj = this;
-      const dbRef = ref(getDatabase());
-      get(child(dbRef, `forumsPosts/`))
-        .then(async (snapshot) => {
-          if (snapshot.exists()) {
-            // console.log(snapshot.val());
-            const data = snapshot.val();
-            let allPosts = [];
+      return new Promise(resolve=>{
+        const dbRef = ref(getDatabase());
+        get(child(dbRef, `forumsPosts/`))
+          .then(async (snapshot) => {
+            if (snapshot.exists()) {
+              // console.log(snapshot.val());
+              const data = snapshot.val();
+              let allPosts = [];
 
-            Object.keys(data).forEach(function(key, index) {
-              const currentObject = data[key];
-              let data2 = currentObject;
-              allPosts.push({
-                ...data2,
+              Object.keys(data).forEach(function(key, index) {
+                const currentObject = data[key];
+                let data2 = currentObject;
+                allPosts.push({
+                  ...data2,
+                });
               });
-            });
 
-            console.log(allPosts)
-            for(const currentPost of allPosts){
-              await thisObj.getUserProfile(currentPost.writer).then( result=>{
-                currentPost.writer = {
-                ...result
-                }
-              });
-              if(currentPost.lastCommentWriter){
-                await thisObj.getUserProfile(currentPost.lastCommentWriter).then( result=>{
-                  currentPost.lastCommentWriter = {
+              console.log(allPosts)
+              for(const currentPost of allPosts){
+                await thisObj.getUserProfile(currentPost.writer).then( result=>{
+                  currentPost.writer = {
                   ...result
                   }
                 });
+                if(currentPost.lastCommentWriter){
+                  await thisObj.getUserProfile(currentPost.lastCommentWriter).then( result=>{
+                    currentPost.lastCommentWriter = {
+                    ...result
+                    }
+                  });
+                }
               }
-            }
 
-            console.log(allPosts)
-            
-            thisObj.allPosts = allPosts.sort((a, b)=>{
-              return b.updatedAt - a.updatedAt;
-            })
-            thisObj.plasticSurgeryAndCosmeticProceduresPosts = allPosts.filter(i=>i.category == 'plasticSurgeryAndCosmeticProcedures' )
-            thisObj.nailAndHairAndSkinCarePosts = allPosts.filter(i=>i.category == 'nailAndHairAndSkinCare' )
-            thisObj.tripAndFoodAndHotelPosts = allPosts.filter(i=>i.category == 'tripAndFoodAndHotel' )
-            if(thisObj.category == 'all'){
-              thisObj.plasticSurgeryAndCosmeticProceduresPosts= thisObj.allPosts.filter(i=>i.category == 'plasticSurgeryAndCosmeticProcedures' ).slice(0,3)
-              thisObj.nailAndHairAndSkinCarePosts= thisObj.allPosts.filter(i=>i.category == 'nailAndHairAndSkinCare' ).slice(0,3)
-              thisObj.tripAndFoodAndHotelPosts= thisObj.allPosts.filter(i=>i.category == 'tripAndFoodAndHotel' ).slice(0,3)
+              console.log(allPosts)
+              
+              thisObj.allPosts = allPosts.sort((a, b)=>{
+                return b.updatedAt - a.updatedAt;
+              })
+              thisObj.getPageNation();
+              resolve();
             }
-            thisObj.plasticCount = thisObj.allPosts.filter(i=>i.category == 'plasticSurgeryAndCosmeticProcedures' ).length
-            thisObj.nailCount = thisObj.allPosts.filter(i=>i.category == 'nailAndHairAndSkinCare' ).length
-            thisObj.tripCount = thisObj.allPosts.filter(i=>i.category == 'tripAndFoodAndHotel' ).length
-          }
-        })
-        .catch((error) => {
-          console.error(error);
-        });
+          })
+          .catch((error) => {
+            console.error(error);
+          });
+      })
     },
+    getPageNation(){
+        let CONTENT_LENGTH= 10;
+        this.plasticSurgeryAndCosmeticProceduresPosts = this.allPosts.filter(i=>i.category == 'plasticSurgeryAndCosmeticProcedures' )
+        this.nailAndHairAndSkinCarePosts = this.allPosts.filter(i=>i.category == 'nailAndHairAndSkinCare' )
+        this.tripAndFoodAndHotelPosts = this.allPosts.filter(i=>i.category == 'tripAndFoodAndHotel' )
+        this.plasticCount =this.allPosts.filter(i=>i.category == 'plasticSurgeryAndCosmeticProcedures' ).length
+        this.nailCount =this.allPosts.filter(i=>i.category == 'nailAndHairAndSkinCare' ).length
+        this.tripCount =this.allPosts.filter(i=>i.category == 'tripAndFoodAndHotel' ).length
+
+        
+        let newArray = [];
+        let pageIndex = 0
+        for (let index = 0; index < this.plasticSurgeryAndCosmeticProceduresPosts.length; index++) {
+          const i = this.plasticSurgeryAndCosmeticProceduresPosts[index];
+          if(newArray[pageIndex] ===undefined){
+            newArray.push([i])
+          }else{
+            newArray[pageIndex].push(i)
+          }
+          if(newArray[pageIndex].length>=CONTENT_LENGTH){
+            pageIndex = pageIndex+1;
+          }
+        }
+        this.plasticSurgeryAndCosmeticProceduresPosts = newArray
+        this.plasticMaxPage = this.plasticSurgeryAndCosmeticProceduresPosts.length
+
+        //nailAndHairAndSkinCarePosts
+
+
+        newArray = [];
+        pageIndex = 0
+        for (let index = 0; index < this.nailAndHairAndSkinCarePosts.length; index++) {
+          const i = this.nailAndHairAndSkinCarePosts[index];
+          if(newArray[pageIndex] ===undefined){
+            newArray.push([i])
+          }else{
+            newArray[pageIndex].push(i)
+          }
+          if(newArray[pageIndex].length>=CONTENT_LENGTH){
+            pageIndex = pageIndex+1;
+          }
+        }
+        this.nailAndHairAndSkinCarePosts = newArray
+        this.nailMaxPage = this.nailAndHairAndSkinCarePosts.length
+
+
+        newArray = [];
+        pageIndex = 0
+        for (let index = 0; index < this.tripAndFoodAndHotelPosts.length; index++) {
+          const i = this.tripAndFoodAndHotelPosts[index];
+          if(newArray[pageIndex] ===undefined){
+            newArray.push([i])
+          }else{
+            newArray[pageIndex].push(i)
+          }
+          if(newArray[pageIndex].length>=CONTENT_LENGTH){
+            pageIndex = pageIndex+1;
+          }
+        }
+        this.tripAndFoodAndHotelPosts = newArray
+        this.tripMaxPage = this.tripAndFoodAndHotelPosts.length
+    }
   },
 };
 </script>
