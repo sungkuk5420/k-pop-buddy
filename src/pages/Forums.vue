@@ -38,6 +38,9 @@
           </q-tabs>
         </div>
         <img src="~assets/banner-mobile.png" alt="" class="is-mobile-show" style="width: 100%; cursor:pointer;" @click="$router.push('/premium-service')">
+        <div class="flex search-form" v-show="category != 'all'" >
+          <q-input v-model="searchText" outlined placeholder="search text..."> </q-input>
+        </div>
         <div class="forums-page__right__title flex justify-between items-center" style="padding-right:20px;width: 100%;" v-show="category == 'all' || category == 'plasticSurgeryAndCosmeticProcedures'">
             <div class="flex items-center">
               <div class="forums-page__title">Plastic Surgery & Cosmetic Procedures</div>
@@ -156,7 +159,7 @@
           :max="plasticMaxPage"
           :max-pages="6"
           boundary-numbers
-          v-show="category=='plasticSurgeryAndCosmeticProcedures'"
+          v-show=" searchText==''&&category=='plasticSurgeryAndCosmeticProcedures'"
         />
         <div class="forums-page__right__title flex justify-between items-center" style="padding-right:20px;width: 100%;" v-show="category == 'all' || category == 'nailAndHairAndSkinCare'">
           <div class="flex items-center">
@@ -276,7 +279,7 @@
           :max="nailMaxPage"
           :max-pages="6"
           boundary-numbers
-          v-show="category=='nailAndHairAndSkinCare'"
+          v-show="searchText==''&&category=='nailAndHairAndSkinCare'"
         />
 
         <div class="forums-page__right__title flex justify-between items-center" style="padding-right:20px;width: 100%;" v-show="category == 'all' || category == 'tripAndFoodAndHotel'">
@@ -399,7 +402,7 @@
           :max="tripMaxPage"
           :max-pages="6"
           boundary-numbers
-          v-show="category=='tripAndFoodAndHotel'"
+          v-show="searchText==''&&category=='tripAndFoodAndHotel'"
         />        
       </div>
     </div>
@@ -414,7 +417,7 @@ export default {
   mixins: [ComputedMixin, UtilMethodMixin],
   data(){
     return{
-      category:"all",
+      category:"all",// plasticSurgeryAndCosmeticProcedures //  nailAndHairAndSkinCare // tripAndFoodAndHotel // 
       allPosts:[],
       plasticSurgeryAndCosmeticProceduresPosts:[],
       nailAndHairAndSkinCarePosts:[],
@@ -428,11 +431,56 @@ export default {
       nailMaxPage:1,
       tripCurrentPage:1,
       tripMaxPage:1,
+      searchText:""
 
     }
   },
   watch : {
+    searchText(value){
+      if(value){
+        if(this.category == 'plasticSurgeryAndCosmeticProcedures'){
+          let allPosts = []
+          this.plasticSurgeryAndCosmeticProceduresPosts.map(i=>{
+            i.map(item=>{
+              allPosts.push(item)
+            })
+          });
+          this.plasticSurgeryAndCosmeticProceduresPosts[0] = allPosts.filter(i=>i.title.indexOf(value) != -1)
+          
+          this.plasticCurrentPage=1;
+      
+        }
+        if(this.category == 'nailAndHairAndSkinCare'){
+          let allPosts = []
+          this.nailAndHairAndSkinCarePosts.map(i=>{
+            i.map(item=>{
+              allPosts.push(item)
+            })
+          });
+          this.nailAndHairAndSkinCarePosts[0] = allPosts.filter(i=>i.title.indexOf(value) != -1)
+          this.nailCurrentPage=1;
+      
+        }
+        if(this.category == 'tripAndFoodAndHotel'){
+          let allPosts = []
+          this.tripAndFoodAndHotelPosts.map(i=>{
+            i.map(item=>{
+              allPosts.push(item)
+            })
+          });
+          this.tripAndFoodAndHotelPosts[0] = allPosts.filter(i=>i.title.indexOf(value) != -1)
+          this.tripCurrentPage=1;
+        }
+
+      }else{
+        this.getPageNation()
+      }
+        // this.plasticSurgeryAndCosmeticProceduresPosts[0]=this.plasticSurgeryAndCosmeticProceduresPosts[0].slice(0,3)
+        // this.nailAndHairAndSkinCarePosts[0]=this.nailAndHairAndSkinCarePosts[0].slice(0,3)
+        // this.tripAndFoodAndHotelPosts[0]=this.tripAndFoodAndHotelPosts[0].slice(0,3)
+    },
     async category(value){
+      this.searchText =''
       console.log(value)
       if(value=='all' ||value==''){
         this.plasticMaxPage = 1
@@ -611,6 +659,13 @@ export default {
   display: flex; 
   justify-content: center;
   background: #F8F8F8;
+  .search-form{
+    width: 100%;
+    .q-input{
+      width: 100%;
+      background: white;
+    }
+  }
   .contianer{
     display: flex; 
     justify-content: center;

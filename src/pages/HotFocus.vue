@@ -8,6 +8,9 @@
       </div>
       <div class="hot-focus-page__right">
         <img src="~assets/banner-mobile.png" alt="" class="is-mobile-show" style="width: 100%; cursor:pointer;" @click="$router.push('/premium-service')">
+        <div class="flex search-form" v-show="category != 'all'" >
+          <q-input v-model="searchText" outlined placeholder="search text..."> </q-input>
+        </div>
         <div class="hot-focus-page__right__title flex justify-between items-center" style="padding-right:20px;width: 100%;" >
           <div class="flex items-center">
             <div class="hot-focus-page__title">HOT Focus</div>
@@ -15,11 +18,11 @@
           <q-btn class="write-button" flat label="Write" v-if="loginUser&&loginUser.isAdmin" no-caps @click="$router.push('/write-post?postCategory=hotFocus')"></q-btn>
         </div>
 
-        <div class="empty-list" v-show="allPosts.length==0">
+        <div class="empty-list" v-show="hotPosts.length==0">
             There are no articles written.
           </div>
         <q-list class="list">
-          <q-item clickable v-ripple v-for="(item,index) in allPosts[currentPage-1]" :key="index" @click="()=>goDetails(item)">
+          <q-item clickable v-ripple v-for="(item,index) in hotPosts[currentPage-1]" :key="index" @click="()=>goDetails(item)">
             <q-item-section avatar class="list-avatar is-desktop-show">
               <q-avatar v-if="item.writer&&!item.writer.avatar" color="red" text-color="white" class="q-mr-md">{{ item.writer?item.writer.nickname.slice(0, 1).toUpperCase():''}}</q-avatar>
               <q-avatar v-if="item.writer&&item.writer.avatar" color="red" text-color="white" class="q-mr-md">
@@ -125,6 +128,7 @@
           :max="maxPage"
           :max-pages="6"
           boundary-numbers
+          v-show="searchText==''"
         />
       </div>
     </div>
@@ -143,7 +147,9 @@ data(){
   return{
     tab:"all",
     allPosts:[],
+    hotPosts:[],
     currentPage:1,
+    searchText:"",
     maxPage:1,
   }
 },
@@ -160,6 +166,23 @@ meta () {
     },
     title: "My Gangnam Insider",
   }
+},
+watch:{
+  searchText(value){
+      if(value){
+          let allPosts = []
+          this.hotPosts.map(i=>{
+            i.map(item=>{
+              allPosts.push(item)
+            })
+          });
+          this.hotPosts[0] = allPosts.filter(i=>i.title.indexOf(value) != -1)
+          this.currentPage=1;
+
+      }else{
+        this.getPageNation()
+      }
+    },
 },
 methods:{
   goDetails(post){
@@ -214,29 +237,31 @@ methods:{
           thisObj.allPosts = allPosts.sort((a, b)=>{
             return b.updatedAt - a.updatedAt;
           })
-
-          let CONTENT_LENGTH= 10;
-          let newArray = [];
-          let pageIndex = 0
-          for (let index = 0; index < thisObj.allPosts.length; index++) {
-            const i = thisObj.allPosts[index];
-            if(newArray[pageIndex] ===undefined){
-              newArray.push([i])
-            }else{
-              newArray[pageIndex].push(i)
-            }
-            if(newArray[pageIndex].length>=CONTENT_LENGTH){
-              pageIndex = pageIndex+1;
-            }
-          }
-          thisObj.allPosts = newArray
-          thisObj.maxPage = thisObj.allPosts.length
+          thisObj.getPageNation();
         }
       })
       .catch((error) => {
         console.error(error);
       });
   },
+  getPageNation(){
+      let CONTENT_LENGTH= 10;
+      let newArray = [];
+      let pageIndex = 0
+      for (let index = 0; index < this.allPosts.length; index++) {
+        const i = this.allPosts[index];
+        if(newArray[pageIndex] ===undefined){
+          newArray.push([i])
+        }else{
+          newArray[pageIndex].push(i)
+        }
+        if(newArray[pageIndex].length>=CONTENT_LENGTH){
+          pageIndex = pageIndex+1;
+        }
+      }
+      this.hotPosts = newArray
+      this.maxPage = this.hotPosts.length
+  }
 },
 };
 </script>
@@ -246,6 +271,13 @@ methods:{
 display: flex; 
 justify-content: center;
 background: #F8F8F8;
+.search-form{
+  width: 100%;
+  .q-input{
+    width: 100%;
+    background: white;
+  }
+}
 .contianer{
   display: flex; 
   justify-content: center;
