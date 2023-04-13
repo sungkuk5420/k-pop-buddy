@@ -659,12 +659,32 @@ export default {
       .catch((error) => {
         console.error(error);
       });
-      currentPostComments = currentPostComments.filter(i=>i.commentUid!=currentComment.commentUid);
+      const lastCommentUid = currentPostComments[currentPostComments.length-1].commentUid
+      
+      let currentPostComment = currentPostComments.filter(i=>i.commentUid==currentComment.commentUid)[0];
+      // currentPostComments = currentPostComments.filter(i=>i.commentUid!=currentComment.commentUid);
+      for (let i = 0; i < currentPostComments.length; i++) {
+        const element = currentPostComments[i];
+        if(element.commentUid ==currentComment.commentUid){
+          element.comment = "작성자가 삭제한 댓글입니다."
+        }
+      }
+      if(lastCommentUid ==currentPostComment.commentUid){
+        const isNotDeletePosts = currentPostComments.filter(i=>i.comment != '작성자가 삭제한 댓글입니다.')
+        const lastCommentWriter = isNotDeletePosts[isNotDeletePosts.length-1].writer
+        this.updateLastCommentOfPost(lastCommentWriter )
+      }
       set(ref(db, 'comments/' + postUid),{ 
         postUid:postUid,
         comments:currentPostComments
       })
-      this.comments = this.comments.filter(i=>i.commentUid!=currentComment.commentUid)
+      for (let i = 0; i < this.comments.length; i++) {
+        const element = this.comments[i];
+        if(element.commentUid ==currentComment.commentUid){
+          element.comment = "작성자가 삭제한 댓글입니다."
+        }
+      }
+      this.comments = this.comments
     },
     async commentEdit(){
       console.log(this.editCommentText) 
@@ -728,6 +748,16 @@ export default {
       }).onCancel(() => {
         // console.log('>>>> Cancel')
       })
+    },
+    
+    updateLastCommentOfPost(lastCommentWriter){
+      const postUid = this.currentPost.postUid;
+      const db = getDatabase();
+      const postCategory= this.$route.path.indexOf('forums')!=-1?'forumsPosts':(this.$route.path.indexOf('hot-focus')!=-1)?'hotFocusPosts':'dealPosts'
+
+      const updates = {};
+      updates[`${postCategory}/${postUid}/lastCommentWriter`] = lastCommentWriter;
+      update(ref(db), updates);
     },
   },
 };
