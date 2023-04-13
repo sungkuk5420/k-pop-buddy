@@ -434,7 +434,7 @@ export default {
   watch : {
     async category(value){
       console.log(value)
-      if(value=='all'){
+      if(value=='all' ||value==''){
         this.plasticMaxPage = 1
         this.plasticSurgeryAndCosmeticProceduresPosts[0]=this.plasticSurgeryAndCosmeticProceduresPosts[0].slice(0,3)
         this.nailAndHairAndSkinCarePosts[0]=this.nailAndHairAndSkinCarePosts[0].slice(0,3)
@@ -595,6 +595,12 @@ export default {
         }
         this.tripAndFoodAndHotelPosts = newArray
         this.tripMaxPage = this.tripAndFoodAndHotelPosts.length
+
+        if(this.category == 'all'){
+          this.plasticSurgeryAndCosmeticProceduresPosts[0]=this.plasticSurgeryAndCosmeticProceduresPosts[0].slice(0,3)
+          this.nailAndHairAndSkinCarePosts[0]=this.nailAndHairAndSkinCarePosts[0].slice(0,3)
+          this.tripAndFoodAndHotelPosts[0]=this.tripAndFoodAndHotelPosts[0].slice(0,3)
+        }
     }
   },
 };

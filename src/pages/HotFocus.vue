@@ -19,7 +19,7 @@
             There are no articles written.
           </div>
         <q-list class="list">
-          <q-item clickable v-ripple v-for="(item,index) in allPosts" :key="index" @click="()=>goDetails(item)">
+          <q-item clickable v-ripple v-for="(item,index) in allPosts[currentPage-1]" :key="index" @click="()=>goDetails(item)">
             <q-item-section avatar class="list-avatar is-desktop-show">
               <q-avatar v-if="item.writer&&!item.writer.avatar" color="red" text-color="white" class="q-mr-md">{{ item.writer?item.writer.nickname.slice(0, 1).toUpperCase():''}}</q-avatar>
               <q-avatar v-if="item.writer&&item.writer.avatar" color="red" text-color="white" class="q-mr-md">
@@ -119,6 +119,13 @@
             </q-item-section>
           </q-item>
         </q-list>
+        <q-pagination
+          v-model="currentPage"
+          color="primary"
+          :max="maxPage"
+          :max-pages="6"
+          boundary-numbers
+        />
       </div>
     </div>
   <div class="flex column">
@@ -136,9 +143,8 @@ data(){
   return{
     tab:"all",
     allPosts:[],
-    boyPosts:[],
-    girlPosts:[],
-    soloPosts:[],
+    currentPage:1,
+    maxPage:1,
   }
 },
 mounted() {
@@ -208,6 +214,23 @@ methods:{
           thisObj.allPosts = allPosts.sort((a, b)=>{
             return b.updatedAt - a.updatedAt;
           })
+
+          let CONTENT_LENGTH= 10;
+          let newArray = [];
+          let pageIndex = 0
+          for (let index = 0; index < thisObj.allPosts.length; index++) {
+            const i = thisObj.allPosts[index];
+            if(newArray[pageIndex] ===undefined){
+              newArray.push([i])
+            }else{
+              newArray[pageIndex].push(i)
+            }
+            if(newArray[pageIndex].length>=CONTENT_LENGTH){
+              pageIndex = pageIndex+1;
+            }
+          }
+          thisObj.allPosts = newArray
+          thisObj.maxPage = thisObj.allPosts.length
         }
       })
       .catch((error) => {
