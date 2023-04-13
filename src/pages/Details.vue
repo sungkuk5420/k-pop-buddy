@@ -48,6 +48,7 @@
           <div class="forums-details-page__right__title">
             <h1 class="forums-details-page__title">{{ currentPost.title }}</h1>
             <q-btn label="edit" v-if="loginUser&&loginUser.isAdmin" @click="$router.push(`/edit-post?postCategory=${category}&postUid=${currentPost.postUid}`)"></q-btn>
+            <q-btn label="delete" v-if="loginUser&&loginUser.isAdmin" @click="deletePost"></q-btn>
           </div>
           <div class="forums-details-page__right__content-wrapper">
             
@@ -709,7 +710,25 @@ export default {
         });
       }
       this.comments = newComments
-    }
+    },
+
+    deletePost(){
+      
+      this.$q.dialog({
+        title: 'Delete',
+        message: 'Delete Post?',
+        cancel: true,
+      }).onOk(() => {
+        const db = getDatabase();
+        console.log(this.$router.path)
+        const postCategory = this.$route.path.indexOf('forums')!=-1?'forumsPosts':(this.$route.path.indexOf('hot-focus')!=-1)?'hotFocusPosts':'dealPosts'
+        const postUid = this.$route.query.postUid
+        set(ref(db, postCategory+'/' + postUid),null)
+        this.$router.go(-1)
+      }).onCancel(() => {
+        // console.log('>>>> Cancel')
+      })
+    },
   },
 };
 </script>
