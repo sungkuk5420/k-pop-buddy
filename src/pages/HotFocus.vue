@@ -464,6 +464,10 @@ background: #F8F8F8;
     .list-commenter{
       display: flex;
       flex-direction: row;
+        width: 150px;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        overflow: hidden;
       &__left{
         display: flex;
         align-items: center;
