@@ -43,7 +43,7 @@
         </div>
         <div class="forums-page__right__title flex justify-between items-center" style="padding-right:20px;width: 100%;" v-show="category == 'all' || category == 'plasticSurgeryAndCosmeticProcedures'">
             <div class="flex items-center">
-              <div class="forums-page__title">Plastic Surgery & Cosmetic Procedures</div>
+              <div class="forums-page__title ellipsis">Plastic Surgery & Cosmetic Procedures</div>
               <div class="forums-page__see-all" v-show="category=='all'" @click="category='plasticSurgeryAndCosmeticProcedures'">See All</div>
             </div>
             <q-btn class="write-button" flat label="Write" v-show="category!='all'" no-caps @click="goWritePage(category)"></q-btn>
@@ -855,6 +855,10 @@ export default {
       .list-commenter{
         display: flex;
         flex-direction: row;
+        width: 150px;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        overflow: hidden;
         &__left{
           display: flex;
           align-items: center;
@@ -922,6 +926,10 @@ export default {
     }
     .forums-page__title{
       margin-left: 24px;
+      max-width: 220px;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      overflow: hidden;
     }
     .q-item{
       height: auto;
