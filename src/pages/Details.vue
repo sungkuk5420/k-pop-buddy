@@ -174,7 +174,7 @@
             </q-card>
           </q-dialog>
           <div class="forums-details-page__right__content-wrapper comment" v-for="(currentComment,index) in comments" :key="index">
-            <q-btn flat class="more-button" v-show="loginUser&&(currentComment.writer.uid == loginUser.uid)">
+            <q-btn flat class="more-button" v-show="loginUser&&(currentComment.writer.uid == loginUser.uid) && !currentComment.isDeleted">
               <q-icon name="more_horiz"></q-icon>
               <q-menu>
                 <q-list style="min-width: 100px">
@@ -210,7 +210,7 @@
                 </div>
               </div>
               <div class="forums-details-page__right__content-wrapper__content">
-                <p style="white-space: pre-line; word-wrap: break-word;" v-html="currentComment.comment"></p>
+                <p style="white-space: pre-line; word-wrap: break-word;" v-html="currentComment.isDeleted?'Comment deleted': currentComment.comment"></p>
   
                 <img :src="currentFile" alt="" v-for="(currentFile, index) in currentComment.filePaths" :key="index" style="width:100%;">
               </div>
@@ -539,6 +539,7 @@ export default {
             createdAt: thisObj.createNowTime(),
             filePaths,
             writer: thisObj.loginUser.uid,
+            isDeleted:false
           }
         ]
       }else{
@@ -549,6 +550,7 @@ export default {
             createdAt: thisObj.createNowTime(),
             filePaths,
             writer: thisObj.loginUser.uid,
+            isDeleted:false
           }
         ]
       }
@@ -666,13 +668,18 @@ export default {
       for (let i = 0; i < currentPostComments.length; i++) {
         const element = currentPostComments[i];
         if(element.commentUid ==currentComment.commentUid){
-          element.comment = "작성자가 삭제한 댓글입니다."
+          element.isDeleted = true
         }
       }
       if(lastCommentUid ==currentPostComment.commentUid){
-        const isNotDeletePosts = currentPostComments.filter(i=>i.comment != '작성자가 삭제한 댓글입니다.')
-        const lastCommentWriter = isNotDeletePosts[isNotDeletePosts.length-1].writer
-        this.updateLastCommentOfPost(lastCommentWriter )
+        const isNotDeletePosts = currentPostComments.filter(i=>i.isDeleted != true)
+        if(isNotDeletePosts[isNotDeletePosts.length-1]){
+          const lastCommentWriter = isNotDeletePosts[isNotDeletePosts.length-1].writer
+          this.updateLastCommentOfPost(lastCommentWriter )
+        }else{
+          this.updateLastCommentOfPost(null)
+
+        }
       }
       set(ref(db, 'comments/' + postUid),{ 
         postUid:postUid,
@@ -681,7 +688,7 @@ export default {
       for (let i = 0; i < this.comments.length; i++) {
         const element = this.comments[i];
         if(element.commentUid ==currentComment.commentUid){
-          element.comment = "작성자가 삭제한 댓글입니다."
+          element.isDeleted = true
         }
       }
       this.comments = this.comments
