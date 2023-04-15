@@ -345,7 +345,7 @@ export default {
     }else{
       this.currentPost = this.getPost
     }
-    this.getComments();
+    await this.getComments();
     if(this.category != 'deal'){
       this.plusView()
     }
@@ -357,6 +357,14 @@ export default {
     this.categoryTab = this.currentPost.category
     this.metaTitle = this.currentPost.title
     this.metaContent = this.currentPost.content
+    
+    var anchors = document.getElementsByTagName("a");
+    for (var i=0; i<anchors.length; i++)
+    {
+        var anchor = anchors[i];
+        if(anchor.getAttribute("href"))
+          anchor.target = "_blank";
+    } 
   },
    meta () {
     return {
