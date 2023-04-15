@@ -72,16 +72,45 @@
         </q-item>
       </q-list>
     </q-drawer>
+    <q-dialog v-model="contactUsModal" >
+      <q-card class="contact-us-modal">
+        <q-card-section class="row items-center q-pb-none">
+          <div class="contact-us-modal__title">Contact us</div>
+          <q-space />
+          <q-btn icon="close" flat round dense v-close-popup />
+        </q-card-section>
 
+        <q-card-section style="padding-top:0">
+          <div class="contact-us-modal__text">
+            If you have any questions, please feel free to contact us.
+          </div>
+          <div class="contact-us-modal__label">E-mail</div>
+          <div class="contact-us-modal__input">
+            <q-input type="text" outlined placeholder="Please enter your e-mail." v-model="contactEmail"></q-input>
+          </div>
+          <div class="contact-us-modal__label">Subject</div>
+          <div class="contact-us-modal__input">
+            <q-input type="text" outlined placeholder="Please enter the subject" v-model="contactSubject"></q-input>
+          </div>
+          <div class="contact-us-modal__label">Content</div>
+          <div class="contact-us-modal__input">
+            <q-input type="text" outlined placeholder="Please enter the content" v-model="contactContent"></q-input>
+          </div>
+          <div class="contact-us-modal__input">
+            <q-btn outline label="Send" no-caps style="background:#366EB5;" @click="sendEmail"></q-btn>
+          </div>
+        </q-card-section>
+      </q-card>
+    </q-dialog>
     <q-footer class="main-footer">
       <q-tabs
         v-model="footerTab"
         
         class="main-tabs "
       >
-        <q-tab name="contactUs"  @click="$router.push('/contact-us')" label="Contact us" no-caps/>
-        <q-tab name="termsAndRules"  @click="$router.push('/terms-and-rules')" label="Terms and rules" no-caps/>
-        <q-tab name="privacyPolicy"  @click="$router.push('/privacy-policy')" label="Privacy policy" no-caps/>
+        <q-tab name="contactUs"  @click="contactUsModal = true" label="Contact Us" no-caps/>
+        <q-tab name="termsAndRules"  @click="$router.push('/terms-and-rules')" label="Terms and Conditions" no-caps/>
+        <q-tab name="privacyPolicy"  @click="$router.push('/privacy-policy')" label="Privacy Policy" no-caps/>
       </q-tabs>
   
     </q-footer>
@@ -106,7 +135,11 @@ export default {
       tab: '',
       footerTab: '',
       hamburgerOpen:false,
-      leftDrawerOpen:false
+      leftDrawerOpen:false,
+      contactUsModal:false,
+      contactEmail: '',
+      contactSubject: '',
+      contactContent: '',
     };
   },
   computed: {
@@ -114,21 +147,118 @@ export default {
       loginUser: "getLoginUser",
     }),
   },
+  watch:{
+    footerTab(value){
+      if(value== "contactUs"){
+        if(this.$route.path == '/privacy-policy' ){
+          this.footerTab = 'privacyPolicy'
+        }
+        if(this.$route.path == '/terms-and-rules' ){
+          this.footerTab = 'termsAndRules'
+        }
+      }
+    }
+  },
   updated(){
     console.log(this.$route.path)
     if(this.$route.path == '/forums' ){
       this.tab = 'forums'
-    }else if(this.$route.path == '/hot-focus' ){
+    }
+    
+    if(this.$route.path == '/hot-focus' ){
       this.tab = 'hotFocus'
-    }else if(this.$route.path == '/deal' ){
+    }
+    
+    if(this.$route.path == '/deal' ){
       this.tab = 'deal'
-    }else if(this.$route.path == '/premium-service' ){
+    }
+    
+    if(this.$route.path == '/premium-service' ){
       this.tab = 'premiumService'
-    }else{
-      this.tab = ''
+    }
+
+    if(this.$route.path == '/privacy-policy' ){
+      this.footerTab = 'privacyPolicy'
+    }
+    if(this.$route.path == '/terms-and-rules' ){
+      this.footerTab = 'termsAndRules'
     }
   },
   methods:{
+    showLoading(message) {
+        if (message) {
+            this.$q.loading.show({
+                message
+            });
+        } else {
+            this.$q.loading.show();
+        }
+    },
+    
+    hideLoading() {
+        this.$q.loading.hide();
+    },
+    successMessage(message) {
+        this.$q.notify({
+            position: "top",
+            timeout: 1000,
+            message,
+            icon: "announcement"
+        });
+    },
+    errorMessage(message) {
+        this.$q.notify({
+            position: "top",
+            timeout: 1000,
+            message,
+            icon: "announcement"
+        });
+    },
+    sendEmail(){
+      const thisObj = this;
+      thisObj.localErrorMessage ="";
+      if(thisObj.contactEmail == ""){
+        thisObj.errorMessage("Please enter your email address.");
+        return false
+      }
+      if(thisObj.contactSubject == ""){
+        thisObj.errorMessage("Please enter subject.");
+        return false
+      }
+      if(thisObj.contactContent == ""){
+        thisObj.errorMessage("Please enter content.");
+        return false
+      }
+      // const url = "https://my-gangnam-insider-backend.herokuapp.com/contact-us?email="+thisObj.contactEmail
+      const url = "https://my-gangnam-insider-backend.herokuapp.com/contact-us?email="+thisObj.contactEmail
+      // const url = "http://localhost:4000/contact-us?email="+thisObj.contactEmail
+      const requestOptions = {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            contactEmail:thisObj.contactEmail,
+            contactSubject:thisObj.contactSubject,
+            contactContent:thisObj.contactContent,
+          })
+      };
+      thisObj.showLoading()
+      fetch(url, requestOptions)
+            .then(response => response.json())
+            .then(data => {
+              console.log(data)
+              if(data.errorInfo?.code == "auth/user-not-found"){
+                const errorMessage = "The requested user '"+ thisObj.contactEmail+ "' could not be found.";
+                thisObj.errorMessage(errorMessage )
+              }else if(data.success){
+                thisObj.contactEmail = "";
+                thisObj.contactSubject = "";
+                thisObj.contactContent = "";
+                thisObj.contactUsModal = false;
+                thisObj.errorMessage("sent email")
+              }
+              thisObj.hideLoading()
+            });
+    },
     logout () {
       const auth = getAuth();
       const thisObj =this;
@@ -282,6 +412,7 @@ display: none;
     color: white;
     background: #366EB5;
   }
+
 }
 
 .main-footer{
@@ -307,6 +438,58 @@ display: none;
   }
   .q-tab__indicator{
     display: none;
+  }
+}
+.contact-us-modal{
+  &__title{
+    font-family: Pretendard;
+    font-size: 24px;
+    font-weight: 700;
+    line-height: 32px;
+    letter-spacing: 0em;
+    text-align: left;
+    color: #333;
+    margin-bottom: 10px;
+  }
+  &__text{
+    font-family: Pretendard;
+    font-size: 16px;
+    font-weight: 400;
+    line-height: 24px;
+    letter-spacing: 0em;
+    text-align: left;
+    color: #333;
+    margin-bottom: 24px;;
+
+  }
+  &__label{
+    font-family: Pretendard;
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 20px;
+    letter-spacing: 0em;
+    text-align: left;
+    color: #000;
+    margin-bottom: 4px;;
+  }
+  &__input{
+    margin-bottom: 24px;
+    width: 100%;
+    .q-btn{
+      width: 100%;
+      background: #366EB5 !important;
+      color: white !important;
+      font-family: Spoqa Han Sans Neo;
+      font-size: 12px;
+      font-weight: 700;
+      line-height: 18px;
+      letter-spacing: 0em;
+      text-align: left;
+      height: 48px;
+      border-radius: 6px;
+
+
+    }
   }
 }
 @media only screen and (max-width: 1079px) {
