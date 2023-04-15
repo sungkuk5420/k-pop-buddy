@@ -178,7 +178,7 @@ let UtilMethodMixin = {
                 }, 0);
             })
         },
-        logout() {
+        logoutFirebase() {
             const auth = getAuth();
             const thisObj = this;
             signOut(auth)

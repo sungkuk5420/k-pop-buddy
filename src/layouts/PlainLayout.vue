@@ -71,7 +71,7 @@ export default {
     }),
   },
   methods:{
-    logout () {
+    logoutFirebase () {
       const auth = getAuth();
       const thisObj =this;
       signOut(auth)

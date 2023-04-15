@@ -67,7 +67,7 @@
         <q-item v-ripple clickable class="text-grey-8" @click="$router.push('/my-page')">
           My page
         </q-item>
-        <q-item v-ripple clickable class="text-grey-8" @click="logout">
+        <q-item v-ripple clickable class="text-grey-8" @click="logoutFirebase">
           Logout
         </q-item>
       </q-list>
@@ -259,7 +259,7 @@ export default {
               thisObj.hideLoading()
             });
     },
-    logout () {
+    logoutFirebase () {
       const auth = getAuth();
       const thisObj =this;
       signOut(auth)

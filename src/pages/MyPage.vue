@@ -155,7 +155,7 @@ export default {
   watch:{
     tab(value){
       if(value == 'logout'){
-        this.logout()
+        this.logoutFirebase()
       }
     },
     editModal(value){

@@ -173,6 +173,8 @@
               </q-card-actions>
             </q-card>
           </q-dialog>
+
+
           <div class="forums-details-page__right__content-wrapper comment" v-for="(currentComment,index) in comments" :key="index">
             <q-btn flat class="more-button" v-show="loginUser&&(currentComment.writer.uid == loginUser.uid) && !currentComment.isDeleted">
               <q-icon name="more_horiz"></q-icon>
@@ -180,13 +182,21 @@
                 <q-list style="min-width: 100px">
                   <q-item clickable v-close-popup @click="commentEditPopup = true;editOrDeleteCurrentComment = currentComment">
                     <q-item-section>Edit</q-item-section>
-
-                    
                   </q-item>
                 </q-list>
                 <q-list style="min-width: 100px" @click="commentDeletePopup = true;editOrDeleteCurrentComment = currentComment">
                   <q-item clickable v-close-popup>
                     <q-item-section>Delete</q-item-section>
+                  </q-item>
+                </q-list>
+              </q-menu>
+            </q-btn>
+            <q-btn flat class="more-button" v-show="loginUser&&(currentComment.writer.uid !== loginUser.uid) && !currentComment.isDeleted">
+              <q-icon name="more_horiz"></q-icon>
+              <q-menu>
+                <q-list style="min-width: 100px">
+                  <q-item clickable v-close-popup @click="()=>{reply(currentComment)}">
+                    <q-item-section>Reply</q-item-section>
                   </q-item>
                 </q-list>
               </q-menu>
@@ -214,8 +224,46 @@
   
                 <img :src="currentFile" alt="" v-for="(currentFile, index) in currentComment.filePaths" :key="index" style="width:100%;">
               </div>
+             
+              <div class="forums-details-page__right__content-wrapper__content">
+                <p style="white-space: pre-line; word-wrap: break-word;" v-html="currentComment.isDeleted?'Comment deleted': currentComment.comment"></p>
+  
+                <img :src="currentFile" alt="" v-for="(currentFile, index) in currentComment.filePaths" :key="index" style="width:100%;">
+              </div>
+
+              <div class="reply"  v-for="(reply,index2) in currentComment.comments" :key="index2" style="padding-left:20px;">
+                <!-- <q-icon name="reply" style="    transform: rotateZ(178deg);    font-size: 20px;    position: absolute; margin-left: -20px;margin-top: 20px;"></q-icon> -->
+                <div class="forums-details-page__right__content-wrapper__bg">
+                  <div class="forums-details-page__right__content-wrapper__writer">
+                    <div class="avatar">
+                      <q-avatar v-if="reply.writer&&!reply.writer.avatar" color="red" text-color="white" class="q-mr-md">{{ reply.writer?reply.writer.nickname.slice(0, 1).toUpperCase():''}}</q-avatar>
+                      <q-avatar v-if="reply.writer&&reply.writer.avatar" color="red" text-color="white" class="q-mr-md">
+                        <img :src="reply.writer.avatar" alt="" srcset="">
+                      </q-avatar>
+                    </div>
+                    <div class="nickname-wrapper">
+                      <div class="nickname">
+                        {{ reply.writer.nickname }}
+                      </div>
+                      <div class="view-replies-warpper">
+                        {{ convertedDateFormat(reply.createdAt) }}
+                      </div>
+                    </div>
+                  </div>
+                  <div class="forums-details-page__right__content-wrapper__content">
+                    <p style="white-space: pre-line; word-wrap: break-word;" v-html="reply.isDeleted?'Comment deleted': reply.comment"></p>
+      
+                    <img :src="currentFile" alt="" v-for="(currentFile, index) in reply.filePaths" :key="index" style="width:100%;">
+                  </div>
+                </div>
+
+              </div>
+
             </div>
+
           </div>
+
+
           <div class="forums-details-page__right__conmment-wrapper" v-show="category != 'deal'">
             <!-- <q-input
               placeholder="Please write a comment" name="" id="" cols="30" rows="10" v-model="commentText"
@@ -224,6 +272,12 @@
               type="textarea"
               :rules="[ val => val.length <= 4999 || errorMessage('Please enter a comment with at least 10 characters and no more than 5,000 characters.')]"
             /> -->
+            <div class="reply-info" v-if="currentReplyComment">
+             <div class="reply-info__close"><q-icon name="close" @click="currentReplyComment=null"></q-icon></div>
+              <div>reply: {{ currentReplyComment.writer.nickname }}</div>
+              <div v-html="currentReplyComment.comment"></div>
+
+            </div>
             <ckeditor :editor="editor" placeholder="Please write a comment" name="" id="" cols="30" rows="10" v-model="commentText" maxlength="5000"   :config="editorConfig"></ckeditor>
             <div class="flex justify-between" style="margin-top: 12px;">
               <div class="clearfix">
@@ -307,6 +361,7 @@ export default {
       plasticCount:0,
       nailCount:0,
       tripCount:0,
+      currentReplyComment:null,
     }
   },
   watch : {
@@ -337,9 +392,6 @@ export default {
   async mounted() {
     // this.showLoading();
     
-    if(this.$route.path.indexOf('deal-details')==-1&&!this.loginUser){
-      this.$router.push('/login')
-    }
     if(!this.getPost){
       await this.getPostDetails()
     }else{
@@ -365,6 +417,10 @@ export default {
         if(anchor.getAttribute("href"))
           anchor.target = "_blank";
     } 
+    
+    if(this.$route.path.indexOf('deal-details')==-1&&!this.loginUser){
+      this.$router.push('/login')
+    }
   },
    meta () {
     return {
@@ -377,6 +433,12 @@ export default {
     }
   },
   methods:{
+    reply(currentComment){
+      this.currentReplyComment = currentComment;
+      setTimeout(() => {
+        window.scrollTo(0, document.body.scrollHeight);
+      }, 100);
+    },
     plusView(){
       const postUid = this.currentPost.postUid;
       const db = getDatabase();
@@ -451,6 +513,15 @@ export default {
                   ...result
                   }
                 });
+                if(currentComment.comments){
+                  for(const reply of currentComment.comments){
+                    await thisObj.getUserProfile(reply.writer).then( result=>{
+                      reply.writer = {
+                      ...result
+                      }
+                    });
+                  }
+                }
               }
               this.comments = comments
           }
@@ -539,7 +610,36 @@ export default {
           console.error(error);
       });
       const db = getDatabase();
-      if(currentPostComments){
+      if(this.currentReplyComment){
+        for (let i = 0; i < currentPostComments.length; i++) {
+          const element = currentPostComments[i];
+          if(element.commentUid == this.currentReplyComment.commentUid){
+            if(element.comments){
+              element.comments = [...element.comments,
+                {
+                  commentUid,
+                  comment:this.commentText,
+                  createdAt: thisObj.createNowTime(),
+                  filePaths,
+                  writer: thisObj.loginUser.uid,
+                  isDeleted:false
+                }
+              ]
+            }else{
+              element.comments = [
+                {
+                  commentUid,
+                  comment:this.commentText,
+                  createdAt: thisObj.createNowTime(),
+                  filePaths,
+                  writer: thisObj.loginUser.uid,
+                  isDeleted:false
+                }
+              ]
+            }
+          }
+        }
+      }else if(currentPostComments){
         currentPostComments = [...currentPostComments,
           {
             commentUid,
@@ -547,7 +647,7 @@ export default {
             createdAt: thisObj.createNowTime(),
             filePaths,
             writer: thisObj.loginUser.uid,
-            isDeleted:false
+            isDeleted:false,
           }
         ]
       }else{
@@ -558,7 +658,7 @@ export default {
             createdAt: thisObj.createNowTime(),
             filePaths,
             writer: thisObj.loginUser.uid,
-            isDeleted:false
+            isDeleted:false,
           }
         ]
       }
@@ -570,17 +670,20 @@ export default {
       })
       await this.plusReplies(currentPostComments.length);
       await this.updasteLastComment();
-      let comments = currentPostComments
+      // let comments = currentPostComments
 
-      for(const currentComment of comments){
-        await thisObj.getUserProfile(currentComment.writer).then( result=>{
-          currentComment.writer = {
-          ...result
-          }
-        });
-      }
-      this.comments = comments
+      // for(const currentComment of comments){
+      //   await thisObj.getUserProfile(currentComment.writer).then( result=>{
+      //     currentComment.writer = {
+      //     ...result
+      //     }
+      //   });
+      // }
+      // this.comments = comments
+      
       this.commentText = ""
+      this.currentReplyComment = null
+      await this.getComments();
       this.fileList = []
       thisObj.hideLoading()
 
@@ -1057,7 +1160,17 @@ export default {
       margin-top: 2px;
     }
   }
-
+  .reply-info{
+    position: relative;
+    &__close{
+      position: absolute;
+      right: 0;
+      font-size: 20px;
+      &:hover{
+        cursor: pointer;
+      }
+    }
+  }
 
 }
 
