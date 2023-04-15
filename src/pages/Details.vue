@@ -4,18 +4,18 @@
         <div class="forums-details-page__left is-desktop-show">
           <div class="forums-details-page__title" v-show="category == 'forums' ">Forums</div>
           <div class="forums-page__left__menu"  v-show="category == 'forums' ">
-            <div class="forums-page__left__menu__button" clickable :class="categoryTab == 'all'?'is-active':''" @click="categoryTab = 'all'">
+            <div class="forums-page__left__menu__button" clickable :class="categoryTab == 'all'?'is-active':''" @click="categoryTab = 'all'; $router.push(`/forums`) ">
               ALL
             </div>
-            <div class="forums-page__left__menu__button" clickable :class="categoryTab == 'plasticSurgeryAndCosmeticProcedures'?'is-active':''" @click="categoryTab = 'plasticSurgeryAndCosmeticProcedures'">
+            <div class="forums-page__left__menu__button" clickable :class="categoryTab == 'plasticSurgeryAndCosmeticProcedures'?'is-active':''" @click="categoryTab = 'plasticSurgeryAndCosmeticProcedures';  $router.push(`/forums?category=plasticSurgeryAndCosmeticProcedures`)">
               <span>Plastic Surgery & Cosmetic Procedures </span>
               <span class="forums-page__left__menu__button__count"> ({{ plasticCount }})</span>
             </div>
-            <div class="forums-page__left__menu__button" clickable :class="categoryTab == 'nailAndHairAndSkinCare'?'is-active':''" @click="categoryTab ='nailAndHairAndSkinCare'">
+            <div class="forums-page__left__menu__button" clickable :class="categoryTab == 'nailAndHairAndSkinCare'?'is-active':''" @click="categoryTab ='nailAndHairAndSkinCare'; $router.push(`/forums?category=nailAndHairAndSkinCare`)">
               <span>Nail & Hair & SkinCare</span>
               <span class="forums-page__left__menu__button__count"> ({{ nailCount }})</span>
             </div>
-            <div class="forums-page__left__menu__button" clickable :class="categoryTab == 'tripAndFoodAndHotel'?'is-active':''" @click="categoryTab ='tripAndFoodAndHotel'">
+            <div class="forums-page__left__menu__button" clickable :class="categoryTab == 'tripAndFoodAndHotel'?'is-active':''" @click="categoryTab ='tripAndFoodAndHotel'; $router.push(`/forums?category=tripAndFoodAndHotel`)">
               <span>Trip & Food & Hotel</span>
               <span class="forums-page__left__menu__button__count"> ({{tripCount}})</span>
             </div>
@@ -38,10 +38,10 @@
               active-class="is-active"
               class=" mobile-tab"
             >
-              <q-tab name="all" label="ALL" no-caps />
-              <q-tab name="plasticSurgeryAndCosmeticProcedures" label="Plastic Surgery & Cosmetic Procedures" no-caps />
-              <q-tab name="nailAndHairAndSkinCare"  label="Nail & Hair & SkinCare" no-caps />
-              <q-tab name="tripAndFoodAndHotel"  label="Trip & Food & Hotel" no-caps />
+              <q-tab name="all" label="ALL" no-caps @click="$router.push(`/forums`) "/>
+              <q-tab name="plasticSurgeryAndCosmeticProcedures" label="Plastic Surgery & Cosmetic Procedures" no-caps @click="$router.push(`/forums?category=plasticSurgeryAndCosmeticProcedures`)"/>
+              <q-tab name="nailAndHairAndSkinCare"  label="Nail & Hair & SkinCare" no-caps @click="$router.push(`/forums?category=nailAndHairAndSkinCare`)"/>
+              <q-tab name="tripAndFoodAndHotel"  label="Trip & Food & Hotel" no-caps @click="$router.push(`/forums?category=tripAndFoodAndHotel`)"/>
             </q-tabs>
           </div>
           <img src="~assets/banner-mobile.png" alt="" class="is-mobile-show" style="width: 100%; cursor:pointer;" @click="$router.push('/premium-service')">
@@ -311,16 +311,16 @@ export default {
   },
   watch : {
     categoryTab(value){
-      if(value == 'all'){
-          this.$router.push(`/forums?category=all`)
-          delete window.isFirstChangecategory
-      }else{
-        if(!window.isFirstChangecategory){
-          this.$router.push(`/forums?category=${value}`)
-        }else{
-          delete window.isFirstChangecategory
-        }
-      }
+      // if(value == 'all'){
+      //     this.$router.push(`/forums?category=all`)
+      //     delete window.isFirstChangecategory
+      // }else{
+      //   if(!window.isFirstChangecategory){
+      //     this.$router.push(`/forums?category=${value}`)
+      //   }else{
+      //     delete window.isFirstChangecategory
+      //   }
+      // }
     },
     commentEditPopup(value){
       if(value){
@@ -354,7 +354,7 @@ export default {
     this.nailCount = localStorage.getItem('nailCount')
     this.tripCount = localStorage.getItem('tripCount')
     // window.isFirstChangecategory = true
-    // this.categoryTab = this.currentPost.category
+    this.categoryTab = this.currentPost.category
     this.metaTitle = this.currentPost.title
     this.metaContent = this.currentPost.content
   },
