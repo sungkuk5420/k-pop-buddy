@@ -157,14 +157,14 @@
             </div>
           </div>
           
-          <!-- <ckeditor :editor="editor" placeholder="Please enter the content of the article" cols="30" rows="30" v-model="content" maxlength="5000"   :config="editorConfig"></ckeditor> -->
-          <q-input
+          <ckeditor :editor="editor" placeholder="Please enter the content of the article" cols="30" rows="30" v-model="content" maxlength="5000"   :config="editorConfig"></ckeditor>
+          <!-- <q-input
               placeholder="Please enter the content of the article" name="" id="" cols="30" rows="30" v-model="content"
               maxlength="5000"
               outlined
               type="textarea"
               :rules="[ val => val.length <= 4999 || errorMessage('Please use maximum 5000 characters.')]"
-            />
+            /> -->
           <div class="clearfix">
             <div class="flex justify-between" style="margin-top: 12px;">
               <a-upload
@@ -540,7 +540,7 @@ export default {
         })
         .then(async (snapshot) => {
           thisObj.hideLoading()
-          thisObj.$router.go(-1)
+          thisObj.$router.push(`/deal-details/?postUid=${postUid}`)
         })
         .catch((error) => {
           thisObj.hideLoading()
@@ -562,7 +562,12 @@ export default {
         })
         .then(async (snapshot) => {
           thisObj.hideLoading()
-          thisObj.$router.go(-1)
+          
+          if(this.postCategory == 'forums'){
+            thisObj.$router.push(`/forums-details/?postUid=${postUid}`)
+          }else{
+            thisObj.$router.push(`/hot-focus-details/?postUid=${postUid}`)
+          }
         })
         .catch((error) => {
           thisObj.hideLoading()

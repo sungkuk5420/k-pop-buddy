@@ -102,23 +102,44 @@ const routes = [
   },
   {
     path: '/login',
-    component: () => import('layouts/PlainLayout.vue'),
+    component: () => import('layouts/MainLayout.vue'),
     children: [
       { path: '', component: () => import('pages/Login.vue') },
     ],
   },
   {
     path: '/register',
-    component: () => import('layouts/PlainLayout.vue'),
+    component: () => import('layouts/MainLayout.vue'),
     children: [
       { path: '', component: () => import('pages/Register.vue') },
     ],
   },
   {
     path: '/reset-password',
-    component: () => import('layouts/PlainLayout.vue'),
+    component: () => import('layouts/MainLayout.vue'),
     children: [
       { path: '', component: () => import('pages/ResetPassword.vue') },
+    ],
+  },
+  {
+    path: '/contact-us',
+    component: () => import('layouts/MainLayout.vue'),
+    children: [
+      { path: '', component: () => import('pages/ContactUs.vue') },
+    ],
+  },
+  {
+    path: '/terms-and-rules',
+    component: () => import('layouts/MainLayout.vue'),
+    children: [
+      { path: '', component: () => import('pages/TermsAndRules.vue') },
+    ],
+  },
+  {
+    path: '/privacy-policy',
+    component: () => import('layouts/MainLayout.vue'),
+    children: [
+      { path: '', component: () => import('pages/PrivacyPolicy.vue') },
     ],
   },
 

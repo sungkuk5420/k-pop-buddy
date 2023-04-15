@@ -72,7 +72,7 @@
               <q-item-label caption lines="2" class="list-nickname-and-created-at">
                 <span class="list-nickname-and-created-at__nickname">{{ item.writer.nickname }}</span>
                 <span style="margin:0 6px;" > | </span>
-                <span class="text-weight-bold">{{ convertedDateFormatEnglish(item.createdAt) }}</span>
+                <span class="text-weight-bold">{{ convertedDateFormatEnglishWithTime(item.createdAt) }}</span>
               </q-item-label>
               <q-item-label class="mobile-list-view-replies-commenter is-mobile-show">
                 <div class="list-view">
@@ -191,7 +191,7 @@
               <q-item-label caption lines="2" class="list-nickname-and-created-at">
                 <span class="list-nickname-and-created-at__nickname">{{ item.writer.nickname }}</span>
                 <span style="margin:0 6px;" > | </span>
-                <span class="text-weight-bold">{{ convertedDateFormatEnglish(item.createdAt) }}</span>
+                <span class="text-weight-bold">{{ convertedDateFormatEnglishWithTime(item.createdAt) }}</span>
               </q-item-label>
               <q-item-label class="mobile-list-view-replies-commenter is-mobile-show">
                 <div class="list-view">
@@ -313,7 +313,7 @@
               <q-item-label caption lines="2" class="list-nickname-and-created-at">
                 <span class="list-nickname-and-created-at__nickname">{{ item.writer.nickname }}</span>
                 <span style="margin:0 6px;" > | </span>
-                <span class="text-weight-bold">{{ convertedDateFormatEnglish(item.createdAt) }}</span>
+                <span class="text-weight-bold">{{ convertedDateFormatEnglishWithTime(item.createdAt) }}</span>
               </q-item-label>
               <q-item-label class="mobile-list-view-replies-commenter is-mobile-show">
                 <div class="list-view">

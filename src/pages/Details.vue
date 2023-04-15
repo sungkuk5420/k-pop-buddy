@@ -97,7 +97,7 @@
                   {{ currentPost.writer.nickname }}
                 </div>
                 <div class="view-replies-warpper">
-                  {{ convertedDateFormatEnglish(currentPost.createdAt) }}
+                  {{ convertedDateFormatEnglishWithTime(currentPost.createdAt) }}
                   <div class="spliter" v-show="category != 'deal'"></div>
                   <div class="view-replies-warpper__label" v-show="category != 'deal'">Views</div>
                   <div class="view-replies-warpper__value" v-show="category != 'deal'">{{ currentPost.views }}</div>
@@ -155,15 +155,15 @@
               </q-card-section>
 
               <q-card-section class="edit-dialog__content q-pt-none">
-                <!-- <ckeditor :editor="editor" placeholder="Please write a comment" name="" id="" cols="30" rows="10" v-model="editCommentText" maxlength="5000"   :config="editorConfig2"></ckeditor> -->
+                <ckeditor :editor="editor" placeholder="Please write a comment" name="" id="" cols="30" rows="10" v-model="editCommentText" maxlength="5000"   :config="editorConfig2"></ckeditor>
                 
-            <q-input
+            <!-- <q-input
               placeholder="Please write a comment" name="" id="" cols="30" rows="10" v-model="editCommentText"
               maxlength="5000"
               outlined
               type="textarea"
               :rules="[ val => val.length <= 4999 || errorMessage('Please enter a comment with at least 10 characters and no more than 5,000 characters.')]"
-            />
+            /> -->
               </q-card-section>
 
               <q-card-actions align="right">
@@ -217,14 +217,14 @@
             </div>
           </div>
           <div class="forums-details-page__right__conmment-wrapper" v-show="category != 'deal'">
-            <q-input
+            <!-- <q-input
               placeholder="Please write a comment" name="" id="" cols="30" rows="10" v-model="commentText"
               maxlength="5000"
               outlined
               type="textarea"
               :rules="[ val => val.length <= 4999 || errorMessage('Please enter a comment with at least 10 characters and no more than 5,000 characters.')]"
-            />
-            <!-- <ckeditor :editor="editor" placeholder="Please write a comment" name="" id="" cols="30" rows="10" v-model="commentText" maxlength="5000"   :config="editorConfig"></ckeditor> -->
+            /> -->
+            <ckeditor :editor="editor" placeholder="Please write a comment" name="" id="" cols="30" rows="10" v-model="commentText" maxlength="5000"   :config="editorConfig"></ckeditor>
             <div class="flex justify-between" style="margin-top: 12px;">
               <div class="clearfix">
                 <a-upload

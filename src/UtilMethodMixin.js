@@ -58,6 +58,18 @@ let UtilMethodMixin = {
             let dd = today.toISOString().replace('T', ' ').substring(8, 10)
             return dd + " " + this.convertedMonthsEnglish(mm) + " " + yyyy
         },
+        convertedDateFormatEnglishWithTime(timestamp) {
+            const date = new Date();
+            const timezone = -date.getTimezoneOffset() / 60
+
+            var today = new Date(timestamp) // -> 타임스탬프를 넣어주면 날짜로 변환
+            today.setHours(today.getHours() + timezone);
+            let yyyy = today.toISOString().replace('T', ' ').substring(0, 4)
+            let mm = today.toISOString().replace('T', ' ').substring(5, 7)
+            let dd = today.toISOString().replace('T', ' ').substring(8, 10)
+            let time = today.toISOString().replace('T', ' ').substring(11, 16)
+            return time + " | " + dd + " " + this.convertedMonthsEnglish(mm) + " " + yyyy
+        },
         convertedMonthsEnglish(month) {
             const currentMonth = parseInt(month);
 

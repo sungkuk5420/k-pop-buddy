@@ -73,22 +73,23 @@
       </q-list>
     </q-drawer>
 
+    <q-footer class="main-footer">
+      <q-tabs
+        v-model="footerTab"
+        
+        class="main-tabs "
+      >
+        <q-tab name="contactUs"  @click="$router.push('/contact-us')" label="Contact us" no-caps/>
+        <q-tab name="termsAndRules"  @click="$router.push('/terms-and-rules')" label="Terms and rules" no-caps/>
+        <q-tab name="privacyPolicy"  @click="$router.push('/privacy-policy')" label="Privacy policy" no-caps/>
+      </q-tabs>
+  
+    </q-footer>
+
     <q-page-container>
-      <!-- <q-list
-            v-if="hamburgerOpen"
-            dense
-            bordered
-            padding
-            class="rounded-borders h-nav"
-          >
-            <q-item clickable v-ripple>
-              <q-item-section>
-                Slotted
-              </q-item-section>
-            </q-item>
-          </q-list> -->
       <router-view />
     </q-page-container>
+
   </q-layout>
 </template>
 
@@ -103,6 +104,7 @@ export default {
   data() {
     return {
       tab: '',
+      footerTab: '',
       hamburgerOpen:false,
       leftDrawerOpen:false
     };
@@ -279,6 +281,32 @@ display: none;
     text-align: left;
     color: white;
     background: #366EB5;
+  }
+}
+
+.main-footer{
+  background: white;
+  color: #333;
+  
+
+  .q-tabs{
+    //styleName: Subtitle3;
+    margin-left: 28px;
+    
+    .q-tab--active{
+      color:#366EB5 !important;
+    }
+    .q-tab-label{
+      font-family: Spoqa Han Sans Neo;
+      font-size: 14px;
+      font-weight: 700;
+      line-height: 20px;
+      letter-spacing: 0em;
+      text-align: left;
+    }
+  }
+  .q-tab__indicator{
+    display: none;
   }
 }
 @media only screen and (max-width: 1079px) {
