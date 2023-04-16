@@ -227,10 +227,25 @@
               <div class="forums-details-page__right__content-wrapper__content">
                 <p style="white-space: pre-line; word-wrap: break-word;" v-html="currentComment.isDeleted?'Comment deleted': currentComment.comment"></p>
   
-                <img :src="currentFile" alt="" v-for="(currentFile, index) in currentComment.filePaths" :key="index" style="width:100%;">
+                <img :src="currentFile" alt=""  v-show="!currentComment.isDeleted" v-for="(currentFile, index) in currentComment.filePaths" :key="index" style="width:100%;">
               </div>
 
               <div class="reply"  v-for="(reply,index2) in currentComment.comments" :key="index2" style="padding-left:20px;">
+                <q-btn flat class="more-button" v-show="loginUser&&(reply.writer.uid == loginUser.uid) && !reply.isDeleted" style="right:0px">
+                  <q-icon name="more_horiz"></q-icon>
+                  <q-menu>
+                    <q-list style="min-width: 100px">
+                      <q-item clickable v-close-popup @click="commentEditPopup = true;editOrDeleteCurrentComment = reply; currentReplyEditComment = reply">
+                        <q-item-section>Edit</q-item-section>
+                      </q-item>
+                    </q-list>
+                    <q-list style="min-width: 100px" @click="commentDeletePopup = true; editOrDeleteCurrentComment = reply; currentReplyEditComment = reply">
+                      <q-item clickable v-close-popup>
+                        <q-item-section>Delete</q-item-section>
+                      </q-item>
+                    </q-list>
+                  </q-menu>
+                </q-btn>
                 <!-- <q-icon name="reply" style="    transform: rotateZ(178deg);    font-size: 20px;    position: absolute; margin-left: -20px;margin-top: 20px;"></q-icon> -->
                 <div class="forums-details-page__right__content-wrapper__bg">
                   <div class="forums-details-page__right__content-wrapper__writer">
@@ -252,7 +267,7 @@
                   <div class="forums-details-page__right__content-wrapper__content">
                     <p style="white-space: pre-line; word-wrap: break-word;" v-html="reply.isDeleted?'Comment deleted': reply.comment"></p>
       
-                    <img :src="currentFile" alt="" v-for="(currentFile, index) in reply.filePaths" :key="index" style="width:100%;">
+                    <img :src="currentFile" alt="" v-show="!reply.isDeleted" v-for="(currentFile, index) in reply.filePaths" :key="index" style="width:100%;">
                   </div>
                 </div>
 
@@ -361,6 +376,7 @@ export default {
       nailCount:0,
       tripCount:0,
       currentReplyComment:null,
+      currentReplyEditComment:null,
     }
   },
   watch : {
@@ -775,37 +791,53 @@ export default {
       
       let currentPostComment = currentPostComments.filter(i=>i.commentUid==currentComment.commentUid)[0];
       // currentPostComments = currentPostComments.filter(i=>i.commentUid!=currentComment.commentUid);
-      for (let i = 0; i < currentPostComments.length; i++) {
-        const element = currentPostComments[i];
-        if(element.commentUid ==currentComment.commentUid){
-          element.isDeleted = true
+      if(this.currentReplyEditComment){
+        for (let i = 0; i < currentPostComments.length; i++) {
+          const element = currentPostComments[i];
+          if(element.comments){
+            for (let j = 0; j < element.comments.length; j++) {
+              const reply = element.comments[j];
+              
+              if(reply.commentUid ==this.currentReplyEditComment.commentUid){
+                element.comments[j] = {
+                 ...reply,
+                 isDeleted :true 
+                };
+              }
+              
+            }
+            
+          }
         }
-      }
-      if(lastCommentUid ==currentPostComment.commentUid){
-        const isNotDeletePosts = currentPostComments.filter(i=>i.isDeleted != true)
-        if(isNotDeletePosts[isNotDeletePosts.length-1]){
-          const lastCommentWriter = isNotDeletePosts[isNotDeletePosts.length-1].writer
-          this.updateLastCommentOfPost(lastCommentWriter )
-        }else{
-          this.updateLastCommentOfPost(null)
+        this.currentReplyEditComment = null
+      }else{
+        for (let i = 0; i < currentPostComments.length; i++) {
+          const element = currentPostComments[i];
+          if(element.commentUid ==currentComment.commentUid){
+            element.isDeleted = true
+          }
+        }
+        if(lastCommentUid ==currentPostComment.commentUid){
+          const isNotDeletePosts = currentPostComments.filter(i=>i.isDeleted != true)
+          if(isNotDeletePosts[isNotDeletePosts.length-1]){
+            const lastCommentWriter = isNotDeletePosts[isNotDeletePosts.length-1].writer
+            this.updateLastCommentOfPost(lastCommentWriter )
+          }else{
+            this.updateLastCommentOfPost(null)
 
+          }
         }
       }
       set(ref(db, 'comments/' + postUid),{ 
         postUid:postUid,
         comments:currentPostComments
       })
-      for (let i = 0; i < this.comments.length; i++) {
-        const element = this.comments[i];
-        if(element.commentUid ==currentComment.commentUid){
-          element.isDeleted = true
-        }
-      }
-      this.comments = this.comments
+      await this.getComments()
     },
     async commentEdit(){
       console.log(this.editCommentText) 
       const currentComment = this.editOrDeleteCurrentComment
+
       const db = getDatabase();
       
       const postUid = this.currentPost.postUid;
@@ -823,30 +855,42 @@ export default {
         console.error(error);
       });
       let newComments =  []
-      for (let i = 0; i < currentPostComments.length; i++) {
-        let element = currentPostComments[i];
-        if(element.commentUid == currentComment.commentUid){
-          console.log(element)
-          element = {
-            ...element,
-            comment:this.editCommentText
-          }
+      if(this.currentReplyEditComment){
+        for (let i = 0; i < currentPostComments.length; i++) {
+          let element = currentPostComments[i];
+          if(element.comments){
+            for (let j = 0; j < element.comments.length; j++) {
+              let reply = element.comments[j];
+              if(reply.commentUid == this.currentReplyEditComment.commentUid){
+                element.comments[j] = {
+                  ...reply,
+                  comment:this.editCommentText
+                }
+              }
+              
+            }
+          } 
+          newComments.push(element)        
         }
-        newComments.push(element)        
+        this.currentReplyEditComment = null
+      }else{
+        for (let i = 0; i < currentPostComments.length; i++) {
+          let element = currentPostComments[i];
+          if(element.commentUid == currentComment.commentUid){
+            console.log(element)
+            element = {
+              ...element,
+              comment:this.editCommentText
+            }
+          }
+          newComments.push(element)        
+        }
       }
       set(ref(db, 'comments/' + postUid),{ 
         postUid:postUid,
         comments:newComments
       })
-      
-      for(const currentComment of newComments){
-        await this.getUserProfile(currentComment.writer).then( result=>{
-          currentComment.writer = {
-          ...result
-          }
-        });
-      }
-      this.comments = newComments
+      await this.getComments()
     },
 
     deletePost(){
@@ -1158,6 +1202,9 @@ export default {
       color: #333;
       margin-top: 2px;
     }
+  }
+  .reply{
+    position: relative;
   }
   .reply-info{
     position: relative;
