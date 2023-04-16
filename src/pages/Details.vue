@@ -176,7 +176,18 @@
 
 
           <div class="forums-details-page__right__content-wrapper comment" v-for="(currentComment,index) in comments" :key="index">
-            <q-btn flat class="more-button" v-show="loginUser&&(currentComment.writer.uid == loginUser.uid) && !currentComment.isDeleted">
+            
+            <q-btn flat class="more-button" v-show="loginUser&&(currentComment.writer.uid !== loginUser.uid) && !currentComment.isDeleted">
+              <q-icon name="more_horiz"></q-icon>
+              <q-menu>
+                <q-list style="min-width: 100px">
+                  <q-item clickable v-close-popup @click="()=>{reply(currentComment)}">
+                    <q-item-section>Reply</q-item-section>
+                  </q-item>
+                </q-list>
+              </q-menu>
+            </q-btn>
+            <q-btn flat class="more-button" v-show="loginUser&&loginUser.isAdmin && !currentComment.isDeleted||(loginUser&&(currentComment.writer.uid == loginUser.uid)) && !currentComment.isDeleted">
               <q-icon name="more_horiz"></q-icon>
               <q-menu>
                 <q-list style="min-width: 100px">
@@ -192,16 +203,6 @@
                 <q-list style="min-width: 100px" @click="commentDeletePopup = true;editOrDeleteCurrentComment = currentComment">
                   <q-item clickable v-close-popup>
                     <q-item-section>Delete</q-item-section>
-                  </q-item>
-                </q-list>
-              </q-menu>
-            </q-btn>
-            <q-btn flat class="more-button" v-show="loginUser&&(currentComment.writer.uid !== loginUser.uid) && !currentComment.isDeleted">
-              <q-icon name="more_horiz"></q-icon>
-              <q-menu>
-                <q-list style="min-width: 100px">
-                  <q-item clickable v-close-popup @click="()=>{reply(currentComment)}">
-                    <q-item-section>Reply</q-item-section>
                   </q-item>
                 </q-list>
               </q-menu>
@@ -231,7 +232,7 @@
               </div>
 
               <div class="reply"  v-for="(reply,index2) in currentComment.comments" :key="index2" style="padding-left:20px;">
-                <q-btn flat class="more-button" v-show="loginUser&&(reply.writer.uid == loginUser.uid) && !reply.isDeleted" style="right:0px">
+                <q-btn flat class="more-button" v-show="loginUser&&loginUser.isAdmin && !reply.isDeleted||(loginUser&&(reply.writer.uid == loginUser.uid)) && !reply.isDeleted" style="right:0px">
                   <q-icon name="more_horiz"></q-icon>
                   <q-menu>
                     <q-list style="min-width: 100px">
