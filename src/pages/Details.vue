@@ -224,12 +224,6 @@
   
                 <img :src="currentFile" alt="" v-for="(currentFile, index) in currentComment.filePaths" :key="index" style="width:100%;">
               </div>
-             
-              <div class="forums-details-page__right__content-wrapper__content">
-                <p style="white-space: pre-line; word-wrap: break-word;" v-html="currentComment.isDeleted?'Comment deleted': currentComment.comment"></p>
-  
-                <img :src="currentFile" alt="" v-for="(currentFile, index) in currentComment.filePaths" :key="index" style="width:100%;">
-              </div>
 
               <div class="reply"  v-for="(reply,index2) in currentComment.comments" :key="index2" style="padding-left:20px;">
                 <!-- <q-icon name="reply" style="    transform: rotateZ(178deg);    font-size: 20px;    position: absolute; margin-left: -20px;margin-top: 20px;"></q-icon> -->
@@ -264,7 +258,7 @@
           </div>
 
 
-          <div class="forums-details-page__right__conmment-wrapper" v-show="category != 'deal'">
+          <div class="forums-details-page__right__conmment-wrapper" >
             <!-- <q-input
               placeholder="Please write a comment" name="" id="" cols="30" rows="10" v-model="commentText"
               maxlength="5000"
