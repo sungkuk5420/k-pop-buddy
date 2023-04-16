@@ -47,7 +47,7 @@
           <img src="~assets/banner-mobile.png" alt="" class="is-mobile-show" style="width: 100%; cursor:pointer;" @click="$router.push('/premium-service')">
           <div class="forums-details-page__right__title">
             <h1 class="forums-details-page__title">{{ currentPost.title }}</h1>
-            <q-btn label="edit" v-if="loginUser&&loginUser.isAdmin" @click="$router.push(`/edit-post?postCategory=${category}&postUid=${currentPost.postUid}`)"></q-btn>
+            <q-btn label="edit" v-if="loginUser&&loginUser.isAdmin" @click="$router.push(`/edit-post?postCategory=${category}&category=${categoryTab}&postUid=${currentPost.postUid}`)"></q-btn>
             <q-btn label="delete" v-if="loginUser&&loginUser.isAdmin" @click="deletePost"></q-btn>
           </div>
           <div class="forums-details-page__right__content-wrapper">

@@ -289,6 +289,7 @@ export default {
       console.log(this.currentPost.filePaths)
       this.title = this.currentPost.title;
       this.content = this.currentPost.content;
+      
       if(this.currentPost.filePaths){
         this.fileList = this.currentPost.filePaths.map((i,index)=>{return {
             uid: index,
@@ -547,14 +548,20 @@ export default {
           thisObj.errorMessage(error);
         });
       }else{
+        let views = 0 ;
+        let replies = 0 ;
+        if(this.mode == 'edit'){
+          views = this.currentPost.views
+          replies = this.currentPost.replies
+        }
         set(ref(db, postCategory+'/' + postUid), {
           postUid:postUid,
           title: thisObj.title,
           content: thisObj.content,
           writer: thisObj.loginUser.uid,
           lastCommentWriter: null,
-          views: 0,
-          replies: 0,
+          views,
+          replies,
           createdAt: thisObj.createNowTime(),
           updatedAt: thisObj.createNowTime(),
           filePaths,
