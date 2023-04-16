@@ -114,9 +114,20 @@ watch:{
       }
   }
 },
-mounted() {
+async mounted() {
   // this.showLoading();
-    this.getPosts();
+    await this.getPosts();
+    
+    if(this.$route.query.openCloseTab){
+      this.openCloseTab = this.$route.query.openCloseTab;
+      if(this.openCloseTab == 'all'){
+        this.dealPosts= this.allPosts
+      }else if(this.openCloseTab == 'open'){
+        this.dealPosts= this.allPosts.filter(i=>i.openOrClose=='open')
+      }else if(this.openCloseTab == 'close'){
+        this.dealPosts= this.allPosts.filter(i=>i.openOrClose=='close')
+      }
+    }
 },
 methods:{
   goDetails(post){
@@ -135,7 +146,8 @@ methods:{
   getPosts(){
     const thisObj = this;
     const dbRef = ref(getDatabase());
-    get(child(dbRef, `dealPosts/`))
+    return new Promise(resolve=>{
+      get(child(dbRef, `dealPosts/`))
       .then(async (snapshot) => {
         if (snapshot.exists()) {
           // console.log(snapshot.val());
@@ -198,11 +210,14 @@ methods:{
             }
             return 0
           })
+
+          resolve()
         }
       })
       .catch((error) => {
         console.error(error);
       });
+    })
   },
 },
 };
@@ -221,7 +236,6 @@ methods:{
     padding: 24px;
 
   }
-
   &__left{
     width: 240px;
     margin-right: 36px;
@@ -251,7 +265,7 @@ methods:{
       }
       &__button{
         &.is-active{
-          color: #366EB5;
+          color: #366EB5 !important;
         }
         &__count{
           font-family: Spoqa Han Sans Neo;

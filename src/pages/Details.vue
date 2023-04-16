@@ -3,23 +3,35 @@
       <div class="contianer">
         <div class="forums-details-page__left is-desktop-show">
           <div class="forums-details-page__title" v-show="category == 'forums' ">Forums</div>
-          <div class="forums-page__left__menu"  v-show="category == 'forums' ">
-            <div class="forums-page__left__menu__button" clickable :class="categoryTab == 'all'?'is-active':''" @click="categoryTab = 'all'; $router.push(`/forums`) ">
+          <div class="forums-details-page__left__menu"  v-show="category == 'forums' ">
+            <div class="forums-details-page__left__menu__button" clickable :class="categoryTab == 'all'?'is-active':''" @click="categoryTab = 'all'; $router.push(`/forums`) ">
               ALL
             </div>
-            <div class="forums-page__left__menu__button" clickable :class="categoryTab == 'plasticSurgeryAndCosmeticProcedures'?'is-active':''" @click="categoryTab = 'plasticSurgeryAndCosmeticProcedures';  $router.push(`/forums?category=plasticSurgeryAndCosmeticProcedures`)">
+            <div class="forums-details-page__left__menu__button" clickable :class="categoryTab == 'plasticSurgeryAndCosmeticProcedures'?'is-active':''" @click="categoryTab = 'plasticSurgeryAndCosmeticProcedures';  $router.push(`/forums?category=plasticSurgeryAndCosmeticProcedures`)">
               <span>Plastic Surgery & Cosmetic Procedures </span>
-              <span class="forums-page__left__menu__button__count"> ({{ plasticCount }})</span>
+              <span class="forums-details-page__left__menu__button__count"> ({{ plasticCount }})</span>
             </div>
-            <div class="forums-page__left__menu__button" clickable :class="categoryTab == 'nailAndHairAndSkinCare'?'is-active':''" @click="categoryTab ='nailAndHairAndSkinCare'; $router.push(`/forums?category=nailAndHairAndSkinCare`)">
+            <div class="forums-details-page__left__menu__button" clickable :class="categoryTab == 'nailAndHairAndSkinCare'?'is-active':''" @click="categoryTab ='nailAndHairAndSkinCare'; $router.push(`/forums?category=nailAndHairAndSkinCare`)">
               <span>Nail & Hair & SkinCare</span>
-              <span class="forums-page__left__menu__button__count"> ({{ nailCount }})</span>
+              <span class="forums-details-page__left__menu__button__count"> ({{ nailCount }})</span>
             </div>
-            <div class="forums-page__left__menu__button" clickable :class="categoryTab == 'tripAndFoodAndHotel'?'is-active':''" @click="categoryTab ='tripAndFoodAndHotel'; $router.push(`/forums?category=tripAndFoodAndHotel`)">
+            <div class="forums-details-page__left__menu__button" clickable :class="categoryTab == 'tripAndFoodAndHotel'?'is-active':''" @click="categoryTab ='tripAndFoodAndHotel'; $router.push(`/forums?category=tripAndFoodAndHotel`)">
               <span>Trip & Food & Hotel</span>
-              <span class="forums-page__left__menu__button__count"> ({{tripCount}})</span>
+              <span class="forums-details-page__left__menu__button__count"> ({{tripCount}})</span>
             </div>
           </div>
+          <div class="forums-details-page__title" v-show="category == 'deal' ">Hot Deal</div>
+          <div class="forums-details-page__left__menu" v-show="category == 'deal'">
+          <div class="forums-details-page__left__menu__button" @click="$router.push(`/deal?openCloseTab=all`)" :class="openCloseTab == 'all'?'is-active':''">
+            ALL Event
+          </div>
+          <div class="forums-details-page__left__menu__button" @click="$router.push(`/deal?openCloseTab=open`)" :class="openCloseTab == 'open'?'is-active':''">
+            <span>Ongoing Event</span>
+          </div>
+          <div class="forums-details-page__left__menu__button" @click="$router.push(`/deal?openCloseTab=close`)"  :class="openCloseTab == 'close'?'is-active':''">
+            <span>Ended Event</span>
+          </div>
+        </div>
         <div style="margin-top: 16px; cursor: pointer;">
             <img src="~assets/banner-pc.png" alt="" @click="$router.push('/premium-service')">
           </div>
@@ -32,7 +44,7 @@
           </div>
         </div>
         <div class="forums-details-page__right" v-if="currentPost">
-            <div class="tab-scroll is-mobile-show">
+          <div class="tab-scroll is-mobile-show" v-show="category == 'forums'">
             <q-tabs
               v-model="categoryTab"
               active-class="is-active"
@@ -42,6 +54,17 @@
               <q-tab name="plasticSurgeryAndCosmeticProcedures" label="Plastic Surgery & Cosmetic Procedures" no-caps @click="$router.push(`/forums?category=plasticSurgeryAndCosmeticProcedures`)"/>
               <q-tab name="nailAndHairAndSkinCare"  label="Nail & Hair & SkinCare" no-caps @click="$router.push(`/forums?category=nailAndHairAndSkinCare`)"/>
               <q-tab name="tripAndFoodAndHotel"  label="Trip & Food & Hotel" no-caps @click="$router.push(`/forums?category=tripAndFoodAndHotel`)"/>
+            </q-tabs>
+          </div>
+          <div class="tab-scroll is-mobile-show" v-show="category == 'deal'">
+            <q-tabs
+              v-model="openCloseTab"
+              active-class="is-active"
+              class=" mobile-tab"
+            >
+              <q-tab name="all" label="ALL Event" no-caps @click="$router.push(`/deal?openCloseTab=all`) "/>
+              <q-tab name="open" label="Ongoing Event" no-caps @click="$router.push(`/deal??openCloseTab=open`)"/>
+              <q-tab name="close"  label="Ended Event" no-caps @click="$router.push(`/deal??openCloseTab=close`)"/>
             </q-tabs>
           </div>
           <img src="~assets/banner-mobile.png" alt="" class="is-mobile-show" style="width: 100%; cursor:pointer;" @click="$router.push('/premium-service')">
@@ -332,6 +355,7 @@ import { getDatabase, ref, set, child, get,update  } from 'firebase/database';
 import { uid } from 'quasar';
 
 import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
+import moment from 'moment';
 export default {
   name:"forumsDetails",
   mixins: [ComputedMixin, UtilMethodMixin],
@@ -360,6 +384,7 @@ export default {
           }
       },
       categoryTab:"",
+      openCloseTab:"",
       currentPost:null,
       previewVisible: false,
       previewImage: '',
@@ -418,13 +443,30 @@ export default {
       this.plusView()
     }
     
+    
     this.plasticCount = localStorage.getItem('plasticCount')
     this.nailCount = localStorage.getItem('nailCount')
     this.tripCount = localStorage.getItem('tripCount')
     // window.isFirstChangecategory = true
-    this.categoryTab = this.currentPost.category
+    if(this.currentPost.category){
+      this.categoryTab = this.currentPost.category
+    }
     this.metaTitle = this.currentPost.title
     this.metaContent = this.currentPost.content
+    if(this.category == "deal"){
+      if( this.currentPost.toDate instanceof moment){
+        let openOrCloseString = this.currentPost.toDate.fromNow();
+        let openOrClose = openOrCloseString.indexOf("in")==-1? "close":"open"
+        this.openCloseTab = openOrClose
+      }else{
+        let  toYear =this.currentPost.toDate.slice(0,4);
+        let  toMonth =this.currentPost.toDate.slice(5,7);
+        let  toDay =this.currentPost.toDate.slice(8,10);
+        let openOrCloseString = moment(`${toYear}${toMonth}${toDay}`, "YYYYMMDD").fromNow();
+        let openOrClose = openOrCloseString.indexOf("in")==-1? "close":"open"
+        this.openCloseTab = openOrClose
+      }
+    }
     
     var anchors = document.getElementsByTagName("a");
     for (var i=0; i<anchors.length; i++)
@@ -458,7 +500,7 @@ export default {
     plusView(){
       const postUid = this.currentPost.postUid;
       const db = getDatabase();
-      const category = this.category == 'forums'?'forumsPosts':'hotFocusPosts'
+      const category = this.category == 'forums'?'forumsPosts':(this.category =='hot-focus'?'hotFocusPosts':'dealPosts')
 
       const updates = {};
       updates[`${category}/${postUid}/views`] = this.currentPost.views+1;
@@ -473,7 +515,7 @@ export default {
         setTimeout(async() => {
           const postUid = this.currentPost.postUid;
           const db = getDatabase();
-          const category = this.category == 'forums'?'forumsPosts':'hotFocusPosts'
+          const category = this.category == 'forums'?'forumsPosts':(this.category =='hot-focus'?'hotFocusPosts':'dealPosts')
           const updates = {};
           updates[`${category}/${postUid}/replies`] = count
           update(ref(db), updates);
@@ -492,7 +534,7 @@ export default {
           const postUid = this.currentPost.postUid;
           const db = getDatabase();
           const dbRef = ref(getDatabase());
-          const category = this.category == 'forums'?'forumsPosts':'hotFocusPosts'
+          const category = this.category == 'forums'?'forumsPosts':(this.category =='hot-focus'?'hotFocusPosts':'dealPosts')
           get(child(dbRef, `${category}/${postUid}`))
           .then(async (snapshot) => {
             if (snapshot.exists()) {
@@ -738,7 +780,7 @@ export default {
           const dbRef = ref(getDatabase());
           const thisObj = this;
           console.log(postUid)
-          const category = this.category == 'forums'?'forumsPosts':'hotFocusPosts'
+          const category = this.category == 'forums'?'forumsPosts':(this.category =='hot-focus'?'hotFocusPosts':'dealPosts')
           get(child(dbRef, `${category}/${postUid}`))
             .then(async (snapshot) => {
               if (snapshot.exists()) {
@@ -949,7 +991,6 @@ export default {
       margin-top: 12px;
       background: white;
       width: 200px;
-      height: 200px;
       padding: 12px 0;
       &>div{
         padding: 0 22px;
@@ -963,13 +1004,16 @@ export default {
         display: flex;
         justify-content: flex-start;
         align-items: center;
-        &:not(.forums-page__left__menu__title):hover{
+        &:not(.forums-details__left__menu__title):hover{
           cursor: pointer;
           background: #ddd;
           opacity: 0.8;
         }
       }
       &__button{
+        &.is-active{
+          color: #366EB5;
+        }
         &__count{
           font-family: Spoqa Han Sans Neo;
           font-size: 12px;
