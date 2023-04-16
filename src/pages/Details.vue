@@ -180,6 +180,11 @@
               <q-icon name="more_horiz"></q-icon>
               <q-menu>
                 <q-list style="min-width: 100px">
+                  <q-item clickable v-close-popup @click="()=>{reply(currentComment)}">
+                    <q-item-section>Reply</q-item-section>
+                  </q-item>
+                </q-list>
+                <q-list style="min-width: 100px">
                   <q-item clickable v-close-popup @click="commentEditPopup = true;editOrDeleteCurrentComment = currentComment">
                     <q-item-section>Edit</q-item-section>
                   </q-item>
