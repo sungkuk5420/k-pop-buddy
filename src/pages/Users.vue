@@ -56,7 +56,14 @@ export default {
   },
   mounted() {
     // this.showLoading();
-    this.getUsers()
+    setTimeout(() => {
+      if(this.loginUser&&this.loginUser.isAdmin){
+        debugger
+        this.getUsers()
+      }else{
+        this.$router.push('/login')
+      }
+    },200);
   },
   methods:{
     getUsers(){
