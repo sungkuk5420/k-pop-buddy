@@ -103,7 +103,48 @@
       </q-card>
     </q-dialog>
     <q-footer class="main-footer">
-      <q-tabs
+      <!-- <div class="main-footer__logo">
+        <div class="flex q-mb-lg">
+          <img src="~assets/logo.png" alt="" style="cursor: pointer;" @click="$router.push('/app')">
+        </div>
+        <div class="flex is-mobile-show">
+          Business license number : 803-01-03096
+        </div>
+        <div class="flex is-mobile-show">
+          Address: 584, Gangnam-daero, 
+        </div>
+        <div class="flex is-mobile-show">
+          Gangnam-gu, Seoul, Republic of Korea
+        </div>
+        <div class="flex is-mobile-show">
+          © 2023 m3solution. All rights reserved.
+        </div>
+        <div class="flex is-desktop-show">
+          Business license number : 803-01-03096
+        </div>
+        <div class="flex is-desktop-show">
+          Address: 584, Gangnam-daero, Gangnam-gu, Seoul, Republic of Korea
+        </div>
+        <div class="flex is-desktop-show">
+          © 2023 m3solution. All rights reserved.
+        </div>
+        <div class="flex ">
+          <q-btn label="Contact us" outline no-caps @click="contactUsModal = true" ></q-btn>
+        </div>
+      </div> -->
+      <div class="main-footer__contact">
+        <div>
+          KAKAO Talk : mygangnaminsider
+        </div>
+        <div>
+          Line : mygangnaminsider   ·   WhatsApp : +821058304124
+        </div>
+        <div class="flex justify-center q-mt-sm">
+          <q-btn label="Contact us" outline no-caps @click="contactUsModal = true" ></q-btn>
+        </div>
+      </div>
+
+      <!-- <q-tabs
         v-model="footerTab"
         
         class="main-tabs "
@@ -111,7 +152,7 @@
         <q-tab name="contactUs"  @click="contactUsModal = true" label="Contact Us" no-caps/>
         <q-tab name="termsAndRules"  @click="$router.push('/terms-and-rules')" label="Terms and Conditions" no-caps/>
         <q-tab name="privacyPolicy"  @click="$router.push('/privacy-policy')" label="Privacy Policy" no-caps/>
-      </q-tabs>
+      </q-tabs> -->
   
     </q-footer>
 
@@ -418,7 +459,7 @@ display: none;
 .main-footer{
   background: white;
   color: #333;
-  
+  width: 100%;
 
   .q-tabs{
     //styleName: Subtitle3;
@@ -438,6 +479,46 @@ display: none;
   }
   .q-tab__indicator{
     display: none;
+  }
+
+  &__logo{
+    padding: 30px;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    //styleName: Caption1;
+    background: white;
+    font-family: Spoqa Han Sans Neo;
+    font-size: 12px;
+    font-weight: 400;
+    line-height: 18px;
+    letter-spacing: 0em;
+    text-align: center;
+
+
+    .q-btn{
+      margin-top: 30px;
+      color: #366EB5!important;
+      font-family: Spoqa Han Sans Neo;
+      font-size: 12px;
+      font-weight: 700;
+      line-height: 18px;
+      letter-spacing: 0em;
+    }
+  }
+  &__contact{
+    background: #3C4A5C;
+    padding: 20px;
+    color: white;
+    font-family: Spoqa Han Sans Neo;
+    font-size: 12px;
+    font-weight: 700;
+    line-height: 24px;
+    letter-spacing: 0em;
+    text-align: center;
+
   }
 }
 .contact-us-modal{

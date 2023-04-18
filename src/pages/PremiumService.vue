@@ -59,7 +59,7 @@
           </q-item>
         </q-list>
       </div>
-      <div class="bottom-wrapper">
+      <!-- <div class="bottom-wrapper">
         <div class="bottom-text">Contact</div>
         <div class="bottom-text">KAKAO Talk : hongpyo99</div>
         <div class="bottom-text">Line : hongpyo99</div>
@@ -74,12 +74,38 @@
       </div>
       
 
-
+ -->
 
 
 
       
 
+    </div>
+    <div class="main-footer__logo">
+      <div class="flex q-mb-lg">
+        <img src="~assets/logo.png" alt="" style="cursor: pointer;" @click="$router.push('/app')">
+      </div>
+      <div class="flex is-mobile-show">
+        Business license number : 803-01-03096
+      </div>
+      <div class="flex is-mobile-show">
+        Address: 584, Gangnam-daero, 
+      </div>
+      <div class="flex is-mobile-show">
+        Gangnam-gu, Seoul, Republic of Korea
+      </div>
+      <div class="flex is-mobile-show">
+        © 2023 m3solution. All rights reserved.
+      </div>
+      <div class="flex is-desktop-show">
+        Business license number : 803-01-03096
+      </div>
+      <div class="flex is-desktop-show">
+        Address: 584, Gangnam-daero, Gangnam-gu, Seoul, Republic of Korea
+      </div>
+      <div class="flex is-desktop-show">
+        © 2023 m3solution. All rights reserved.
+      </div>
     </div>
   </q-page>
 </template>
@@ -175,7 +201,6 @@ export default {
 <style lang="scss">
  .desktop{
   .temp-page{
-    padding: 40px;
     .table-wrapper1{
       display: block;
     }
@@ -192,17 +217,20 @@ export default {
  }
 .temp-page{
   background: #F8F8F8;    
-  padding: 15px;
   display: flex;
-  position: fixed;
   width: 100%;
   height: 100%;
   justify-content: center;
+  flex-direction: column;
+  align-items: center;
+
   .container{
     width: 100%;
     height: 100%;
     overflow: auto;
-  max-width: 1080px;
+    max-width: 1080px;
+    margin-top: 20px;
+    margin-bottom: 20px;
   }
   .top-wrapper{
     padding: 10px;
