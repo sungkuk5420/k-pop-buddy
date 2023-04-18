@@ -81,32 +81,6 @@
       
 
     </div>
-    <div class="main-footer__logo">
-      <div class="flex q-mb-lg">
-        <img src="~assets/logo.png" alt="" style="cursor: pointer;" @click="$router.push('/')">
-      </div>
-      <div class="flex is-mobile-show">
-        Business license number : 803-01-03096
-      </div>
-      <div class="flex is-mobile-show">
-        Address: 584, Gangnam-daero, 
-      </div>
-      <div class="flex is-mobile-show">
-        Gangnam-gu, Seoul, Republic of Korea
-      </div>
-      <div class="flex is-mobile-show">
-        © 2023 m3solution. All rights reserved.
-      </div>
-      <div class="flex is-desktop-show">
-        Business license number : 803-01-03096
-      </div>
-      <div class="flex is-desktop-show">
-        Address: 584, Gangnam-daero, Gangnam-gu, Seoul, Republic of Korea
-      </div>
-      <div class="flex is-desktop-show">
-        © 2023 m3solution. All rights reserved.
-      </div>
-    </div>
   </q-page>
 </template>
 
@@ -221,8 +195,6 @@ export default {
   width: 100%;
   height: 100%;
   justify-content: center;
-  flex-direction: column;
-  align-items: center;
 
   .container{
     width: 100%;
