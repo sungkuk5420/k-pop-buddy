@@ -433,6 +433,12 @@ export default {
   async mounted() {
     // this.showLoading();
     
+    
+    setTimeout(async () => {
+      
+    if(!this.loginUser){
+      this.$router.push('/login')
+    }
     if(!this.getPost){
       await this.getPostDetails()
     }else{
@@ -475,10 +481,7 @@ export default {
         if(anchor.getAttribute("href"))
           anchor.target = "_blank";
     } 
-    
-    if(this.$route.path.indexOf('deal-details')==-1&&!this.loginUser){
-      this.$router.push('/login')
-    }
+    }, 200);
   },
    meta () {
     return {
