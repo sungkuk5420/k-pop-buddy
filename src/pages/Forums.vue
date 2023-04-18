@@ -408,7 +408,7 @@
     </div>
     <div class="main-footer__logo">
       <div class="flex q-mb-lg">
-        <img src="~assets/logo.png" alt="" style="cursor: pointer;" @click="$router.push('/app')">
+        <img src="~assets/logo.png" alt="" style="cursor: pointer;" @click="$router.push('/')">
       </div>
       <div class="flex is-mobile-show">
         Business license number : 803-01-03096

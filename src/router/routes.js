@@ -2,14 +2,6 @@
 const routes = [
   {
     path: '/',
-    component: () => import('layouts/PlainLayout.vue'),
-    // component: () => import('layouts/MainLayout.vue'),
-    children: [
-      { path: '', component: () => import('src/pages/Temp.vue') },
-    ],
-  },
-  {
-    path: '/app',
     component: () => import('layouts/MainLayout.vue'),
     children: [
       { path: '', component: () => import('pages/Forums.vue') },

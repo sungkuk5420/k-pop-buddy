@@ -5,7 +5,7 @@
         <div class="main-header__left">
           <q-toolbar>
             <q-btn flat @click="leftDrawerOpen = !leftDrawerOpen" round dense icon="menu" class="hamburger-button is-mobile-show" />
-            <img src="~assets/logo.png" alt="" style="cursor: pointer;" @click="$router.push('/app')">
+            <img src="~assets/logo.png" alt="" style="cursor: pointer;" @click="$router.push('/')">
             <q-tabs
               v-model="tab"
               indicator-color="transparent"
