@@ -8,14 +8,24 @@
       </div>
       <div class="hot-focus-page__right">
         <img src="~assets/banner-mobile.png" alt="" class="is-mobile-show" style="width: 100%; cursor:pointer;" @click="$router.push('/premium-service')">
-        <div class="flex search-form" >
-          <q-input v-model="searchText" outlined placeholder="search text..."> </q-input>
-        </div>
-        <div class="hot-focus-page__right__title flex justify-between items-center" style="padding-right:20px;width: 100%;" >
+        <div class="hot-focus-page__right__title flex justify-between items-center" style="width: 100%;" >
           <div class="flex items-center">
             <div class="hot-focus-page__title">HOT Focus</div>
           </div>
-          <q-btn class="write-button" flat label="Write" v-if="loginUser&&loginUser.isAdmin" no-caps @click="$router.push('/write-post?postCategory=hotFocus')"></q-btn>
+          <q-btn class="write-button" flat label="Write" v-if="loginUser&&loginUser.isAdmin" no-caps @click="$router.push('/write-post?postCategory=hotFocus')"></q-btn>          <div class="flex search-form is-desktop-show" v-show="category != 'all'" >
+              <q-input v-model="searchText" outlined placeholder="search text...">
+                <template v-slot:prepend>
+                  <q-icon name="search" />
+                </template>
+              </q-input>
+            </div>
+        </div>
+        <div class="flex search-form is-mobile-show" style="width:100%;padding: 0 10px;" >
+          <q-input v-model="searchText" outlined placeholder="search text..." style="width:100%">
+            <template v-slot:prepend>
+              <q-icon name="search" />
+            </template>
+          </q-input>
         </div>
 
         <div class="empty-list" v-show="hotPosts.length==0">
@@ -269,13 +279,21 @@ methods:{
 display: flex; 
 justify-content: center;
 background: #F8F8F8;
-.search-form{
-  width: 100%;
-  .q-input{
-    width: 100%;
-    background: white;
+  .search-form{
+    margin-left: auto;
+    min-height: 40px;
+    height: 40px;
+    .q-input{
+      min-height: 40px;
+      height: 40px;
+      background: white;
+      .q-field__prepend,
+      .q-field__control {
+        min-height: 40px;
+        height: 40px;
+      }
+    }
   }
-}
 .contianer{
   display: flex; 
   justify-content: center;

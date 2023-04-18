@@ -53,7 +53,7 @@
               </q-input>
             </div>
         </div>
-        <div class="flex search-form is-mobile-show" style="width:100%;padding: 0 10px;" v-show="category == 'all' || category == 'plasticSurgeryAndCosmeticProcedures'" >
+        <div class="flex search-form is-mobile-show" style="width:100%;padding: 0 10px;" v-show=" category == 'plasticSurgeryAndCosmeticProcedures'" >
           <q-input v-model="searchText" outlined placeholder="search text..." style="width:100%">
             <template v-slot:prepend>
               <q-icon name="search" />
@@ -186,7 +186,7 @@
               </q-input>
             </div>
         </div>
-        <div class="flex search-form is-mobile-show" style="width:100%;padding: 0 10px;" v-show="category == 'all' || category == 'nailAndHairAndSkinCare'" >
+        <div class="flex search-form is-mobile-show" style="width:100%;padding: 0 10px;" v-show="category == 'nailAndHairAndSkinCare'" >
           <q-input v-model="searchText" outlined placeholder="search text..." style="width:100%">
             <template v-slot:prepend>
               <q-icon name="search" />
@@ -321,7 +321,7 @@
               </q-input>
             </div>
         </div>
-        <div class="flex search-form is-mobile-show" style="width:100%;padding: 0 10px;" v-show="category == 'all' || category == 'tripAndFoodAndHotel'">
+        <div class="flex search-form is-mobile-show" style="width:100%;padding: 0 10px;" v-show=" category == 'tripAndFoodAndHotel'">
           <q-input v-model="searchText" outlined placeholder="search text..." style="width:100%">
             <template v-slot:prepend>
               <q-icon name="search" />
