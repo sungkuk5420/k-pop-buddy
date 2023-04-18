@@ -1,85 +1,78 @@
 <template>
   <q-page class="temp-page">
     <div class="container">
+      <div class="temp-page__title">
+        Premium Service
+      </div>
       <div class="top-wrapper">
-        <div class="text">While working as the general director of Korea Plastic Surgery,</div>
-        <div class="text">I worked on clinic management, domestic marketing, overseas marketing, market research,</div>
-        <div class="text q-mb-md">surgery cost determination, online counseling, offline counseling, patient management, postoperative care, dispute resolution, etc.</div>
-        <div class="text q-mb-md">Based on our service, we aim to ensure that foreigners get accurate information and receive proper medical services.</div>
-        <div class="text">The following services are just the beginning.</div>
-        <div class="text q-mb-md">I am preparing various services for foreign patients and will be provided soon</div>
+        <div class="text bold-text q-mb-lg">“We offer you trust, not just service”
+        </div>
+        <div class="text q-mb-lg">“While working as the general manager(director) of an internationally famous plastic surgery clinic In Korea, I worked on clinic management, domestic marketing, overseas marketing, market research, surgery cost determination, online counseling, offline counseling, patient management, postoperative care, dispute resolution, etc.
+        </div>
+        <div class="text q-mb-lg">Also, as a person in charge of foreign patients, I met foreign patients and learned the hardships of foreign patients while consulting them in person.
+        </div>
+        <div class="text q-mb-lg">Foreign patients are choosing Korean clinics based only on some information about clinics and doctors. The information available to foreigners in Korea is very limited, and it is very difficult for foreigners to get accurate and detailed information.
+And foreigners pay more for surgery than Koreans just because they are foreigners, they don't get proper care, and they don't know how to deal with problems.
+        </div>
+        <div class="text">Based on our service, we aim to ensure that foreigners get accurate information and receive proper medical services.
+        </div>
       </div>
-      <div class="table-wrapper1">
-        <q-table
-          class="my-sticky-header-table"
-          :data="data"
-          :columns="columns"
-          row-key="name"
-          flat
-          bordered
-          :pagination="initialPagination"
-        />
+      <div class="qr-wrapper">
+        <div style="position: relative;">
+          <img src="~assets/qrcode-1.png" alt="" srcset="">
+          <a style="    position: absolute;    right: 4px;    bottom: 22px;" href="https://line.me/ti/p/o9hp3pPM97" target="__blank">https://line.me/ti/p/o9hp3pPM97</a>
+        </div>
+        <div>
+        <img src="~assets/qrcode-2.png" alt="" srcset="">
       </div>
-      <div class="table-wrapper2">
-        <q-list bordered separator>
-          <q-item clickable v-ripple>
-            <span style="font-weight: bold; margin-right: 5px;">Services list / Details of the service</span>
-          </q-item>
-          <q-item clickable v-ripple>
-            <span style="font-weight: bold; margin-right: 5px;">Online consultation & market research </span>
-            <span>( per half hour / KAKAO or WhatsApp )</span>
-          </q-item>
-          <q-item clickable v-ripple>
-            <span style="font-weight: bold; margin-right: 5px;">Clinic investigating </span>
-            <span>( per clinic / Provide report on the clinic )</span>
-          </q-item>
-          <q-item clickable v-ripple>
-            <span style="font-weight: bold; margin-right: 5px;">Interpretation and price negotiation(counseling day)</span>
-            <span>( per hour / XX% of the negotiated difference / provide report on the consultation )</span>
-          </q-item>
-          <q-item clickable v-ripple>
-            <span style="font-weight: bold; margin-right: 5px;">Interpretation(surgery day) & CCTV check</span>
-            <span>( per hour )</span>
-          </q-item>
-          <q-item clickable v-ripple>
-            <span style="font-weight: bold; margin-right: 5px;">Support for returning home after surgery</span>
-            <span>( per hour / by car / Support for getting medication )</span>
-          </q-item>
-          <q-item clickable v-ripple>
-            <span style="font-weight: bold; margin-right: 5px;">Interpretation and support(last follow up day)</span>
-            <span>( per hour / last follow up day / issuance of medical records and check the records )</span>
-          </q-item>
-          <q-item clickable v-ripple>
-            <span style="font-weight: bold; margin-right: 5px;">Postoperative counseling(botched), dispute counseling </span>
-            <span>( per half hour / KAKAO or WhatsApp )</span>
-          </q-item>
-          <q-item clickable v-ripple>
-            <span style="font-weight: bold; margin-right: 5px;">Implementation of Dispute Resolution </span>
-            <span>( Solution offer / Solution execution / Mediation with clinic / Mandatory issuance required )</span>
-          </q-item>
-        </q-list>
+      <div>
+        <img src="~assets/qrcode-3.png" alt="" srcset="">
       </div>
-      <!-- <div class="bottom-wrapper">
-        <div class="bottom-text">Contact</div>
-        <div class="bottom-text">KAKAO Talk : hongpyo99</div>
-        <div class="bottom-text">Line : hongpyo99</div>
-        <div class="bottom-text">WhatsApp : +821086333213</div>
       </div>
-      <div class="bottom-wrapper">
-        <div class="bottom-text">Business license number : 803-01-03096</div>
-        <div class="bottom-text">Address : 584, Gangnam-daero, Gangnam-gu, Seoul, Republic of Korea</div>
+      <div style="padding:20px; background:white;">
+      <div class="service-card">
+        <img src="~assets/emo-1.png" alt="" srcset="">
+        <div class="service-card__title">Online consultation & market research</div>
+        <div class="service-card__sub-title">(per half hour / KAKAO or WhatsApp or LINE)</div>
+        <div class="service-card__content">Provide patients with information to surgery and clinics through online consultation.</div>
       </div>
-      <div class="bottom-wrapper">
-        <div class="bottom-text">© 2023 m3solution. All rights reserved.</div>
+      <div class="service-card">
+        <img src="~assets/emo-2.png" alt="" srcset="">
+        <div class="service-card__title">Clinic investigating</div>
+        <div class="service-card__sub-title">(per clinic / Provide report on the clinic)</div>
+        <div class="service-card__content">Investigate in detail the reputation and information of the clinic that the patient wants to know, and provide the results to the client</div>
       </div>
-      
-
- -->
-
-
-
-      
-
+      <div class="service-card">
+        <img src="~assets/emo-3.png" alt="" srcset="">
+        <div class="service-card__title">Interpretation and price negotiation(counseling day)</div>
+        <div class="service-card__sub-title">(per hour / XX% of the negotiated difference / provide report on the consultation)</div>
+        <div class="service-card__content">Accompanied by the clinic to provide interpretation and support negotiations for price discounts. And provide a consultation report.</div>
+      </div>
+      <div class="service-card">
+        <img src="~assets/emo-4.png" alt="" srcset="">
+        <div class="service-card__title">Interpretation(surgery day) & CCTV check</div>
+        <div class="service-card__sub-title">(per hour / Deliver the patient's needs to the Doctor )</div>
+        <div class="service-card__content">Deliver the patient's request to the Doctor and provide an interpreter to ensure that the patient has the desired surgery. And make sure the CCTV is working well.</div>
+      </div>
+      <div class="service-card">
+        <img src="~assets/emo-5.png" alt="" srcset="">
+        <div class="service-card__title">Support for returning home after surgery</div>
+        <div class="service-card__sub-title">(per hour / by car / Support for getting medication)</div>
+        <div class="service-card__content">Help the patient purchase medicine after surgery and take the patient to the accommodation.</div>
+      </div>
+      <div class="service-card">
+        <img src="~assets/emo-6.png" alt="" srcset="">
+        <div class="service-card__title">Interpretation and support(last follow up day)</div>
+        <div class="service-card__sub-title">(per hour / last follow up day / issuance of medical records and check the records)</div>
+        <div class="service-card__content">Support the patient's check-up interpreter, help the patient's medical records to be issued, and check the medical records.</div>
+      </div>
+      <div class="service-card">
+        <img src="~assets/emo-7.png" alt="" srcset="">
+        <div class="service-card__title">Postoperative counseling(botched), dispute counseling</div>
+        <div class="service-card__sub-title">(per half hour / KAKAO or WhatsApp or LINE)</div>
+        <div class="service-card__content">When there is a wrong operation or dispute with the clinic, suggest countermeasures and help resolve the dispute.</div>
+      </div>
+      </div>
     </div>
   </q-page>
 </template>
@@ -181,9 +174,6 @@ export default {
     .table-wrapper2{
       display: none;
     }
-    .top-wrapper{
-      padding: 80px 0 40px;
-    }
     .bottom-wrapper{
       padding: 0 40px 40px;
     }
@@ -195,6 +185,19 @@ export default {
   width: 100%;
   height: 100%;
   justify-content: center;
+
+  &__title{
+    font-family: Spoqa Han Sans Neo;
+    font-size: 16px;
+    font-weight: 700;
+    line-height: 24px;
+    letter-spacing: 0em;
+    text-align: left;
+    margin-bottom: 24px;
+    color: #000;
+    padding-left: 20px;
+
+  }
 
   .container{
     width: 100%;
@@ -209,8 +212,9 @@ export default {
     background: white;
     display: flex;
     flex-direction: column;
-    justify-content: center;
-    align-items: center;
+    justify-content: flex-start;
+    align-items: flex-start;
+    padding: 20px;
   }
   .bottom-wrapper{
     padding: 10px;
@@ -237,15 +241,85 @@ export default {
     }
   }
 
+  .qr-wrapper{
+    padding: 10px;
+    display: flex;
+    background: white;
+    justify-content: space-around;
+    flex-wrap: wrap;
+  }
+
   .q-table__bottom{
     display: none;
   }
+
+  .bold-text{
+    font-weight: bold;
+  }
   .text{
     color: #000;
-    text-align: center;
+    text-align: left;
   }
   .bottom-text{
     color: #000;
+  }
+
+  .service-card{
+    border: 1px solid #DDDDDD;
+    padding: 32px 20px;
+    margin-bottom: 20px;
+    img{
+      margin-bottom: 11px;
+    }
+    &__title{
+      font-family: Pretendard;
+      font-size: 22px;
+      font-weight: 700;
+      line-height: 29px;
+      letter-spacing: 0em;
+      text-align: left;
+      margin-bottom: 11px;
+    }
+    &__sub-title{
+      margin-bottom: 11px;
+      font-family: Spoqa Han Sans Neo;
+      font-size: 14px;
+      font-weight: 700;
+      line-height: 18px;
+      letter-spacing: 0em;
+      text-align: left;
+    }
+    &__content{
+      margin-bottom: 11px;
+      font-family: Spoqa Han Sans Neo;
+      font-size: 12px;
+      font-weight: 400;
+      line-height: 18px;
+      letter-spacing: 0em;
+      text-align: left;
+    }
+
+    &:nth-child(1){
+      background: #F5EFE733;
+    }
+    &:nth-child(2){
+      background: #E7F3F533;
+    }
+    &:nth-child(3){
+      background: #FFF5E433;
+    }
+    &:nth-child(4){
+      background: #FBEEEE33;
+    }
+    &:nth-child(5){
+      background: #CDF0EA33;
+    }
+    &:nth-child(6){
+      background: #F1F5E733;
+    }
+    &:nth-child(7){
+      background: #D2DDE733;
+    }
   }
 }
 </style>
