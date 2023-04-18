@@ -443,6 +443,7 @@ export default {
   justify-content: center;
   background: #F8F8F8;
   flex-direction: column;
+  align-items: center;
   .contianer{
     display: flex; 
     justify-content: center;
