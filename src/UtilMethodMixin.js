@@ -178,6 +178,30 @@ let UtilMethodMixin = {
                 }, 0);
             })
         },
+        getAllUserNicknames() {
+            return new Promise(resolve => {
+                setTimeout(async () => {
+                    const dbRef = ref(getDatabase());
+                    await get(child(dbRef, `users/`))
+                        .then((snapshot) => {
+                            if (snapshot.exists()) {
+                                // console.log(snapshot.val());
+                                const data = snapshot.val();
+
+                                let allNickname = []
+                                Object.keys(data).forEach(function (key, index) {
+                                    const currentObject = data[key];
+                                    allNickname.push(currentObject.nickname);
+                                });
+                                resolve(allNickname)
+                            }
+                        })
+                        .catch((error) => {
+                            console.error(error);
+                        });
+                }, 0);
+            })
+        },
         logoutFirebase() {
             const auth = getAuth();
             const thisObj = this;

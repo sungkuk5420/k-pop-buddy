@@ -174,13 +174,23 @@ export default {
         console.log(result)
         this.imageUrl = result;
     },
-    changeUserInfo (evt) {
+    async changeUserInfo (evt) {
       console.log(this.imageFile)
       const storage = getStorage();
       const storageRef = fileRef(storage, this.loginUser.uid+'/avatar' );
       const thisObj = this;
 
+      let allUserNicknames  = []
+      await thisObj.getAllUserNicknames().then(result=>{
+        allUserNicknames = result
+      })
+
+
       let nickname = thisObj.nickname;
+      if(allUserNicknames.indexOf(nickname) != -1){
+        thisObj.errorMessage("Please enter other nickname")
+        return false
+      }
       if(thisObj.nickname.indexOf(" ") != -1){
         thisObj.errorMessage("disable space in nickname")
         return false

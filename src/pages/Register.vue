@@ -102,13 +102,24 @@ export default {
       });
   },
   methods:{
-    register(){
+    async register(){
       const db = getDatabase();
       const auth = getAuth();
       const thisObj= this;
       
       var v = grecaptcha.getResponse();
       let localNickname = this.localNickname;
+      let allUserNicknames  = []
+      await thisObj.getAllUserNicknames().then(result=>{
+        allUserNicknames = result
+      })
+
+
+      let nickname = thisObj.localNickname;
+      if(allUserNicknames.indexOf(nickname) != -1){
+        thisObj.errorMessage("Please enter other nickname")
+        return false
+      }
       if(this.localNickname.indexOf(" ") != -1){
         thisObj.localErrorMessage = "disable space in nickname"
         return false
