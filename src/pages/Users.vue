@@ -58,7 +58,6 @@ export default {
     // this.showLoading();
     setTimeout(() => {
       if(this.loginUser&&this.loginUser.isAdmin){
-        debugger
         this.getUsers()
       }else{
         this.$router.push('/login')
