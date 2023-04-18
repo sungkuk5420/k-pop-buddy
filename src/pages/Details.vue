@@ -130,7 +130,7 @@
                 </div>
                 
                 <div class="price-wrapper" v-if="category == 'deal'">
-                  <div class="price-wrapper__discount">
+                  <div class="price-wrapper__discount" v-show="currentPost.discountedPrice!=0">
                     {{ parseInt((1-currentPost.discountedPrice/currentPost.regularPrice)*100)  }}%
                   </div>
                   <div class="price-wrapper__price">

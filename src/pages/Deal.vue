@@ -60,7 +60,7 @@
               </div>
             </div>
             <div class="deal-card__price-wrapper">
-              <div class="deal-card__discount" v-show="discountedPrice!=0">
+              <div class="deal-card__discount" v-show="currentPost.discountedPrice!=0">
                 {{ parseInt((1-currentPost.discountedPrice/currentPost.regularPrice)*100)  }}%
               </div>
               <div class="deal-card__price">
