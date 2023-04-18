@@ -113,12 +113,10 @@
         <div>
           © 2023 m3solution. All rights reserved.
         </div>
-        <div class="flex " style="justify-content:center ;margin-top:5px;">
+        <!-- <div class="flex " style="justify-content:center ;margin-top:5px;">
           <q-btn label="Contact us" outline no-caps @click="contactUsModal = true" ></q-btn>
-        </div>
-      </div>
-
-      <!-- <q-tabs
+        </div> -->
+        <q-tabs
         v-model="footerTab"
         
         class="main-tabs "
@@ -126,7 +124,10 @@
         <q-tab name="contactUs"  @click="contactUsModal = true" label="Contact Us" no-caps/>
         <q-tab name="termsAndRules"  @click="$router.push('/terms-and-rules')" label="Terms and Conditions" no-caps/>
         <q-tab name="privacyPolicy"  @click="$router.push('/privacy-policy')" label="Privacy Policy" no-caps/>
-      </q-tabs> -->
+      </q-tabs>
+      </div>
+
+
   
     </q-footer>
 
@@ -488,7 +489,6 @@ display: none;
     color: white;
     font-family: Spoqa Han Sans Neo;
     font-size: 12px;
-    font-weight: 700;
     line-height: 24px;
     letter-spacing: 0em;
     text-align: center;
