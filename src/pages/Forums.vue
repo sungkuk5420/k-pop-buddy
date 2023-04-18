@@ -38,17 +38,28 @@
           </q-tabs>
         </div>
         <img src="~assets/banner-mobile.png" alt="" class="is-mobile-show" style="width: 100%; cursor:pointer;" @click="$router.push('/premium-service')">
-        <div class="flex search-form" v-show="category != 'all'" >
-          <q-input v-model="searchText" outlined placeholder="search text..."> </q-input>
-        </div>
-        <div class="forums-page__right__title flex justify-between items-center" style="padding-right:20px;width: 100%;" v-show="category == 'all' || category == 'plasticSurgeryAndCosmeticProcedures'">
+
+        <div class="forums-page__right__title flex justify-between items-center" style="width: 100%;" v-show="category == 'all' || category == 'plasticSurgeryAndCosmeticProcedures'">
             <div class="flex items-center">
               <div class="forums-page__title ellipsis">Plastic Surgery & Cosmetic Procedures</div>
               <div class="forums-page__see-all" v-show="category=='all'" @click="category='plasticSurgeryAndCosmeticProcedures'">See All</div>
             </div>
             <q-btn class="write-button" flat label="Write" v-show="category!='all'" no-caps @click="goWritePage(category)"></q-btn>
+            <div class="flex search-form is-desktop-show" v-show="category != 'all'" >
+              <q-input v-model="searchText" outlined placeholder="search text...">
+                <template v-slot:prepend>
+                  <q-icon name="search" />
+                </template>
+              </q-input>
+            </div>
         </div>
-
+        <div class="flex search-form is-mobile-show" style="width:100%;padding: 0 10px;" v-show="category == 'all' || category == 'plasticSurgeryAndCosmeticProcedures'" >
+          <q-input v-model="searchText" outlined placeholder="search text..." style="width:100%">
+            <template v-slot:prepend>
+              <q-icon name="search" />
+            </template>
+          </q-input>
+        </div>
         <q-list class="list" v-show="category == 'all' || category == 'plasticSurgeryAndCosmeticProcedures'">
           <div class="empty-list" v-show="plasticSurgeryAndCosmeticProceduresPosts.length==0">
               There are no articles written.
@@ -161,12 +172,26 @@
           boundary-numbers
           v-show=" searchText==''&&category=='plasticSurgeryAndCosmeticProcedures'"
         />
-        <div class="forums-page__right__title flex justify-between items-center" style="padding-right:20px;width: 100%;" v-show="category == 'all' || category == 'nailAndHairAndSkinCare'">
+        <div class="forums-page__right__title flex justify-between items-center" style="width: 100%;" v-show="category == 'all' || category == 'nailAndHairAndSkinCare'">
           <div class="flex items-center">
             <div class="forums-page__title">Nail & Hair & SkinCare</div>
             <div class="forums-page__see-all" v-show="category=='all'" @click="category='nailAndHairAndSkinCare'">See All</div>
           </div>
           <q-btn class="write-button" flat label="Write" v-show="category!='all'" no-caps @click="goWritePage(category)"></q-btn>
+          <div class="flex search-form is-desktop-show" v-show="category != 'all'" >
+              <q-input v-model="searchText" outlined placeholder="search text...">
+                <template v-slot:prepend>
+                  <q-icon name="search" />
+                </template>
+              </q-input>
+            </div>
+        </div>
+        <div class="flex search-form is-mobile-show" style="width:100%;padding: 0 10px;" v-show="category == 'all' || category == 'nailAndHairAndSkinCare'" >
+          <q-input v-model="searchText" outlined placeholder="search text..." style="width:100%">
+            <template v-slot:prepend>
+              <q-icon name="search" />
+            </template>
+          </q-input>
         </div>
         <q-list class="list" v-show="category == 'all' || category == 'nailAndHairAndSkinCare'">
           <div class="empty-list" v-show="nailAndHairAndSkinCarePosts.length==0">
@@ -282,12 +307,26 @@
           v-show="searchText==''&&category=='nailAndHairAndSkinCare'"
         />
 
-        <div class="forums-page__right__title flex justify-between items-center" style="padding-right:20px;width: 100%;" v-show="category == 'all' || category == 'tripAndFoodAndHotel'">
+        <div class="forums-page__right__title flex justify-between items-center" style="width: 100%;" v-show="category == 'all' || category == 'tripAndFoodAndHotel'">
           <div class="flex items-center">
             <div class="forums-page__title">Trip & Food & Hotel</div>
             <div class="forums-page__see-all" v-show="category=='all'" @click="category='tripAndFoodAndHotel'">See All</div>
           </div>
           <q-btn class="write-button" flat label="Write" v-show="category!='all'" no-caps @click="goWritePage(category)"></q-btn>
+          <div class="flex search-form is-desktop-show" v-show="category != 'all'" >
+              <q-input v-model="searchText" outlined placeholder="search text...">
+                <template v-slot:prepend>
+                  <q-icon name="search" />
+                </template>
+              </q-input>
+            </div>
+        </div>
+        <div class="flex search-form is-mobile-show" style="width:100%;padding: 0 10px;" v-show="category == 'all' || category == 'tripAndFoodAndHotel'">
+          <q-input v-model="searchText" outlined placeholder="search text..." style="width:100%">
+            <template v-slot:prepend>
+              <q-icon name="search" />
+            </template>
+          </q-input>
         </div>
         <q-list class="list" v-show="category == 'all' || category == 'tripAndFoodAndHotel'">
 
@@ -660,10 +699,18 @@ export default {
   justify-content: center;
   background: #F8F8F8;
   .search-form{
-    width: 100%;
+    margin-left: auto;
+    min-height: 40px;
+    height: 40px;
     .q-input{
-      width: 100%;
+      min-height: 40px;
+      height: 40px;
       background: white;
+      .q-field__prepend,
+      .q-field__control {
+        min-height: 40px;
+        height: 40px;
+      }
     }
   }
   .contianer{
