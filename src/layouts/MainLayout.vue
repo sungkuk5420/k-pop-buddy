@@ -118,7 +118,7 @@
         </div> -->
         <q-tabs
         v-model="footerTab"
-        
+        color="white"
         class="main-tabs "
       >
         <q-tab name="contactUs"  @click="contactUsModal = true" label="Contact Us" no-caps/>
@@ -441,7 +441,7 @@ display: none;
     margin-left: 28px;
     
     .q-tab--active{
-      color:#366EB5 !important;
+      color:white !important;
     }
     .q-tab-label{
       font-family: Spoqa Han Sans Neo;
