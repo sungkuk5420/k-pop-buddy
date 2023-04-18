@@ -30,6 +30,7 @@
           placeholder="Please enter your nickname."
           lazy-rules
           maxlength="20"
+          @keydown.space="(event) => event.preventDefault()"
         />
         <div class="nickname-sub-text">
           This is the name that will be shown with your messages. You may use any name you wish.
@@ -107,8 +108,21 @@ export default {
       const thisObj= this;
       
       var v = grecaptcha.getResponse();
-      if(this.localNickname == ""){
+      let localNickname = this.localNickname;
+      if(this.localNickname.indexOf(" ") != -1){
+        thisObj.localErrorMessage = "disable space in nickname"
+        return false
+      }
+      if(localNickname == ""){
         thisObj.localErrorMessage = "Please enter your nickname."
+        return false
+      }
+      if(localNickname == "admin"){
+        thisObj.localErrorMessage = "Please enter other nickname."
+        return false
+      }
+      if(localNickname == "mygangnaminsider"){
+        thisObj.localErrorMessage = "Please enter other nickname."
         return false
       }
       if(this.localEmail == ""){
@@ -135,7 +149,7 @@ export default {
           const userUid = user.uid;
           set(ref(db, 'users/' + userUid), {
             email: thisObj.localEmail,
-            nickname: thisObj.localNickname,
+            nickname: localNickname,
             createdAt: thisObj.createNowTime(),
             isAdmin:false
           })

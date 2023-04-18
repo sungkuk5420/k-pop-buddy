@@ -98,10 +98,10 @@
                 
             </q-btn>
             <div class="flex column" style="width:100%;">
-              <!-- <div class="edit-modal__label" @click="fileFormOpen">
+              <div class="edit-modal__label" @click="fileFormOpen">
                   Nickname
               </div>
-              <q-input type="text" outlined v-model="nickname" maxlength="20" readonly></q-input> -->
+              <q-input type="text" outlined v-model="nickname" maxlength="20"></q-input>
               <q-form @submit="changeUserInfo">
                 <q-file style="display:none;" outlined v-model="imageFile" @input="previewFile" class="photo-upload-button" ref="fileButton">
                 </q-file>
@@ -179,6 +179,24 @@ export default {
       const storage = getStorage();
       const storageRef = fileRef(storage, this.loginUser.uid+'/avatar' );
       const thisObj = this;
+
+      let nickname = thisObj.nickname;
+      if(thisObj.nickname.indexOf(" ") != -1){
+        thisObj.errorMessage("disable space in nickname")
+        return false
+      }
+      if(nickname == ""){
+        thisObj.errorMessage("Please enter your nickname.")
+        return false
+      }
+      if(nickname == "admin"){
+        thisObj.errorMessage("Please enter other nickname.")
+        return false
+      }
+      if(nickname == "mygangnaminsider"){
+        thisObj.errorMessage("Please enter other nickname.")
+        return false
+      }
       thisObj.showLoading()
       // 'file' comes from the Blob or File API
       if(this.imageFile){
