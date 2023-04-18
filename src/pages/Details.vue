@@ -143,9 +143,10 @@
               </div>
             </div>
             <div class="forums-details-page__right__content-wrapper__content">
+              <img :src="currentFile.url" alt="" v-show="category !== 'forums' " v-for="(currentFile, index) in currentPost.filePaths" :key="index" style="max-width:100%;">
               <p style="white-space: pre-line;  word-wrap: break-word;" v-html="currentPost.content"></p>
 
-              <img :src="currentFile.url" alt="" v-for="(currentFile, index) in currentPost.filePaths" :key="index" style="max-width:100%;">
+              <img :src="currentFile.url" alt="" v-show="category == 'forums' " v-for="(currentFile, index) in currentPost.filePaths" :key="index" style="max-width:100%;">
             </div>
           </div>
           <div class="comment-empty" v-show="comments.length == 0 && category != 'deal'">
@@ -249,9 +250,9 @@
                 </div>
               </div>
               <div class="forums-details-page__right__content-wrapper__content">
+                <img :src="currentFile" alt=""  v-show="!currentComment.isDeleted" v-for="(currentFile, index) in currentComment.filePaths" :key="index" style="max-width:100%;">
                 <p style="white-space: pre-line; word-wrap: break-word;" v-html="currentComment.isDeleted?'Comment deleted': currentComment.comment"></p>
   
-                <img :src="currentFile" alt=""  v-show="!currentComment.isDeleted" v-for="(currentFile, index) in currentComment.filePaths" :key="index" style="width:100%;">
               </div>
 
               <div class="reply"  v-for="(reply,index2) in currentComment.comments" :key="index2" style="padding-left:20px;">
@@ -289,9 +290,9 @@
                     </div>
                   </div>
                   <div class="forums-details-page__right__content-wrapper__content">
+                    <img :src="currentFile" alt="" v-show="!reply.isDeleted" v-for="(currentFile, index) in reply.filePaths" :key="index" style="max-width:100%;">
                     <p style="white-space: pre-line; word-wrap: break-word;" v-html="reply.isDeleted?'Comment deleted': reply.comment"></p>
       
-                    <img :src="currentFile" alt="" v-show="!reply.isDeleted" v-for="(currentFile, index) in reply.filePaths" :key="index" style="width:100%;">
                   </div>
                 </div>
 
