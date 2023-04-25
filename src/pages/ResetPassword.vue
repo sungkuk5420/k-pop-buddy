@@ -61,7 +61,7 @@ export default {
         thisObj.localErrorMessage = "Please enter your email address."
         return false
       }
-      const url = "https://my-gangnam-insider-backend.herokuapp.com/reset-password?email="+this.localEmail
+      const url = "https://mygangnaminsider-backend.herokuapp.com/reset-password?email="+this.localEmail
       const requestOptions = {
           method: 'GET',
           headers: { 'Content-Type': 'application/json' },

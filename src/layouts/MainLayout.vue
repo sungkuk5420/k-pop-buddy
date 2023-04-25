@@ -246,7 +246,7 @@ export default {
         return false
       }
       // const url = "https://my-gangnam-insider-backend.herokuapp.com/contact-us?email="+thisObj.contactEmail
-      const url = "https://my-gangnam-insider-backend.herokuapp.com/contact-us?email="+thisObj.contactEmail
+      const url = "https://mygangnaminsider-backend.herokuapp.com/contact-us?email="+thisObj.contactEmail
       // const url = "http://localhost:4000/contact-us?email="+thisObj.contactEmail
       const requestOptions = {
           method: 'POST',
