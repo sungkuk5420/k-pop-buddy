@@ -16,8 +16,7 @@ const firebaseConfig = {
     storageBucket: "mygangnaminsider-9efc4.appspot.com",
     messagingSenderId: "151747192131",
     appId: "1:151747192131:web:9da931e9ce5882f0e2bbf6",
-    measurementId: "G-FEEJLRQNVP",
-    messagingSenderId: "151747192131",
+    measurementId: "G-FEEJLRQNVP"
 };
 
 export default async () => {
