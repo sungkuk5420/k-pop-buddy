@@ -38,10 +38,13 @@
           <q-btn class="write-button" flat label="Write" v-if="loginUser&&loginUser.isAdmin" no-caps @click="$router.push('/write-post?postCategory=deal')"></q-btn>
         </div>
 
-        <div class="empty-list" v-show="dealPosts.length==0">
-          There are no articles written.
+        <div class="empty-list" v-show="dealPosts==null">
+            Loading...
         </div>
-        <div class="deal-card-bg">
+        <div class="deal-card-bg" v-if="dealPosts">
+          <div class="empty-list" v-show="dealPosts.length==0">
+            There are no articles written.
+          </div>
           <div class="deal-card" v-for="(currentPost,index) in dealPosts" :key="index"  @click="()=>goDetails(currentPost)" :class="currentPost.openOrClose=='close'?'is-close':''">
             <div class="deal-card__main-image">
               <div class="close-bg" v-show="currentPost.openOrClose=='close'">Closed</div>
@@ -90,7 +93,7 @@ data(){
   return{
     openCloseTab:"all",
     allPosts:[],
-    dealPosts:[],
+    dealPosts:null,
   }
 },
 

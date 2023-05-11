@@ -60,7 +60,10 @@
             </template>
           </q-input>
         </div>
-        <q-list class="list" v-show="category == 'all' || category == 'plasticSurgeryAndCosmeticProcedures'">
+        <div class="empty-list" v-show="plasticSurgeryAndCosmeticProceduresPosts==null">
+            Loading...
+        </div>
+        <q-list class="list" v-show="category == 'all' || category == 'plasticSurgeryAndCosmeticProcedures'" v-if="plasticSurgeryAndCosmeticProceduresPosts">
           <div class="empty-list" v-show="plasticSurgeryAndCosmeticProceduresPosts.length==0">
               There are no articles written.
           </div>
@@ -172,6 +175,7 @@
           boundary-numbers
           v-show=" searchText==''&&category=='plasticSurgeryAndCosmeticProcedures'"
         />
+        
         <div class="forums-page__right__title flex justify-between items-center" style="width: 100%;" v-show="category == 'all' || category == 'nailAndHairAndSkinCare'">
           <div class="flex items-center">
             <div class="forums-page__title">Nail & Hair & SkinCare</div>
@@ -193,7 +197,11 @@
             </template>
           </q-input>
         </div>
-        <q-list class="list" v-show="category == 'all' || category == 'nailAndHairAndSkinCare'">
+        
+        <div class="empty-list" v-show="plasticSurgeryAndCosmeticProceduresPosts==null">
+            Loading...
+        </div>
+        <q-list class="list" v-show="category == 'all' || category == 'nailAndHairAndSkinCare'" v-if="nailAndHairAndSkinCarePosts">
           <div class="empty-list" v-show="nailAndHairAndSkinCarePosts.length==0">
             There are no articles written.
           </div>
@@ -328,7 +336,11 @@
             </template>
           </q-input>
         </div>
-        <q-list class="list" v-show="category == 'all' || category == 'tripAndFoodAndHotel'">
+        
+        <div class="empty-list" v-show="plasticSurgeryAndCosmeticProceduresPosts==null" >
+            Loading...
+        </div>
+        <q-list class="list" v-show="category == 'all' || category == 'tripAndFoodAndHotel'" v-if="tripAndFoodAndHotelPosts">
 
           <div class="empty-list" v-show="tripAndFoodAndHotelPosts.length==0">
             There are no articles written.
@@ -432,7 +444,7 @@
               </div>
             </q-item-section>
           </q-item>
-        </q-list>
+        </q-list> 
 
 
         <q-pagination
@@ -458,9 +470,9 @@ export default {
     return{
       category:"all",// plasticSurgeryAndCosmeticProcedures //  nailAndHairAndSkinCare // tripAndFoodAndHotel // 
       allPosts:[],
-      plasticSurgeryAndCosmeticProceduresPosts:[],
-      nailAndHairAndSkinCarePosts:[],
-      tripAndFoodAndHotelPosts:[],
+      plasticSurgeryAndCosmeticProceduresPosts:null,
+      nailAndHairAndSkinCarePosts:null,
+      tripAndFoodAndHotelPosts:null,
       plasticCount:0,
       nailCount:0,
       tripCount:0,
