@@ -7,11 +7,35 @@
 import { T } from './store/module-example/types';
 import { getAuth,   onAuthStateChanged } from "firebase/auth";
 import { getDatabase, ref, set, child, get } from 'firebase/database';
+import { getMessaging, getToken } from "firebase/messaging";
+
 export default {
   name: "App",
   mounted(){
     const thisObj = this;
     
+    // Add the public key generated from the console here.
+    const API_KEY = "BEkLeCBn1jUgDPAk60474y_hw8PW9IC6Z6xghUzqzM7Hfu5rtnKt21plInAM0SNhPVAHHGbklKOpYU0KjcqOCCo";
+    // const API_KEY = "6fd58f198bf0fc7891f36d2099380b29dab2b8e8";
+    const messaging = getMessaging();
+    getToken(messaging, { vapidKey: API_KEY }).then((currentToken) => {
+      if (currentToken) {
+        // Send the token to your server and update the UI if necessary
+        // ...
+        console.log('currentToken')
+        console.log(currentToken)
+        debugger
+      } else {
+        debugger
+        // Show permission request UI
+        console.log('No registration token available. Request permission to generate one.');
+        // ...
+      }
+    }).catch((err) => {
+      debugger
+      console.log('An error occurred while retrieving token. ', err);
+      // ...
+    });
     const auth = getAuth();
     onAuthStateChanged(auth, (user) => {
       console.log('change!');
