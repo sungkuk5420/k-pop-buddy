@@ -17,6 +17,7 @@ const firebaseConfig = {
     messagingSenderId: "151747192131",
     appId: "1:151747192131:web:9da931e9ce5882f0e2bbf6",
     measurementId: "G-FEEJLRQNVP",
+    messagingSenderId: "151747192131",
 };
 
 export default async () => {
