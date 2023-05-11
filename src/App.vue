@@ -24,15 +24,12 @@ export default {
         // ...
         console.log('currentToken')
         console.log(currentToken)
-        debugger
       } else {
-        debugger
         // Show permission request UI
         console.log('No registration token available. Request permission to generate one.');
         // ...
       }
     }).catch((err) => {
-      debugger
       console.log('An error occurred while retrieving token. ', err);
       // ...
     });
