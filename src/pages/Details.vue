@@ -487,9 +487,6 @@ export default {
    meta () {
     return {
       meta: {
-        'og:type': { name: 'og:type', content: "article" },
-        'og:description': { name: 'og:description', content: this.metaContent },
-        'og:title': { name: 'og:title', content: this.metaTitle },
         description: { name: 'description', content: this.metaContent },
         keywords: { name: 'keywords', content: `${this.$route.name  }` },
         equiv: { 'http-equiv': 'Content-Type', content: 'text/html; charset=UTF-8' }
