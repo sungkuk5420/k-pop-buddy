@@ -432,9 +432,6 @@ export default {
       },
   },
   async mounted() {
-    // this.showLoading();
-    console.log(this.$route.fullPath)
-    debugger
     
     
     setTimeout(async () => {
