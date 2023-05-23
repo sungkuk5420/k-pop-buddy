@@ -1,7 +1,5 @@
 // Import the functions you need from the SDKs you need
 import { initializeApp } from "firebase/app";
-import { getMessaging } from "firebase/messaging";
-
 import { getAnalytics } from "firebase/analytics";
 import { getAuth } from "firebase/auth";
 // TODO: Add SDKs for Firebase products that you want to use
@@ -16,12 +14,12 @@ const firebaseConfig = {
     storageBucket: "mygangnaminsider-9efc4.appspot.com",
     messagingSenderId: "151747192131",
     appId: "1:151747192131:web:9da931e9ce5882f0e2bbf6",
-    measurementId: "G-FEEJLRQNVP"
+    measurementId: "G-FEEJLRQNVP",
 };
 
 export default async () => {
     const app = initializeApp(firebaseConfig);
-    const messaging = getMessaging(app);
+
     // Validation that our service structure is working
     // with an initialize Firebase application and auth instance.
     console.log('Firebase App Instantiation:', app)

@@ -28,13 +28,10 @@
           </q-input>
         </div>
 
-        <div class="empty-list" v-show="hotPosts==null">
-            Loading...
-        </div>
-        <q-list class="list" v-if="hotPosts">
-          <div class="empty-list" v-show="hotPosts.length==0">
-              There are no articles written.
-            </div>
+        <div class="empty-list" v-show="hotPosts.length==0">
+            There are no articles written.
+          </div>
+        <q-list class="list">
           <q-item clickable v-ripple v-for="(item,index) in hotPosts[currentPage-1]" :key="index" @click="()=>goDetails(item)">
             <q-item-section avatar class="list-avatar is-desktop-show">
               <q-avatar v-if="item.writer&&!item.writer.avatar" color="red" text-color="white" class="q-mr-md">{{ item.writer?item.writer.nickname.slice(0, 1).toUpperCase():''}}</q-avatar>
@@ -158,7 +155,7 @@ data(){
   return{
     tab:"all",
     allPosts:[],
-    hotPosts:null,
+    hotPosts:[],
     currentPage:1,
     searchText:"",
     maxPage:1,
