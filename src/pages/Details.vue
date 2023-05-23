@@ -459,11 +459,11 @@ export default {
     }
     this.metaTitle = this.currentPost.title
     this.metaContent = this.currentPost.content
-    if(this.fileList[0]){
-      this.metaImage = this.fileList[0]
-    }else{
-      this.metaImage = 'https://mygangnaminsider.com/img/banner-pc.44e91d6a.png'
-    }
+    // if(this.fileList[0]){
+    //   this.metaImage = this.fileList[0]
+    // }else{
+    //   this.metaImage = 'https://mygangnaminsider.com/img/banner-pc.44e91d6a.png'
+    // }
     if(this.category == "deal"){
       if( this.currentPost.toDate instanceof moment){
         let openOrCloseString = this.currentPost.toDate.fromNow();
@@ -492,10 +492,10 @@ export default {
     return {
       meta: {
         // 'og:url': { property: 'og:url', content: 'https://mygangnaminsider.com/#'+this.$route.fullPath },
-        'og:type': { property: 'og:type', content: "article" },
-        'og:description': { property: 'og:description', content: this.metaContent },
-        'og:title': { property: 'og:title', content: this.metaTitle },
-        'og:image': { property: 'og:image', content: this.metaImage },
+        // 'og:type': { property: 'og:type', content: "article" },
+        // 'og:description': { property: 'og:description', content: this.metaContent },
+        // 'og:title': { property: 'og:title', content: this.metaTitle },
+        // 'og:image': { property: 'og:image', content: this.metaImage },
         description: { name: 'description', content: this.metaContent },
         keywords: { name: 'keywords', content: `${this.$route.name  }` },
         equiv: { 'http-equiv': 'Content-Type', content: 'text/html; charset=UTF-8' }
