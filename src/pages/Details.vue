@@ -33,7 +33,7 @@
           </div>
         </div>
         <div style="margin-top: 16px; cursor: pointer;">
-            <img src="~assets/banner-pc.png" alt="" @click="$router.push('/premium-service')">
+            <!-- <img src="~assets/banner-pc.png" alt="" @click="$router.push('/premium-service')"> -->
           </div>
         </div>
         <div class="forums-details-page__right" v-if="!currentPost">
@@ -67,7 +67,7 @@
               <q-tab name="close"  label="Ended Event" no-caps @click="$router.push(`/deal??openCloseTab=close`)"/>
             </q-tabs>
           </div>
-          <img src="~assets/banner-mobile.png" alt="" class="is-mobile-show" style="width: 100%; cursor:pointer;" @click="$router.push('/premium-service')">
+          <!-- <img src="~assets/banner-mobile.png" alt="" class="is-mobile-show" style="width: 100%; cursor:pointer;" @click="$router.push('/premium-service')"> -->
           <div class="forums-details-page__right__title">
             <h1 class="forums-details-page__title">{{ currentPost.title }}</h1>
             <q-btn label="edit" v-if="loginUser&&loginUser.isAdmin" @click="$router.push(`/edit-post?postCategory=${category}&category=${categoryTab}&postUid=${currentPost.postUid}`)"></q-btn>

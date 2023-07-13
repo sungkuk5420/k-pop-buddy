@@ -1,31 +1,17 @@
 
 const routes = [
   {
+    path: '/hot-focus',
+    component: () => import('layouts/MainLayout.vue'),
+    children: [
+      { path: '', component: () => import('pages/HotFocus.vue') },
+    ],
+  },
+  {
     path: '/',
     component: () => import('layouts/MainLayout.vue'),
     children: [
-      { path: '', component: () => import('pages/Forums.vue') },
-    ],
-  },
-  {
-    path: '/forums',
-    component: () => import('layouts/MainLayout.vue'),
-    children: [
-      { path: '', component: () => import('pages/Forums.vue') },
-    ],
-  },
-  {
-    path: '/my-page',
-    component: () => import('layouts/MainLayout.vue'),
-    children: [
-      { path: '', component: () => import('pages/MyPage.vue') },
-    ],
-  },
-  {
-    path: '/forums-details',
-    component: () => import('layouts/MainLayout.vue'),
-    children: [
-      { path: '', name: 'forumsDetails', props: { category: 'forums' }, component: () => import('pages/Details.vue') },
+      { path: '', component: () => import('pages/HotFocus.vue') },
     ],
   },
   {
@@ -36,33 +22,54 @@ const routes = [
     ],
   },
   {
-    path: '/deal-details',
+    path: '/my-page',
     component: () => import('layouts/MainLayout.vue'),
     children: [
-      { path: '', name: 'dealDetails', props: { category: 'deal' }, component: () => import('pages/Details.vue') },
+      { path: '', component: () => import('pages/MyPage.vue') },
     ],
   },
-  {
-    path: '/hot-focus',
-    component: () => import('layouts/MainLayout.vue'),
-    children: [
-      { path: '', component: () => import('pages/HotFocus.vue') },
-    ],
-  },
-  {
-    path: '/deal',
-    component: () => import('layouts/MainLayout.vue'),
-    children: [
-      { path: '', component: () => import('pages/Deal.vue') },
-    ],
-  },
-  {
-    path: '/premium-service',
-    component: () => import('layouts/MainLayout.vue'),
-    children: [
-      { path: '', component: () => import('pages/PremiumService.vue') },
-    ],
-  },
+  // {
+  //   path: '/forums',
+  //   component: () => import('layouts/MainLayout.vue'),
+  //   children: [
+  //     { path: '', component: () => import('pages/Forums.vue') },
+  //   ],
+  // },
+  // {
+  //   path: '/forums-details',
+  //   component: () => import('layouts/MainLayout.vue'),
+  //   children: [
+  //     { path: '', name: 'forumsDetails', props: { category: 'forums' }, component: () => import('pages/Details.vue') },
+  //   ],
+  // },
+  // {
+  //   path: '/deal-details',
+  //   component: () => import('layouts/MainLayout.vue'),
+  //   children: [
+  //     { path: '', name: 'dealDetails', props: { category: 'deal' }, component: () => import('pages/Details.vue') },
+  //   ],
+  // },
+  // {
+  //   path: '/hot-focus',
+  //   component: () => import('layouts/MainLayout.vue'),
+  //   children: [
+  //     { path: '', component: () => import('pages/HotFocus.vue') },
+  //   ],
+  // },
+  // {
+  //   path: '/deal',
+  //   component: () => import('layouts/MainLayout.vue'),
+  //   children: [
+  //     { path: '', component: () => import('pages/Deal.vue') },
+  //   ],
+  // },
+  // {
+  //   path: '/premium-service',
+  //   component: () => import('layouts/MainLayout.vue'),
+  //   children: [
+  //     { path: '', component: () => import('pages/PremiumService.vue') },
+  //   ],
+  // },
   {
     path: '/change-info',
     component: () => import('layouts/MainLayout.vue'),
