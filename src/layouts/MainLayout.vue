@@ -1,50 +1,47 @@
 <template>
   <q-layout view="lHh Lpr lff">
 
-      <q-header elevated class="main-header" height-hint="98">
-        <div class="main-header__left">
-          <q-toolbar>
-            <q-btn flat @click="leftDrawerOpen = !leftDrawerOpen" round dense icon="menu" class="hamburger-button is-mobile-show" />
-            <img src="~assets/logo.png" alt="" style="cursor: pointer;" @click="$router.push('/')">
-            <q-tabs
-              v-model="tab"
-              indicator-color="transparent"
-              style="color: #ddd;"
-              class="main-tabs is-desktop-show"
-            >
-              <!-- <q-tab name="forums"  @click="$router.push('/forums')" label="Forums" no-caps/> -->
-              <q-tab name="hotFocus"  @click="$router.push('/hot-focus')" label="HOT Focus" no-caps/>
-              <!-- <q-tab name="deal"  @click="$router.push('/deal')" label="Hot Deal" no-caps/>
+    <q-header elevated class="main-header" height-hint="98">
+      <div class="main-header__left">
+        <q-toolbar>
+          <q-btn flat @click="leftDrawerOpen = !leftDrawerOpen" round dense icon="menu"
+            class="hamburger-button is-mobile-show" />
+          <img src="~assets/logo.png" alt="" style="cursor: pointer;" @click="$router.push('/')">
+          <q-tabs v-model="tab" indicator-color="transparent" style="color: #ddd;" class="main-tabs is-desktop-show">
+            <q-tab name="forums" @click="$router.push('/forums')" label="Forums" no-caps />
+            <q-tab name="hotFocus" @click="$router.push('/hot-focus')" label="HOT Focus" no-caps />
+            <!-- <q-tab name="deal"  @click="$router.push('/deal')" label="Hot Deal" no-caps/>
               <q-tab name="premiumService"  @click="$router.push('/premium-service')" label="Premium Service" no-caps/> -->
-            </q-tabs>
-  
-  
+          </q-tabs>
 
-          </q-toolbar>
-        </div>
-        <div class="main-header__right">
-          <q-avatar v-if="loginUser&&!loginUser.avatar"  @click="$router.push('/my-page')" color="red" text-color="white" class="q-mr-md">{{ loginUser?loginUser.nickname.slice(0, 1).toUpperCase():''}}</q-avatar>
-          <q-avatar v-if="loginUser&&loginUser.avatar" @click="$router.push('/my-page')"  color="red" text-color="white" class="q-mr-md">
-            <img :src="loginUser.avatar" alt="" srcset="">  
-          </q-avatar>
-          <div class="main-header__right__nickname is-desktop-show" v-if="loginUser" @click="$router.push('/my-page')" >{{ loginUser.nickname }}</div>
 
-          <q-btn class="login-button is-desktop-show" label="Login" flat  no-caps v-if="!loginUser" @click="$router.push('/login')"></q-btn>
-          <!-- <q-btn class="logout-button is-desktop-show" label="MyPage" flat no-caps v-if="loginUser" @click="$router.push('/my-page')"></q-btn> -->
-          <q-btn class="register-button is-desktop-show" label="Register" no-caps v-if="!loginUser" @click="$router.push('/register')"></q-btn>
-        </div>
 
-      </q-header>
+        </q-toolbar>
+      </div>
+      <div class="main-header__right">
+        <q-avatar v-if="loginUser && !loginUser.avatar" @click="$router.push('/my-page')" color="red" text-color="white"
+          class="q-mr-md">{{ loginUser ? loginUser.nickname.slice(0, 1).toUpperCase() : '' }}</q-avatar>
+        <q-avatar v-if="loginUser && loginUser.avatar" @click="$router.push('/my-page')" color="red" text-color="white"
+          class="q-mr-md">
+          <img :src="loginUser.avatar" alt="" srcset="">
+        </q-avatar>
+        <div class="main-header__right__nickname is-desktop-show" v-if="loginUser" @click="$router.push('/my-page')">{{
+          loginUser.nickname }}</div>
 
-    <q-drawer
-      v-model="leftDrawerOpen"
-      bordered
-      content-class="bg-grey-1"
-    > 
+        <q-btn class="login-button is-desktop-show" label="Login" flat no-caps v-if="!loginUser"
+          @click="$router.push('/login')"></q-btn>
+        <!-- <q-btn class="logout-button is-desktop-show" label="MyPage" flat no-caps v-if="loginUser" @click="$router.push('/my-page')"></q-btn> -->
+        <q-btn class="register-button is-desktop-show" label="Register" no-caps v-if="!loginUser"
+          @click="$router.push('/register')"></q-btn>
+      </div>
+
+    </q-header>
+
+    <q-drawer v-model="leftDrawerOpen" bordered content-class="bg-grey-1">
       <q-list>
-        <!-- <q-item v-ripple clickable class="text-grey-8" @click="$router.push('/forums')">
+        <q-item v-ripple clickable class="text-grey-8" @click="$router.push('/forums')">
           Forums
-        </q-item> -->
+        </q-item>
         <q-item v-ripple clickable class="text-grey-8" @click="$router.push('/hot-focus')">
           HOT Focus
         </q-item>
@@ -72,7 +69,7 @@
         </q-item>
       </q-list>
     </q-drawer>
-    <q-dialog v-model="contactUsModal" >
+    <q-dialog v-model="contactUsModal">
       <q-card class="contact-us-modal">
         <q-card-section class="row items-center q-pb-none">
           <div class="contact-us-modal__title">Contact us</div>
@@ -108,7 +105,7 @@
           KAKAO Talk : mygangnaminsider
         </div>
         <div>
-          Line : mygangnaminsider   ·   WhatsApp : +821058304124
+          Line : mygangnaminsider · WhatsApp : +821058304124
         </div>
         <div>
           © 2023 m3solution. All rights reserved.
@@ -116,19 +113,15 @@
         <!-- <div class="flex " style="justify-content:center ;margin-top:5px;">
           <q-btn label="Contact us" outline no-caps @click="contactUsModal = true" ></q-btn>
         </div> -->
-        <q-tabs
-        v-model="footerTab"
-        color="white"
-        class="main-tabs "
-      >
-        <q-tab name="contactUs"  @click="contactUsModal = true" label="Contact Us" no-caps/>
-        <q-tab name="termsAndRules"  @click="$router.push('/terms-and-rules')" label="Terms and Conditions" no-caps/>
-        <q-tab name="privacyPolicy"  @click="$router.push('/privacy-policy')" label="Privacy Policy" no-caps/>
-      </q-tabs>
+        <q-tabs v-model="footerTab" color="white" class="main-tabs ">
+          <q-tab name="contactUs" @click="contactUsModal = true" label="Contact Us" no-caps />
+          <q-tab name="termsAndRules" @click="$router.push('/terms-and-rules')" label="Terms and Conditions" no-caps />
+          <q-tab name="privacyPolicy" @click="$router.push('/privacy-policy')" label="Privacy Policy" no-caps />
+        </q-tabs>
       </div>
 
 
-  
+
     </q-footer>
 
     <q-page-container>
@@ -143,16 +136,16 @@ import { mapGetters } from "vuex";
 import { getAuth, signOut } from 'firebase/auth';
 export default {
   name: "MainLayout",
-  components: { 
+  components: {
     // EssentialLink 
   },
   data() {
     return {
       tab: '',
       footerTab: '',
-      hamburgerOpen:false,
-      leftDrawerOpen:false,
-      contactUsModal:false,
+      hamburgerOpen: false,
+      leftDrawerOpen: false,
+      contactUsModal: false,
       contactEmail: '',
       contactSubject: '',
       contactContent: '',
@@ -163,121 +156,121 @@ export default {
       loginUser: "getLoginUser",
     }),
   },
-  watch:{
-    footerTab(value){
-      if(value== "contactUs"){
-        if(this.$route.path == '/privacy-policy' ){
+  watch: {
+    footerTab(value) {
+      if (value == "contactUs") {
+        if (this.$route.path == '/privacy-policy') {
           this.footerTab = 'privacyPolicy'
         }
-        if(this.$route.path == '/terms-and-rules' ){
+        if (this.$route.path == '/terms-and-rules') {
           this.footerTab = 'termsAndRules'
         }
       }
     }
   },
-  updated(){
+  updated() {
     console.log(this.$route.path)
-    if(this.$route.path == '/forums' ){
+    if (this.$route.path == '/forums') {
       this.tab = 'forums'
     }
-    
-    if(this.$route.path == '/hot-focus' ){
+
+    if (this.$route.path == '/hot-focus') {
       this.tab = 'hotFocus'
     }
-    
-    if(this.$route.path == '/deal' ){
+
+    if (this.$route.path == '/deal') {
       this.tab = 'deal'
     }
-    
-    if(this.$route.path == '/premium-service' ){
+
+    if (this.$route.path == '/premium-service') {
       this.tab = 'premiumService'
     }
 
-    if(this.$route.path == '/privacy-policy' ){
+    if (this.$route.path == '/privacy-policy') {
       this.footerTab = 'privacyPolicy'
     }
-    if(this.$route.path == '/terms-and-rules' ){
+    if (this.$route.path == '/terms-and-rules') {
       this.footerTab = 'termsAndRules'
     }
   },
-  methods:{
+  methods: {
     showLoading(message) {
-        if (message) {
-            this.$q.loading.show({
-                message
-            });
-        } else {
-            this.$q.loading.show();
-        }
+      if (message) {
+        this.$q.loading.show({
+          message
+        });
+      } else {
+        this.$q.loading.show();
+      }
     },
-    
+
     hideLoading() {
-        this.$q.loading.hide();
+      this.$q.loading.hide();
     },
     successMessage(message) {
-        this.$q.notify({
-            position: "top",
-            timeout: 1000,
-            message,
-            icon: "announcement"
-        });
+      this.$q.notify({
+        position: "top",
+        timeout: 1000,
+        message,
+        icon: "announcement"
+      });
     },
     errorMessage(message) {
-        this.$q.notify({
-            position: "top",
-            timeout: 1000,
-            message,
-            icon: "announcement"
-        });
+      this.$q.notify({
+        position: "top",
+        timeout: 1000,
+        message,
+        icon: "announcement"
+      });
     },
-    sendEmail(){
+    sendEmail() {
       const thisObj = this;
-      thisObj.localErrorMessage ="";
-      if(thisObj.contactEmail == ""){
+      thisObj.localErrorMessage = "";
+      if (thisObj.contactEmail == "") {
         thisObj.errorMessage("Please enter your email address.");
         return false
       }
-      if(thisObj.contactSubject == ""){
+      if (thisObj.contactSubject == "") {
         thisObj.errorMessage("Please enter subject.");
         return false
       }
-      if(thisObj.contactContent == ""){
+      if (thisObj.contactContent == "") {
         thisObj.errorMessage("Please enter content.");
         return false
       }
       // const url = "https://my-gangnam-insider-backend.herokuapp.com/contact-us?email="+thisObj.contactEmail
-      const url = "https://mygangnaminsider-backend.herokuapp.com/contact-us?email="+thisObj.contactEmail
+      const url = "https://mygangnaminsider-backend.herokuapp.com/contact-us?email=" + thisObj.contactEmail
       // const url = "http://localhost:4000/contact-us?email="+thisObj.contactEmail
       const requestOptions = {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({
-            contactEmail:thisObj.contactEmail,
-            contactSubject:thisObj.contactSubject,
-            contactContent:thisObj.contactContent,
-          })
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          contactEmail: thisObj.contactEmail,
+          contactSubject: thisObj.contactSubject,
+          contactContent: thisObj.contactContent,
+        })
       };
       thisObj.showLoading()
       fetch(url, requestOptions)
-            .then(response => response.json())
-            .then(data => {
-              console.log(data)
-              if(data.errorInfo?.code == "auth/user-not-found"){
-                const errorMessage = "The requested user '"+ thisObj.contactEmail+ "' could not be found.";
-                thisObj.errorMessage(errorMessage )
-              }else if(data.success){
-                thisObj.contactEmail = "";
-                thisObj.contactSubject = "";
-                thisObj.contactContent = "";
-                thisObj.contactUsModal = false;
-                thisObj.errorMessage("sent email")
-              }
-              thisObj.hideLoading()
-            });
+        .then(response => response.json())
+        .then(data => {
+          console.log(data)
+          if (data.errorInfo?.code == "auth/user-not-found") {
+            const errorMessage = "The requested user '" + thisObj.contactEmail + "' could not be found.";
+            thisObj.errorMessage(errorMessage)
+          } else if (data.success) {
+            thisObj.contactEmail = "";
+            thisObj.contactSubject = "";
+            thisObj.contactContent = "";
+            thisObj.contactUsModal = false;
+            thisObj.errorMessage("sent email")
+          }
+          thisObj.hideLoading()
+        });
     },
-    logoutFirebase () {
+    logoutFirebase() {
       const auth = getAuth();
-      const thisObj =this;
+      const thisObj = this;
       signOut(auth)
         .then(() => {
           thisObj.$q.notify({
@@ -292,42 +285,48 @@ export default {
         });
     },
   }
-  
+
 };
 </script>
 
 <style lang="scss">
-.q-drawer__content{
+.q-drawer__content {
   display: flex;
   flex-direction: column;
   justify-content: space-between;
   padding-bottom: 20px;
-  .q-list{
-    .q-item{
+
+  .q-list {
+    .q-item {
       border-top: 1px solid #ddd;
     }
   }
 }
-.top-header-tabs{
+
+.top-header-tabs {
   width: 100%;
   background: white;
   color: black;
-  .q-tabs__content{
+
+  .q-tabs__content {
     margin-left: auto;
     margin-right: auto;
     max-width: 1080px;
     display: flex;
   }
-  .q-tab{
-    width:25%;
+
+  .q-tab {
+    width: 25%;
     border: 1px solid #ddd;
     border-right: 0;
     flex: 1;
-    &:last-child{
+
+    &:last-child {
       border-right: 1px solid #ddd;
     }
   }
-  .q-tab__label{    
+
+  .q-tab__label {
     align-items: center;
     flex: 1 1 0%;
     min-width: 1px;
@@ -339,11 +338,12 @@ export default {
     line-height: 38px;
   }
 }
+
 .q-layout__shadow {
-display: none;
+  display: none;
 }
 
-.default-avatar{
+.default-avatar {
   display: flex;
   font-size: 20px;
   justify-content: center;
@@ -356,7 +356,7 @@ display: none;
   color: #ff8a80;
 }
 
-.main-header{
+.main-header {
   background: white;
   color: #333;
   border-bottom: 1px solid #ddd;
@@ -364,18 +364,21 @@ display: none;
   align-items: center;
   justify-content: space-around;
 
-  &__right{
+  &__right {
     display: flex;
     align-items: center;
     padding-right: 20px;
-    .q-avatar{
+
+    .q-avatar {
       width: 28px;
       height: 28px;
-      &:hover{
+
+      &:hover {
         cursor: pointer;
       }
     }
-    &__nickname{
+
+    &__nickname {
       font-family: Spoqa Han Sans Neo;
       font-size: 10px;
       font-weight: 700;
@@ -383,20 +386,22 @@ display: none;
       letter-spacing: 0em;
       text-align: left;
       color: #333;
-      &:hover{
+
+      &:hover {
         cursor: pointer;
       }
     }
   }
 
-  .q-tabs{
+  .q-tabs {
     //styleName: Subtitle3;
     margin-left: 28px;
-    
-    .q-tab--active{
-      color:#366EB5 !important;
+
+    .q-tab--active {
+      color: #366EB5 !important;
     }
-    .q-tab-label{
+
+    .q-tab-label {
       font-family: Spoqa Han Sans Neo;
       font-size: 14px;
       font-weight: 700;
@@ -406,7 +411,7 @@ display: none;
     }
   }
 
-  .login-button{
+  .login-button {
     //styleName: Caption1;
     font-family: Spoqa Han Sans Neo;
     font-size: 12px;
@@ -418,7 +423,8 @@ display: none;
     margin-right: 24px;
 
   }
-  .register-button{
+
+  .register-button {
     //styleName: Subtitle4;
     font-family: Spoqa Han Sans Neo;
     font-size: 12px;
@@ -431,19 +437,20 @@ display: none;
 
 }
 
-.main-footer{
+.main-footer {
   background: white;
   color: #333;
   width: 100%;
 
-  .q-tabs{
+  .q-tabs {
     //styleName: Subtitle3;
     margin-left: 28px;
-    
-    .q-tab--active{
-      color:white !important;
+
+    .q-tab--active {
+      color: white !important;
     }
-    .q-tab-label{
+
+    .q-tab-label {
       font-family: Spoqa Han Sans Neo;
       font-size: 14px;
       font-weight: 700;
@@ -452,11 +459,12 @@ display: none;
       text-align: left;
     }
   }
-  .q-tab__indicator{
+
+  .q-tab__indicator {
     display: none;
   }
 
-  &__logo{
+  &__logo {
     padding: 30px;
     width: 100%;
     display: flex;
@@ -473,9 +481,9 @@ display: none;
     text-align: center;
 
 
-    .q-btn{
+    .q-btn {
       margin-top: 30px;
-      color: #366EB5!important;
+      color: #366EB5 !important;
       font-family: Spoqa Han Sans Neo;
       font-size: 12px;
       font-weight: 700;
@@ -483,7 +491,8 @@ display: none;
       letter-spacing: 0em;
     }
   }
-  &__contact{
+
+  &__contact {
     background: #3C4A5C;
     padding: 20px;
     color: white;
@@ -495,8 +504,9 @@ display: none;
 
   }
 }
-.contact-us-modal{
-  &__title{
+
+.contact-us-modal {
+  &__title {
     font-family: Pretendard;
     font-size: 24px;
     font-weight: 700;
@@ -506,7 +516,8 @@ display: none;
     color: #333;
     margin-bottom: 10px;
   }
-  &__text{
+
+  &__text {
     font-family: Pretendard;
     font-size: 16px;
     font-weight: 400;
@@ -514,10 +525,12 @@ display: none;
     letter-spacing: 0em;
     text-align: left;
     color: #333;
-    margin-bottom: 24px;;
+    margin-bottom: 24px;
+    ;
 
   }
-  &__label{
+
+  &__label {
     font-family: Pretendard;
     font-size: 14px;
     font-weight: 400;
@@ -525,12 +538,15 @@ display: none;
     letter-spacing: 0em;
     text-align: left;
     color: #000;
-    margin-bottom: 4px;;
+    margin-bottom: 4px;
+    ;
   }
-  &__input{
+
+  &__input {
     margin-bottom: 24px;
     width: 100%;
-    .q-btn{
+
+    .q-btn {
       width: 100%;
       background: #366EB5 !important;
       color: white !important;
@@ -547,34 +563,40 @@ display: none;
     }
   }
 }
+
 @media only screen and (max-width: 1079px) {
+
   /* For mobile: */
-  .main-header{
+  .main-header {
     justify-content: flex-start;
-    &__left{
+
+    &__left {
       width: 100%;
-      .q-toolbar{
+
+      .q-toolbar {
         display: flex;
         justify-content: center;
-        .hamburger-button{
+
+        .hamburger-button {
           position: absolute;
           left: 12px;
         }
       }
     }
+
     .q-toolbar,
-    .main-header__right{
+    .main-header__right {
       padding-right: 0;
     }
-    .q-avatar{
+
+    .q-avatar {
       position: absolute;
       right: 0;
     }
   }
 
-  .q-header{
-    img{
-    }
+  .q-header {
+    img {}
   }
 }
 

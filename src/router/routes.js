@@ -11,7 +11,7 @@ const routes = [
     path: '/',
     component: () => import('layouts/MainLayout.vue'),
     children: [
-      { path: '', component: () => import('pages/HotFocus.vue') },
+      { path: '', component: () => import('pages/Forums.vue') },
     ],
   },
   {
@@ -28,20 +28,20 @@ const routes = [
       { path: '', component: () => import('pages/MyPage.vue') },
     ],
   },
-  // {
-  //   path: '/forums',
-  //   component: () => import('layouts/MainLayout.vue'),
-  //   children: [
-  //     { path: '', component: () => import('pages/Forums.vue') },
-  //   ],
-  // },
-  // {
-  //   path: '/forums-details',
-  //   component: () => import('layouts/MainLayout.vue'),
-  //   children: [
-  //     { path: '', name: 'forumsDetails', props: { category: 'forums' }, component: () => import('pages/Details.vue') },
-  //   ],
-  // },
+  {
+    path: '/forums',
+    component: () => import('layouts/MainLayout.vue'),
+    children: [
+      { path: '', component: () => import('pages/Forums.vue') },
+    ],
+  },
+  {
+    path: '/forums-details',
+    component: () => import('layouts/MainLayout.vue'),
+    children: [
+      { path: '', name: 'forumsDetails', props: { category: 'forums' }, component: () => import('pages/Details.vue') },
+    ],
+  },
   // {
   //   path: '/deal-details',
   //   component: () => import('layouts/MainLayout.vue'),
