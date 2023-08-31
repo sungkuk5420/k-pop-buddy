@@ -20,9 +20,9 @@
             <span class="forums-page__left__menu__button__count"> ({{tripCount}})</span>
           </div>
         </div>
-        <div style="margin-top: 16px; cursor: pointer;">
+        <!-- <div style="margin-top: 16px; cursor: pointer;">
           <img src="~assets/banner-pc.png" alt="" @click="$router.push('/premium-service')">
-        </div>
+        </div> -->
       </div>
       <div class="forums-page__right">
         <div class="tab-scroll is-mobile-show">
@@ -37,7 +37,7 @@
             <q-tab name="tripAndFoodAndHotel"  label="Trip & Food & Hotel" no-caps />
           </q-tabs>
         </div>
-        <img src="~assets/banner-mobile.png" alt="" class="is-mobile-show" style="width: 100%; cursor:pointer;" @click="$router.push('/premium-service')">
+        <!-- <img src="~assets/banner-mobile.png" alt="" class="is-mobile-show" style="width: 100%; cursor:pointer;" @click="$router.push('/premium-service')"> -->
 
         <div class="forums-page__right__title flex justify-between items-center" style="width: 100%;" v-show="category == 'all' || category == 'plasticSurgeryAndCosmeticProcedures'">
             <div class="flex items-center">

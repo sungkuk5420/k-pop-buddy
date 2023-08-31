@@ -15,7 +15,7 @@
     </div>
     <div class="container">
       <div class="title-1 is-desktop-show">
-        <img src="~assets/logo.png" alt="">
+        <img src="~assets/logo.png" alt="" style="max-width: 440px;">
       </div>
       <!-- <div class="title-2">만나서 반가워요 👋🏻  </div> -->
       <div class="title-2">Nice to meet you 👋🏻  </div>

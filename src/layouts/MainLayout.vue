@@ -6,7 +6,7 @@
         <q-toolbar>
           <q-btn flat @click="leftDrawerOpen = !leftDrawerOpen" round dense icon="menu"
             class="hamburger-button is-mobile-show" />
-          <img src="~assets/logo.png" alt="" style="cursor: pointer;" @click="$router.push('/')">
+          <img src="~assets/logo.png" alt="" style="cursor: pointer; max-width: 172px;" @click="$router.push('/')" >
           <q-tabs v-model="tab" indicator-color="transparent" style="color: #ddd;" class="main-tabs is-desktop-show">
             <q-tab name="forums" @click="$router.push('/forums')" label="Forums" no-caps />
             <q-tab name="hotFocus" @click="$router.push('/hot-focus')" label="HOT Focus" no-caps />
@@ -100,7 +100,7 @@
       </q-card>
     </q-dialog>
     <q-footer class="main-footer">
-      <div class="main-footer__contact">
+      <!-- <div class="main-footer__contact">
         <div>
           KAKAO Talk : mygangnaminsider
         </div>
@@ -110,14 +110,39 @@
         <div>
           © 2023 m3solution. All rights reserved.
         </div>
-        <!-- <div class="flex " style="justify-content:center ;margin-top:5px;">
-          <q-btn label="Contact us" outline no-caps @click="contactUsModal = true" ></q-btn>
-        </div> -->
         <q-tabs v-model="footerTab" color="white" class="main-tabs ">
           <q-tab name="contactUs" @click="contactUsModal = true" label="Contact Us" no-caps />
           <q-tab name="termsAndRules" @click="$router.push('/terms-and-rules')" label="Terms and Conditions" no-caps />
           <q-tab name="privacyPolicy" @click="$router.push('/privacy-policy')" label="Privacy Policy" no-caps />
         </q-tabs>
+      </div> -->
+
+      <div class="main-footer__line-one">
+        <div>
+          <img src="~assets/logo.png" alt="" style="max-width: 440px;">
+        </div>
+        <div>
+          <span style="font-weight:400;width:152px;display: block;font-size: 10px; line-height: 14px;">
+            My Gangnam Insider: South Korea Plastic Surgery .
+          </span>
+          <span style="font-size:10px; line-height: 14px;">
+            Seo Description Here
+          </span>
+        </div>
+          
+      </div>
+      <div class="main-footer__line-two">
+        <div>
+          Copyright © 2023 m3solution. All rights reserved.
+        </div>
+        <div>
+          
+        <q-tabs v-model="footerTab" color="white" class="main-tabs ">
+          <q-tab name="contactUs" @click="contactUsModal = true" label="Contact Us" no-caps />
+          <q-tab name="termsAndRules" @click="$router.push('/terms-and-rules')" label="Terms and Conditions" no-caps />
+          <q-tab name="privacyPolicy" @click="$router.push('/privacy-policy')" label="Privacy Policy" no-caps />
+        </q-tabs>
+        </div>
       </div>
 
 
@@ -447,7 +472,7 @@ export default {
     margin-left: 28px;
 
     .q-tab--active {
-      color: white !important;
+      color: #DD77A1 !important;
     }
 
     .q-tab-label {
@@ -457,6 +482,15 @@ export default {
       line-height: 20px;
       letter-spacing: 0em;
       text-align: left;
+    }
+    .q-tabs__content{
+      font-size: 14px;
+    }
+    .q-tab{
+      min-height: auto;
+    }
+    .q-tab__label{
+      font-size: 11px;
     }
   }
 
@@ -502,6 +536,25 @@ export default {
     letter-spacing: 0em;
     text-align: center;
 
+  }
+
+  &__line-one{
+    border-top: 6px solid;
+    border-color: #DD77A1;
+    padding: 10px 20px 0px 20px;
+    display: flex;
+    img{
+      width: 174px;
+      padding: 0 20px 8px 0;
+    }
+  }
+  &__line-two{
+    padding: 0px 20px 20px 20px;
+    color: rgb(131, 131, 131);
+    font-size: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
   }
 }
 

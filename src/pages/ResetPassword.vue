@@ -15,7 +15,7 @@
     </div>
     <div class="container">
       <div class="title-1 is-desktop-show">
-        <img src="~assets/logo.png" alt="">
+        <img src="~assets/logo.png" alt="" style="max-width: 440px;">
       </div>
       <!-- <div class="title-2">비밀번호 찾으실 이메일을 알려주세요.</div> -->
       <div class="title-2">Please enter your email address.</div>
