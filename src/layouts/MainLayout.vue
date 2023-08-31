@@ -125,7 +125,7 @@
           <span style="font-weight:400;width:152px;display: block;font-size: 10px; line-height: 14px;">
             My Gangnam Insider: South Korea Plastic Surgery .
           </span>
-          <span style="font-size:10px; line-height: 14px;">
+          <span style="font-size:10px; line-height: 14px; color: #000;">
             Seo Description Here
           </span>
         </div>
