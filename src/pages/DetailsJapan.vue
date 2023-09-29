@@ -2,20 +2,20 @@
     <q-page class="forums-details-page">
       <div class="contianer">
         <div class="forums-details-page__left is-desktop-show">
-          <div class="forums-details-page__title" v-show="category == 'forums' ">Forums</div>
-          <div class="forums-details-page__left__menu"  v-show="category == 'forums' ">
+          <div class="forums-details-page__title" v-show="category == 'forumsJapan' ">Forums</div>
+          <div class="forums-details-page__left__menu"  v-show="category == 'forumsJapan' ">
             <div class="forums-details-page__left__menu__button" clickable :class="categoryTab == 'all'?'is-active':''" @click="categoryTab = 'all'; $router.push(`/forums`) ">
               ALL
             </div>
-            <div class="forums-details-page__left__menu__button" clickable :class="categoryTab == 'plasticSurgeryAndCosmeticProceduresJapan'?'is-active':''" @click="categoryTab = 'plasticSurgeryAndCosmeticProceduresJapan';  $router.push(`/forums?category=plasticSurgeryAndCosmeticProceduresJapan`)">
+            <div class="forums-details-page__left__menu__button" clickable :class="categoryTab == 'plasticSurgeryAndCosmeticProceduresJapan'?'is-active':''" @click="categoryTab = 'plasticSurgeryAndCosmeticProceduresJapan';  $router.push(`/forums-japan?category=plasticSurgeryAndCosmeticProceduresJapan`)">
               <span>整形手術&美容施術 </span>
               <span class="forums-details-page__left__menu__button__count"> ({{ plasticCount }})</span>
             </div>
-            <div class="forums-details-page__left__menu__button" clickable :class="categoryTab == 'nailAndHairAndSkinCareJapan'?'is-active':''" @click="categoryTab ='nailAndHairAndSkinCareJapan'; $router.push(`/forums?category=nailAndHairAndSkinCareJapan`)">
+            <div class="forums-details-page__left__menu__button" clickable :class="categoryTab == 'nailAndHairAndSkinCareJapan'?'is-active':''" @click="categoryTab ='nailAndHairAndSkinCareJapan'; $router.push(`/forums-japan?category=nailAndHairAndSkinCareJapan`)">
               <span>ネイル&ヘア&スキンケア</span>
               <span class="forums-details-page__left__menu__button__count"> ({{ nailCount }})</span>
             </div>
-            <div class="forums-details-page__left__menu__button" clickable :class="categoryTab == 'tripAndFoodAndHotelJapan'?'is-active':''" @click="categoryTab ='tripAndFoodAndHotelJapan'; $router.push(`/forums?category=tripAndFoodAndHotelJapan`)">
+            <div class="forums-details-page__left__menu__button" clickable :class="categoryTab == 'tripAndFoodAndHotelJapan'?'is-active':''" @click="categoryTab ='tripAndFoodAndHotelJapan'; $router.push(`/forums-japan?category=tripAndFoodAndHotelJapan`)">
               <span>トリップ&フード&ホテル</span>
               <span class="forums-details-page__left__menu__button__count"> ({{tripCount}})</span>
             </div>

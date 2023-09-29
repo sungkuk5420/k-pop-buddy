@@ -2,7 +2,7 @@
   <q-page class="forums-page">
     <div class="contianer">
       <div class="forums-page__left is-desktop-show">
-        <div class="forums-page__title">Forums</div>
+        <div class="forums-page__title">日本語掲示板</div>
         <div class="forums-page__left__menu">
           <div class="forums-page__left__menu__button" clickable :class="category == 'all'?'is-active':''" @click="category = 'all'">
             ALL
@@ -35,9 +35,9 @@
             class=" mobile-tab"
           >
             <q-tab name="all" label="ALL" no-caps />
-            <q-tab name="plasticSurgeryAndCosmeticProcedures" label=" 整形手術&美容施術" no-caps />
-            <q-tab name="nailAndHairAndSkinCare"  label=" ネイル&ヘア&スキンケア" no-caps />
-            <q-tab name="tripAndFoodAndHotel"  label="トリップ&フード&ホテル" no-caps />
+            <q-tab name="plasticSurgeryAndCosmeticProceduresJapan" label=" 整形手術&美容施術" no-caps />
+            <q-tab name="nailAndHairAndSkinCareJapan"  label=" ネイル&ヘア&スキンケア" no-caps />
+            <q-tab name="tripAndFoodAndHotelJapan"  label="トリップ&フード&ホテル" no-caps />
           </q-tabs>
         </div>
         <a href="https://mygangnaminsider.com/" target="_blank">
@@ -445,7 +445,7 @@
           :max="tripMaxPage"
           :max-pages="6"
           boundary-numbers
-          v-show="searchText==''&&category=='tripAndFoodAndHotelJJapan'"
+          v-show="searchText==''&&category=='tripAndFoodAndHotelJapan'"
         />        
       </div>
     </div>

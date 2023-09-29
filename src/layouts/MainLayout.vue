@@ -8,7 +8,7 @@
             class="hamburger-button is-mobile-show" />
           <img src="~assets/logo.png" alt="" style="cursor: pointer; max-width: 172px;" @click="$router.push('/')" >
           <q-tabs v-model="tab" indicator-color="transparent" style="color: #ddd;" class="main-tabs is-desktop-show">
-            <q-tab name="forums" @click="$router.push('/forums')" label="Forums" no-caps />
+            <q-tab name="forums" @click="$router.push('/forums')" label="English Forums" no-caps />
             <q-tab name="日本語掲示板" @click="$router.push('/forums-japan')" label="日本語掲示板" no-caps />
             <q-tab name="hotFocus" @click="$router.push('/hot-focus')" label="HOT Focus" no-caps />
             <!-- <q-tab name="deal"  @click="$router.push('/deal')" label="Hot Deal" no-caps/>
@@ -41,7 +41,7 @@
     <q-drawer v-model="leftDrawerOpen" bordered content-class="bg-grey-1">
       <q-list>
         <q-item v-ripple clickable class="text-grey-8" @click="$router.push('/forums')">
-          Forums
+          English Forums
         </q-item>
         <q-item v-ripple clickable class="text-grey-8" @click="$router.push('/forums-japan')">
           日本語掲示板
