@@ -663,9 +663,11 @@ export default {
       right: 0;
     }
   }
-
-  .q-header {
-    img {}
+  .q-footer{
+    .main-footer__line-one,
+    .main-footer__line-two{
+      flex-direction: column;
+    }
   }
 }
 
