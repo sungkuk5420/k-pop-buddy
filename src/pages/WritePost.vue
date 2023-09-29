@@ -311,7 +311,7 @@ export default {
   methods:{
     deletePost(){
       const db = getDatabase();
-      const postCategory = this.postCategory == 'forums'?'forumsPosts':'hotFocusPosts'
+      const postCategory = this.postCategory == 'forums'?'forumsPosts':(this.postCategory == 'forumsJapan'?'forumsPostsJapan':'hotFocusPosts')
       const postUid = this.$route.query.postUid
       set(ref(db, postCategory+'/' + postUid),null)
     },
@@ -322,7 +322,7 @@ export default {
           const dbRef = ref(getDatabase());
           const thisObj = this;
           console.log(postUid)
-          const postCategory = this.postCategory == 'forums'?'forumsPosts':(this.postCategory == 'hot-focus'?'hotFocusPosts':'dealPosts')
+          const postCategory = this.postCategory == 'forums'?'forumsPosts':(this.postCategory == 'forumsJapan'?'forumsPostsJapan':'hotFocusPosts')
           get(child(dbRef, `${postCategory}/${postUid}`))
             .then(async (snapshot) => {
               if (snapshot.exists()) {
@@ -355,7 +355,7 @@ export default {
     },
     async writePost(){// Create the file metadata
       const thisObj =this;
-      const postCategory = this.postCategory == 'forums'?'forumsPosts':'hotFocusPosts'
+      const postCategory = this.postCategory == 'forums'?'forumsPosts':(this.postCategory == 'forumsJapan'?'forumsPostsJapan':'hotFocusPosts')
       const queryPostUid = this.$route.query.postUid
       const storage = getStorage();
       let filePaths = [];
@@ -569,9 +569,15 @@ export default {
         })
         .then(async (snapshot) => {
           thisObj.hideLoading()
-          
-          if(this.postCategory == 'forums'){
+          if(this.postCategory == 'forums' ){
             thisObj.$router.push(`/forums-details/?postUid=${postUid}`)
+          }else if(this.postCategory == 'forumsJapan'){
+            thisObj.$router.push({
+                name: 'forumsDetailsJapan',
+                query:{
+                  postUid:postUid
+                },
+            });
           }else{
             thisObj.$router.push(`/hot-focus-details/?postUid=${postUid}`)
           }

@@ -29,6 +29,13 @@ const routes = [
     ],
   },
   {
+    path: '/forums-japan',
+    component: () => import('layouts/MainLayout.vue'),
+    children: [
+      { path: '', component: () => import('pages/ForumsJapan.vue') },
+    ],
+  },
+  {
     path: '/forums',
     component: () => import('layouts/MainLayout.vue'),
     children: [
@@ -40,6 +47,13 @@ const routes = [
     component: () => import('layouts/MainLayout.vue'),
     children: [
       { path: '', name: 'forumsDetails', props: { category: 'forums' }, component: () => import('pages/Details.vue') },
+    ],
+  },
+  {
+    path: '/japan-forums-details',
+    component: () => import('layouts/MainLayout.vue'),
+    children: [
+      { path: '', name: 'forumsDetailsJapan', props: { category: 'forumsJapan' }, component: () => import('pages/DetailsJapan.vue') },
     ],
   },
   // {

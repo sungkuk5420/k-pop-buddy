@@ -70,6 +70,8 @@
           <!-- <img src="~assets/banner-mobile.png" alt="" class="is-mobile-show" style="width: 100%; cursor:pointer;" @click="$router.push('/premium-service')"> -->
           <div class="forums-details-page__right__title">
             <h1 class="forums-details-page__title">{{ currentPost.title }}</h1>
+            <q-btn label="setNotice" no-caps v-if="loginUser&&loginUser.isAdmin&&!currentPost.notice" @click="setNotice"></q-btn>
+            <q-btn label="unsetNotice" no-caps v-if="loginUser&&loginUser.isAdmin&&currentPost.notice" @click="unSetNotice"></q-btn>
             <q-btn label="edit" v-if="loginUser&&loginUser.isAdmin" @click="$router.push(`/edit-post?postCategory=${category}&category=${categoryTab}&postUid=${currentPost.postUid}`)"></q-btn>
             <q-btn label="delete" v-if="loginUser&&loginUser.isAdmin" @click="deletePost"></q-btn>
           </div>
@@ -522,6 +524,41 @@ export default {
             views:this.currentPost.views+1
           }
       update(ref(db), updates);
+    },
+    
+    setNotice(count){
+      return new Promise(resolve=>{
+        setTimeout(async() => {
+          const postUid = this.currentPost.postUid;
+          const db = getDatabase();
+          const category = this.category == 'forums'?'forumsPosts':(this.category == 'forumsJapan'?'forumsPostsJapan':(this.category =='hot-focus'?'hotFocusPosts':'dealPosts'))
+          const updates = {};
+          updates[`${category}/${postUid}/notice`] = true
+          update(ref(db), updates);
+          this.currentPost = {
+            ...this.currentPost,
+            notice:true
+          }
+          resolve()
+        }, 0);
+      })
+    },
+    unSetNotice(count){
+      return new Promise(resolve=>{
+        setTimeout(async() => {
+          const postUid = this.currentPost.postUid;
+          const db = getDatabase();
+          const category = this.category == 'forums'?'forumsPosts':(this.category == 'forumsJapan'?'forumsPostsJapan':(this.category =='hot-focus'?'hotFocusPosts':'dealPosts'))
+          const updates = {};
+          updates[`${category}/${postUid}/notice`] = false
+          update(ref(db), updates);
+          this.currentPost = {
+            ...this.currentPost,
+            notice:false
+          }
+          resolve()
+        }, 0);
+      })
     },
     plusReplies(count){
       return new Promise(resolve=>{

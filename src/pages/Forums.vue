@@ -623,9 +623,15 @@ export default {
     },
     getPageNation(){
         let CONTENT_LENGTH= 10;
-        this.plasticSurgeryAndCosmeticProceduresPosts = this.allPosts.filter(i=>i.category == 'plasticSurgeryAndCosmeticProcedures' )
-        this.nailAndHairAndSkinCarePosts = this.allPosts.filter(i=>i.category == 'nailAndHairAndSkinCare' )
-        this.tripAndFoodAndHotelPosts = this.allPosts.filter(i=>i.category == 'tripAndFoodAndHotel' )
+        // this.plasticSurgeryAndCosmeticProceduresPosts = this.allPosts.filter(i=>i.category == 'plasticSurgeryAndCosmeticProceduresJapan' ).sort((a, b)=>{
+        //   return (a.notice === b.notice)? 0 : a.notice? -1 : 1;
+        // })
+        this.plasticSurgeryAndCosmeticProceduresPosts = this.allPosts.filter(i=>i.category == 'plasticSurgeryAndCosmeticProcedures'&&!i.notice )
+        this.plasticSurgeryAndCosmeticProceduresPostsNotice = this.allPosts.filter(i=>i.category == 'plasticSurgeryAndCosmeticProcedures' &&i.notice )
+        this.nailAndHairAndSkinCarePosts = this.allPosts.filter(i=>i.category == 'nailAndHairAndSkinCare' &&!i.notice)
+        this.nailAndHairAndSkinCarePostsNotice = this.allPosts.filter(i=>i.category == 'nailAndHairAndSkinCare'&&i.notice )
+        this.tripAndFoodAndHotelPosts = this.allPosts.filter(i=>i.category == 'tripAndFoodAndHotel'&&!i.notice )
+        this.tripAndFoodAndHotelPostsNotice = this.allPosts.filter(i=>i.category == 'tripAndFoodAndHotel'&&i.notice )
         this.plasticCount =this.allPosts.filter(i=>i.category == 'plasticSurgeryAndCosmeticProcedures' ).length
         this.nailCount =this.allPosts.filter(i=>i.category == 'nailAndHairAndSkinCare' ).length
         this.tripCount =this.allPosts.filter(i=>i.category == 'tripAndFoodAndHotel' ).length
@@ -636,11 +642,11 @@ export default {
         for (let index = 0; index < this.plasticSurgeryAndCosmeticProceduresPosts.length; index++) {
           const i = this.plasticSurgeryAndCosmeticProceduresPosts[index];
           if(newArray[pageIndex] ===undefined){
-            newArray.push([i])
+            newArray.push([...this.plasticSurgeryAndCosmeticProceduresPostsNotice,i])
           }else{
             newArray[pageIndex].push(i)
           }
-          if(newArray[pageIndex].length>=CONTENT_LENGTH){
+          if(newArray[pageIndex].length>=(CONTENT_LENGTH-this.plasticSurgeryAndCosmeticProceduresPostsNotice.length)){
             pageIndex = pageIndex+1;
           }
         }
@@ -655,11 +661,11 @@ export default {
         for (let index = 0; index < this.nailAndHairAndSkinCarePosts.length; index++) {
           const i = this.nailAndHairAndSkinCarePosts[index];
           if(newArray[pageIndex] ===undefined){
-            newArray.push([i])
+            newArray.push([...this.nailAndHairAndSkinCarePostsNotice,i])
           }else{
             newArray[pageIndex].push(i)
           }
-          if(newArray[pageIndex].length>=CONTENT_LENGTH){
+          if(newArray[pageIndex].length>=(CONTENT_LENGTH-this.nailAndHairAndSkinCarePostsNotice.length)){
             pageIndex = pageIndex+1;
           }
         }
@@ -672,11 +678,11 @@ export default {
         for (let index = 0; index < this.tripAndFoodAndHotelPosts.length; index++) {
           const i = this.tripAndFoodAndHotelPosts[index];
           if(newArray[pageIndex] ===undefined){
-            newArray.push([i])
+            newArray.push([...this.tripAndFoodAndHotelPostsNotice,i])
           }else{
             newArray[pageIndex].push(i)
           }
-          if(newArray[pageIndex].length>=CONTENT_LENGTH){
+          if(newArray[pageIndex].length>=(CONTENT_LENGTH-this.tripAndFoodAndHotelPostsNotice.length)){
             pageIndex = pageIndex+1;
           }
         }
