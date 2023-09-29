@@ -33,7 +33,6 @@
           </div>
         </div>
         <div style="margin-top: 16px; cursor: pointer;">
-            
           <a href="https://mygangnaminsider.com/" target="_blank">
             <img src="~assets/banner-pc.png" alt="" style="width:100%;">
           </a>
@@ -47,16 +46,16 @@
           </div>
         </div>
         <div class="forums-details-page__right" v-if="currentPost">
-          <div class="tab-scroll is-mobile-show" v-show="category == 'forums'">
+          <div class="tab-scroll is-mobile-show" v-show="category == 'forumsJapan'">
             <q-tabs
               v-model="categoryTab"
               active-class="is-active"
               class=" mobile-tab"
             >
-              <q-tab name="all" label="ALL" no-caps @click="$router.push(`/forums`) "/>
-              <q-tab name="plasticSurgeryAndCosmeticProceduresJapan" label="整形手術&美容施術" no-caps @click="$router.push(`/forums?category=plasticSurgeryAndCosmeticProceduresJapan`)"/>
-              <q-tab name="nailAndHairAndSkinCareJapan"  label="ネイル&ヘア&スキンケア" no-caps @click="$router.push(`/forums?category=nailAndHairAndSkinCareJapan`)"/>
-              <q-tab name="tripAndFoodAndHotelJapan"  label="トリップ&フード&ホテル" no-caps @click="$router.push(`/forums?category=tripAndFoodAndHotelJapan`)"/>
+              <q-tab name="all" label="ALL" no-caps @click="$router.push(`/forums-japan`) "/>
+              <q-tab name="plasticSurgeryAndCosmeticProceduresJapan" label="整形手術&美容施術" no-caps @click="$router.push(`/forums-japan?category=plasticSurgeryAndCosmeticProceduresJapan`)"/>
+              <q-tab name="nailAndHairAndSkinCareJapan"  label="ネイル&ヘア&スキンケア" no-caps @click="$router.push(`/forums-japan?category=nailAndHairAndSkinCareJapan`)"/>
+              <q-tab name="tripAndFoodAndHotelJapan"  label="トリップ&フード&ホテル" no-caps @click="$router.push(`/forums-japan?category=tripAndFoodAndHotelJapan`)"/>
             </q-tabs>
           </div>
           <div class="tab-scroll is-mobile-show" v-show="category == 'deal'">
@@ -151,7 +150,7 @@
               <img :src="currentFile.url" alt="" v-show="category !== 'forums' " v-for="(currentFile, index) in currentPost.filePaths" :key="index" style="max-width:100%;">
               <p style="white-space: pre-line;  word-wrap: break-word;" v-html="currentPost.content"></p>
 
-              <img :src="currentFile.url" alt="" v-show="category == 'forums' " v-for="(currentFile, index) in currentPost.filePaths" :key="index" style="max-width:100%;">
+              <img :src="currentFile.url" alt="" v-show="category == 'forumsJapan' " v-for="(currentFile, index) in currentPost.filePaths" :key="index" style="max-width:100%;">
             </div>
           </div>
           <div class="comment-empty" v-show="comments.length == 0 && category != 'deal'">
