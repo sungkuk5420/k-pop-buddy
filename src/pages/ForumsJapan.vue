@@ -20,9 +20,12 @@
             <span class="forums-page__left__menu__button__count"> ({{tripCount}})</span>
           </div>
         </div>
-        <!-- <div style="margin-top: 16px; cursor: pointer;">
-          <img src="~assets/banner-pc.png" alt="" @click="$router.push('/premium-service')">
-        </div> -->
+        <div style="margin-top: 16px; cursor: pointer;">
+          
+          <a href="https://mygangnaminsider.com/" target="_blank">
+            <img src="~assets/banner-pc.png" alt="" style="width:100%;">
+          </a>
+        </div>
       </div>
       <div class="forums-page__right">
         <div class="tab-scroll is-mobile-show">
@@ -37,8 +40,9 @@
             <q-tab name="tripAndFoodAndHotel"  label="トリップ&フード&ホテル" no-caps />
           </q-tabs>
         </div>
-        <!-- <img src="~assets/banner-mobile.png" alt="" class="is-mobile-show" style="width: 100%; cursor:pointer;" @click="$router.push('/premium-service')"> -->
-
+        <a href="https://mygangnaminsider.com/" target="_blank">
+          <img src="~assets/banner-mobile.png" alt="" class="is-mobile-show" style="width: 100%; cursor:pointer;" @click="$router.push('/premium-service')">
+        </a>
         <div class="forums-page__right__title flex justify-between items-center" style="width: 100%;" v-show="category == 'all' || category == 'plasticSurgeryAndCosmeticProceduresJapan'">
             <div class="flex items-center">
               <div class="forums-page__title ellipsis"> 整形手術&美容施術</div>

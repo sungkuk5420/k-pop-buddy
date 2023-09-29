@@ -33,7 +33,9 @@
           </div>
         </div>
         <div style="margin-top: 16px; cursor: pointer;">
-          <!-- <img src="~assets/banner-pc.png" alt="" @click="$router.push('/premium-service')"> -->
+          <a href="https://mygangnaminsider.com/" target="_blank">
+            <img src="~assets/banner-pc.png" alt="" style="width:100%;">
+          </a>
         </div>
       </div>
       <div class="write-post-page__right">
@@ -60,7 +62,10 @@
             <q-tab name="end"  label="Ended Event" no-caps />
           </q-tabs>
         </div>
-        <!-- <img src="~assets/banner-mobile.png" alt="" class="is-mobile-show" style="width: 100%; cursor:pointer;" @click="$router.push('/premium-service')"> -->
+        
+        <a href="https://mygangnaminsider.com/" target="_blank">
+          <img src="~assets/banner-mobile.png" alt="" class="is-mobile-show" style="width: 100%; cursor:pointer;" @click="$router.push('/premium-service')">
+        </a>
         <div class="write-post-page__right__title flex justify-between items-center" style="width: 100%;" v-show="category == 'all' || category == 'plasticSurgeryAndCosmeticProcedures'">
             <div class="flex items-center">
               <div class="write-post-page__title">Plastic Surgery & Cosmetic Procedures</div>

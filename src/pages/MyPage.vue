@@ -12,7 +12,10 @@
           </div>
         </div>
         <div style="margin-top: 16px; cursor: pointer;">
-          <!-- <img src="~assets/banner-pc.png" alt="" @click="$router.push('/premium-service')"> -->
+          
+          <a href="https://mygangnaminsider.com/" target="_blank">
+            <img src="~assets/banner-pc.png" alt="" style="width:100%;">
+          </a>
         </div>
       </div>
       <div class="my-page__right" v-if="loginUser">
@@ -26,7 +29,10 @@
             <q-tab name="logout"  label="Logout" no-caps />
           </q-tabs>
         </div>
-        <!-- <img src="~assets/banner-mobile.png" alt="" class="is-mobile-show" style="width: 100%; cursor:pointer;" @click="$router.push('/premium-service')"> -->
+        
+        <a href="https://mygangnaminsider.com/" target="_blank">
+          <img src="~assets/banner-mobile.png" alt="" class="is-mobile-show" style="width: 100%; cursor:pointer;" @click="$router.push('/premium-service')">
+        </a>
         <div class="my-infomation-wrapper">
           <div class="flex column" style="width: 100%;">
             <div class="flex" style="width: 100%;">

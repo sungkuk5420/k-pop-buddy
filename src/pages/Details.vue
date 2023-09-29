@@ -33,8 +33,10 @@
           </div>
         </div>
         <div style="margin-top: 16px; cursor: pointer;">
-            <!-- <img src="~assets/banner-pc.png" alt="" @click="$router.push('/premium-service')"> -->
-          </div>
+          <a href="https://mygangnaminsider.com/">
+            <img src="~assets/banner-pc.png" alt="" style="width:100%;">
+          </a>
+        </div>
         </div>
         <div class="forums-details-page__right" v-if="!currentPost">
           <div class="forums-details-page__right__title">
@@ -67,7 +69,9 @@
               <q-tab name="close"  label="Ended Event" no-caps @click="$router.push(`/deal??openCloseTab=close`)"/>
             </q-tabs>
           </div>
-          <!-- <img src="~assets/banner-mobile.png" alt="" class="is-mobile-show" style="width: 100%; cursor:pointer;" @click="$router.push('/premium-service')"> -->
+          <a href="https://mygangnaminsider.com/">
+            <img src="~assets/banner-mobile.png" alt="" class="is-mobile-show" style="width: 100%; cursor:pointer;" @click="$router.push('/premium-service')">
+          </a>
           <div class="forums-details-page__right__title">
             <h1 class="forums-details-page__title">{{ currentPost.title }}</h1>
             <q-btn label="setNotice" no-caps v-if="loginUser&&loginUser.isAdmin&&!currentPost.notice" @click="setNotice"></q-btn>

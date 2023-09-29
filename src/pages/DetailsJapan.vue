@@ -33,7 +33,10 @@
           </div>
         </div>
         <div style="margin-top: 16px; cursor: pointer;">
-            <!-- <img src="~assets/banner-pc.png" alt="" @click="$router.push('/premium-service')"> -->
+            
+          <a href="https://mygangnaminsider.com/" target="_blank">
+            <img src="~assets/banner-pc.png" alt="" style="width:100%;">
+          </a>
           </div>
         </div>
         <div class="forums-details-page__right" v-if="!currentPost">

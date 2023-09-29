@@ -3,11 +3,17 @@
     <div class="contianer">
       <div class="hot-focus-page__left is-desktop-show">
         <div >
-          <!-- <img src="~assets/banner-pc.png" alt=""> -->
+          
+          <a href="https://mygangnaminsider.com/" target="_blank">
+            <img src="~assets/banner-pc.png" alt="" style="width:100%;">
+          </a>
         </div>
       </div>
       <div class="hot-focus-page__right">
-        <!-- <img src="~assets/banner-mobile.png" alt="" class="is-mobile-show" style="width: 100%; cursor:pointer;" @click="$router.push('/premium-service')"> -->
+        
+        <a href="https://mygangnaminsider.com/" target="_blank">
+          <img src="~assets/banner-mobile.png" alt="" class="is-mobile-show" style="width: 100%; cursor:pointer;" @click="$router.push('/premium-service')">
+        </a>
         <div class="hot-focus-page__right__title flex justify-between items-center" style="width: 100%;" >
           <div class="flex items-center">
             <div class="hot-focus-page__title">HOT Focus</div>

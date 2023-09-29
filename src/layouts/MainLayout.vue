@@ -122,13 +122,19 @@
         <div>
           <img src="~assets/logo.png" alt="" style="max-width: 440px;">
         </div>
-        <div>
-          <span style="font-weight:400;width:152px;display: block;font-size: 10px; line-height: 14px;">
+        <div style="display: flex; align-items: center;">
+          <span style="font-weight:400;width:295px;display: block; line-height: 20px; font-size: 18px;">
+            Do you want to know about the procedures in south korea?
+          </span>
+          <!-- <span style="font-weight:400;width:152px;display: block;font-size: 10px; line-height: 14px;">
             My Gangnam Insider: South Korea Plastic Surgery .
           </span>
           <span style="font-size:10px; line-height: 14px; color: #000;">
             Seo Description Here
-          </span>
+          </span> -->
+          <a href="https://mygangnaminsider.com/" target="_blank">
+            <q-btn no-caps label="Reach out to us" outlined class="footer-button"></q-btn>
+          </a>
         </div>
           
       </div>
@@ -547,6 +553,12 @@ export default {
     img{
       width: 174px;
       padding: 0 20px 8px 0;
+    }
+    .footer-button{
+     background: #404040; 
+     color: white;
+     height: 36px;
+     margin-left:auto;
     }
   }
   &__line-two{
