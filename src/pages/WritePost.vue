@@ -570,6 +570,7 @@ export default {
           createdAt: thisObj.createNowTime(),
           updatedAt: thisObj.createNowTime(),
           filePaths,
+          notice:thisObj.currentPost.notice,
           category:thisObj.category?thisObj.category:''
         })
         .then(async (snapshot) => {
