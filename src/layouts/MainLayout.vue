@@ -43,6 +43,9 @@
         <q-item v-ripple clickable class="text-grey-8" @click="$router.push('/forums')">
           Forums
         </q-item>
+        <q-item v-ripple clickable class="text-grey-8" @click="$router.push('/forums-japan')">
+          日本語掲示板
+        </q-item>
         <q-item v-ripple clickable class="text-grey-8" @click="$router.push('/hot-focus')">
           HOT Focus
         </q-item>
