@@ -143,7 +143,8 @@
       </div>
       <div class="main-footer__line-two">
         <div>
-          Copyright © 2023 m3solution. All rights reserved.
+          Copyright © 2013-2023 
+          <a target="_blank" style="color: #838383; border-bottom: 1px dotted #656565;" href="https://socapro.com/">SocaPro</a> - Global Gateway 8, SC
         </div>
         <div>
           
