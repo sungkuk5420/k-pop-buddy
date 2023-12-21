@@ -80,8 +80,11 @@
           <q-space />
           <q-btn icon="close" flat round dense v-close-popup />
         </q-card-section>
+        <q-card-section>
+          <a href="mailto:mygangnaminsider@gmail.com">mygangnaminsider@gmail.com</a>
+        </q-card-section>
 
-        <q-card-section style="padding-top:0">
+        <!-- <q-card-section style="padding-top:0">
           <div class="contact-us-modal__text">
             If you have any questions, please feel free to contact us.
           </div>
@@ -100,7 +103,7 @@
           <div class="contact-us-modal__input">
             <q-btn outline label="Send" no-caps style="background:#366EB5;" @click="sendEmail"></q-btn>
           </div>
-        </q-card-section>
+        </q-card-section> -->
       </q-card>
     </q-dialog>
     <q-footer class="main-footer">

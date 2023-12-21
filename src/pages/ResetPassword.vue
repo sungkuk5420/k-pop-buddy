@@ -39,7 +39,7 @@
 <script>
 import ComputedMixin from "../ComputedMixin";
 import UtilMethodMixin from "../UtilMethodMixin";
-import { getAuth,  signInWithEmailAndPassword } from "firebase/auth";
+import { getAuth,  signInWithEmailAndPassword,sendPasswordResetEmail } from "firebase/auth";
 import { getDatabase, ref, set, child, get } from 'firebase/database';
 export default {
   mixins: [ComputedMixin, UtilMethodMixin],
@@ -54,31 +54,19 @@ export default {
   },
   
   methods: {
-    resetPassword(){
+    async resetPassword(){
       const thisObj = this;
       thisObj.localErrorMessage ="";
       if(this.localEmail == ""){
         thisObj.localErrorMessage = "Please enter your email address."
         return false
       }
-      const url = "https://mygangnaminsider-backend.herokuapp.com/reset-password?email="+this.localEmail
-      const requestOptions = {
-          method: 'GET',
-          headers: { 'Content-Type': 'application/json' },
-      };
       this.showLoading()
-      fetch(url, requestOptions)
-            .then(response => response.json())
-            .then(data => {
-              console.log(data)
-              if(data.errorInfo?.code == "auth/user-not-found"){
-                const errorMessage = "The requested user '"+ this.localEmail+ "' could not be found.";
-                thisObj.errorMessage(errorMessage )
-              }else if(data.success){
-                thisObj.errorMessage("sent new password")
-              }
-              thisObj.hideLoading()
-            });
+     
+      const auth =getAuth();
+      await sendPasswordResetEmail(auth, this.localEmail);
+      thisObj.errorMessage("sent new password")
+      thisObj.hideLoading()
     },
   }
 };
